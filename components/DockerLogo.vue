@@ -1,14 +1,14 @@
 <template>
-  <a href="https://developer.android.com" target="_blank">
+  <a href="https://www.docker.com" target="_blank">
     <v-avatar tile>
-      <v-img src="https://tokbox.com/blog/wp-content/uploads/2017/05/Android-and-Kotlin.jpg"></v-img>
+      <v-img :src="require('~/assets/docker.jpg')" />
     </v-avatar>
   </a>
 </template>
 
 <script>
     export default {
-        name: "AndroidLogo"
+        name: "DockerLogo"
     }
 </script>
 
