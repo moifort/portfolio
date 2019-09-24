@@ -1,6 +1,7 @@
 # portfolio
 
-> My rad Nuxt.js project
+![sample](./full.png)
+![sample](./mobile.png)
 
 ## Build Setup
 
