@@ -7,6 +7,7 @@ import cyrilImg from '../assets/influences/cyril-martraire.jpg'
 import davidImg from '../assets/influences/david-gageot.jpg'
 import evansImg from '../assets/influences/eric-evans.jpg'
 import fowlerImg from '../assets/influences/martin-fowler.jpg'
+import jeremieImg from '../assets/influences/jeremie-chassaing.jpg'
 import mancusoImg from '../assets/influences/sandro-mancuso.jpg'
 import mattImg from '../assets/influences/matt-pocock.jpg'
 import robertImg from '../assets/influences/robert-martin.jpg'
@@ -98,7 +99,7 @@ const influences: Influence[] = [
   {
     name: 'Jérémie Chassaing',
     url: 'https://www.youtube.com/results?search_query=jérémie+chassaing',
-    mono: 'JC',
+    img: jeremieImg,
     items: [{ icon: 'lucide:mic', label: 'Talks' }],
   },
   {
@@ -293,7 +294,7 @@ const timeline = [
               />
               <p class="proof-card__eyebrow">CryptoBot · iOS</p>
               <p class="proof-card__stat proof-card__stat--sm">
-                <StatCounter value={cryptoBot.netPercent} decimals={2} prefix="+" suffix="%" />
+                <StatCounter value={cryptoBot.netPercent} decimals={2} prefix="▲ " suffix="%" />
               </p>
               <p class="proof-card__caption">
                 net since {sinceLabel} · holding BTC:
@@ -352,7 +353,7 @@ const timeline = [
               />
               <p class="proof-card__eyebrow">Stats · macOS</p>
               <p class="proof-card__title">Minimalist stats.</p>
-              <p class="proof-card__caption">CPU, network, disk and Claude usage in the menu bar.</p>
+              <p class="proof-card__caption">CPU, network, disk<br />and Claude usage<br />in the menu bar.</p>
               <span class="proof-card__cta">See more →</span>
             </div>
             <div class="proof-card__window" aria-hidden="true">
@@ -747,7 +748,13 @@ const timeline = [
     background: var(--border);
   }
 
-  /* Birth entry (bottom of the timeline, chronological origin) */
+  /* Birth entry (bottom of the timeline, chronological origin), on a single line */
+  .profile-card__timeline li.tl-birth {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.45rem;
+  }
+
   .tl-birth::before {
     background: var(--gold);
   }
@@ -756,14 +763,17 @@ const timeline = [
     font-size: 0.95em;
   }
 
-  /* the last career entry connects to birth via the dashed gap, not a solid line */
+  /* Dashed "a lot happened" gap between the earliest job and birth.
+     Two dashed segments (from the last job's dot, then through the gap)
+     form one continuous dashed line, same position/width as the solid ones. */
   .tl-entry:has(+ .tl-gap)::after {
-    display: none;
+    background: none;
+    width: 0;
+    border-left: 1px dashed color-mix(in srgb, var(--muted) 42%, transparent);
   }
 
-  /* Dashed "a lot happened" gap between the earliest job and birth */
   .tl-gap {
-    min-height: 2.4rem;
+    min-height: 2rem;
     justify-content: center;
     padding-left: 1.15rem;
   }
@@ -776,10 +786,10 @@ const timeline = [
     content: '';
     position: absolute;
     left: 3px;
-    top: -1.4rem;
-    bottom: -1.4rem;
+    top: -1.05rem;
+    bottom: -1.05rem;
     width: 0;
-    border-left: 2px dashed color-mix(in srgb, var(--muted) 55%, transparent);
+    border-left: 1px dashed color-mix(in srgb, var(--muted) 42%, transparent);
     background: none;
   }
 
