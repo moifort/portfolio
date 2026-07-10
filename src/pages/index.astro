@@ -85,9 +85,6 @@ const stack = [
   <header class="hero">
     <div class="container hero__inner">
       <div class="hero__text">
-        <Reveal>
-          <p class="eyebrow">{site.name} · {site.role} · {site.location}</p>
-        </Reveal>
         <Reveal delay={0.08}>
           <h1 class="display">
             One senior developer.<br />The impact of a <span class="display__grad"
@@ -379,8 +376,8 @@ const stack = [
     position: relative;
     overflow: clip;
     background:
-      radial-gradient(55% 45% at 88% 12%, rgba(48, 209, 88, 0.09) 0%, transparent 65%),
-      radial-gradient(45% 40% at 8% 88%, rgba(114, 47, 55, 0.09) 0%, transparent 65%),
+      radial-gradient(55% 45% at 88% 12%, rgba(48, 209, 88, 0.14) 0%, transparent 65%),
+      radial-gradient(45% 40% at 8% 88%, rgba(114, 47, 55, 0.12) 0%, transparent 65%),
       var(--bg);
   }
 
@@ -718,6 +715,15 @@ const stack = [
 
   .how__card {
     padding: 2rem;
+    border-top: 3px solid var(--accent);
+  }
+
+  .how__card:nth-child(2) {
+    border-top-color: var(--bordeaux);
+  }
+
+  .how__card:nth-child(3) {
+    border-top-color: var(--gold);
   }
 
   .how__card h3 {
@@ -748,7 +754,7 @@ const stack = [
   .method__n {
     font-size: 0.875rem;
     font-weight: 700;
-    color: var(--muted);
+    color: var(--accent);
     letter-spacing: 0.1em;
   }
 

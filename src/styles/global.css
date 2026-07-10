@@ -41,12 +41,12 @@ input {
 
 /* Per-page palettes */
 [data-theme='home'] {
-  --bg: #fbfbf9;
-  --text: #16181d;
-  --muted: #5c6270;
-  --accent: #16181d;
-  --card: #ffffff;
-  --border: rgba(22, 24, 29, 0.09);
+  --bg: #f7f3ec;
+  --text: #26221a;
+  --muted: #6f6757;
+  --accent: #1e7d43;
+  --card: #fffdf8;
+  --border: rgba(38, 34, 26, 0.1);
   color-scheme: light;
 }
 
@@ -108,10 +108,10 @@ a {
 /* ---------- Typography ---------- */
 .eyebrow {
   font-size: 0.8125rem;
-  font-weight: 600;
+  font-weight: 650;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--accent);
 }
 
 .display {
@@ -167,6 +167,11 @@ a {
 .btn--primary {
   background: var(--text);
   color: var(--bg);
+}
+
+[data-theme='home'] .btn--primary {
+  background: var(--accent);
+  color: #fff;
 }
 
 .btn--ghost {
