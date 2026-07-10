@@ -21,6 +21,7 @@ import scanReviewShot from '../assets/vinarium/scan-review.png'
 import CryptoPhoneScreen from '../components/CryptoPhoneScreen.astro'
 import PhoneCarousel from '../components/PhoneCarousel.astro'
 import IPhoneFrame from '../components/IPhoneFrame.astro'
+import ModelViewer from '../components/ModelViewer.astro'
 import Reveal from '../components/Reveal.astro'
 import StatCounter from '../components/StatCounter.astro'
 import bazarIcon from '../assets/bazar/app-icon.png'
@@ -521,6 +522,23 @@ const timeline = [
               <IPhoneFrame src={homeFanScreen} alt="CREATE ceiling fan in the Home app" />
             </div>
           </a>
+        </Reveal>
+        <Reveal delay={0.45}>
+          <div class="proof-card proof-card--shield" data-category="3d-printing">
+            <span class="proof-card__date">Jul 2026</span>
+            <div class="proof-card__body">
+              <span class="proof-card__icon proof-card__icon--emoji" aria-hidden="true">🌦️</span>
+              <p class="proof-card__eyebrow">3D print</p>
+              <p class="proof-card__title">Shield any temperature sensor.</p>
+              <p class="proof-card__caption">
+                Radiation shield in white PETG. Prints without supports, snaps together without
+                glue.
+              </p>
+            </div>
+            <div class="proof-card__model" aria-hidden="true">
+              <ModelViewer src="/models/sensor-shield.v1.glb" alt="" />
+            </div>
+          </div>
         </Reveal>
         </div>
       </div>
@@ -1301,6 +1319,16 @@ const timeline = [
     --iphone-w: clamp(150px, 13vw, 195px);
   }
 
+  /* floating 3D viewer for the Sensor Shield card */
+  .proof-card__model {
+    position: absolute;
+    right: 0.125rem;
+    top: 0;
+    bottom: 0;
+    width: clamp(190px, 17vw, 250px);
+    pointer-events: none;
+  }
+
   @media (max-width: 640px) {
     .proof-card__body {
       max-width: 100%;
@@ -1312,6 +1340,12 @@ const timeline = [
       margin-top: 1.5rem;
       display: flex;
       justify-content: center;
+    }
+
+    /* like the phone mockups, the 3D viewer disappears on small screens;
+       display none also keeps the observer from ever fetching the GLB */
+    .proof-card__model {
+      display: none;
     }
 
     .proof-card {
@@ -1391,6 +1425,12 @@ const timeline = [
   .proof-card--homefan {
     background: radial-gradient(120% 120% at 20% 0%, #2b2620 0%, #14110c 60%);
     color: #f3ede2;
+    justify-content: center;
+  }
+
+  .proof-card--shield {
+    background: radial-gradient(120% 120% at 80% 0%, #1c2733 0%, #0a0e14 58%);
+    color: #ecf2f8;
     justify-content: center;
   }
 
