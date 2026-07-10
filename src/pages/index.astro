@@ -46,6 +46,7 @@ const filters = [
   { key: 'macos', label: 'macOS' },
   { key: 'home-automation', label: 'Home automation' },
   { key: 'library', label: 'Library' },
+  { key: '3d-printing', label: '3D printing' },
 ]
 
 const toolbox = [
@@ -55,11 +56,6 @@ const toolbox = [
   'Event Sourcing',
   'Functional Programming',
   'Atomic Design',
-  'TypeScript',
-  'Kotlin',
-  'Java',
-  'Spring Boot',
-  'NuxtJS',
   'Firebase (Firestore, Hosting, Functions…)',
   'Docker',
   'Infra as Code',
@@ -156,7 +152,7 @@ const timeline = [
     current: true,
   },
   {
-    period: 'Jul. → Dec. 2025',
+    period: 'Jul. · Dec. 2025',
     role: 'Senior developer',
     note: 'Sunday',
   },
@@ -294,13 +290,11 @@ const timeline = [
               >.
             </h1>
           </Reveal>
-          <Reveal delay={0.15}>
+          <Reveal delay={0.15} class="hero__pitch">
             <p class="hero__lede">
               AI is changing our job, let's not pretend otherwise. What it still lacks is method,
               architecture and product vision. On my own, I now have a full team at my disposal:
             </p>
-          </Reveal>
-          <Reveal delay={0.2}>
             <ul class="hero__roles" aria-label="Roles I cover">
               {
                 roles.map((r) => (
@@ -316,7 +310,8 @@ const timeline = [
         <Reveal delay={0.25}>
           <div class="proof__header">
             <p class="proof__label">
-              The apps I built with Claude Opus 4.8 &amp; Fable during my paternity leave:
+              The apps I built with Claude Opus 4.8 &amp; Fable during my paternity leave.
+              <span class="proof__label-strong">Each one runs in production and is ready to scale.</span>
             </p>
             <div class="proof__filters" role="group" aria-label="Filter projects">
               {
@@ -631,6 +626,12 @@ const timeline = [
     line-height: 1.7;
     color: var(--text);
     text-wrap: pretty;
+  }
+
+  :global(.hero__pitch) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
   }
 
   .hero__roles {
@@ -1081,6 +1082,12 @@ const timeline = [
   .proof__label {
     font-size: 0.9375rem;
     color: var(--muted);
+    max-width: 34rem;
+  }
+
+  .proof__label-strong {
+    color: var(--text);
+    font-weight: 650;
   }
 
   .proof__filters {
