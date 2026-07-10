@@ -415,6 +415,23 @@ const timeline = [
           </a>
         </Reveal>
         <Reveal delay={0.2}>
+          <div class="proof-card proof-card--shield" data-category="3d-printing">
+            <span class="proof-card__date">Jul 2026</span>
+            <div class="proof-card__body">
+              <span class="proof-card__icon proof-card__icon--emoji" aria-hidden="true">🌦️</span>
+              <p class="proof-card__eyebrow">3D print</p>
+              <p class="proof-card__title">Shield any temperature sensor.</p>
+              <p class="proof-card__caption">
+                Radiation shield in white PETG. Prints without supports, snaps together without
+                glue.
+              </p>
+            </div>
+            <div class="proof-card__model" aria-hidden="true">
+              <ModelViewer src="/models/sensor-shield.v1.glb" alt="" />
+            </div>
+          </div>
+        </Reveal>
+        <Reveal delay={0.25}>
           <a
             class="proof-card proof-card--bloomin8"
             href="https://github.com/moifort/bloomin8"
@@ -440,64 +457,7 @@ const timeline = [
             </div>
           </a>
         </Reveal>
-        <Reveal delay={0.25}>
-          <a
-            class="proof-card proof-card--bazar"
-            href="https://github.com/moifort/bazar"
-            rel="noopener"
-            data-category="ios"
-          >
-            <span class="proof-card__date">Apr 2026</span>
-            <div class="proof-card__body proof-card__body--wide">
-              <Image
-                class="proof-card__icon"
-                src={bazarIcon}
-                alt="Bazar app icon"
-                width={200}
-                height={200}
-              />
-              <p class="proof-card__eyebrow">Bazar · iOS</p>
-              <p class="proof-card__title">Know where everything is.</p>
-              <p class="proof-card__caption">Scan your stuff with AI, sort it by place, room and zone.</p>
-              <span class="proof-card__cta">See more →</span>
-            </div>
-          </a>
-        </Reveal>
         <Reveal delay={0.3}>
-          <a
-            class="proof-card proof-card--airprint"
-            href="https://github.com/moifort/airprint"
-            rel="noopener"
-            data-category="utility"
-          >
-            <span class="proof-card__date">Jun 2026</span>
-            <div class="proof-card__body proof-card__body--wide">
-              <span class="proof-card__icon proof-card__icon--emoji" aria-hidden="true">🖨️</span>
-              <p class="proof-card__eyebrow">AirPrint Bridge · Docker</p>
-              <p class="proof-card__title">Open AirPrint for all printers.</p>
-              <p class="proof-card__caption">A clean web UI, free and open source.</p>
-              <span class="proof-card__cta">See more →</span>
-            </div>
-          </a>
-        </Reveal>
-        <Reveal delay={0.35}>
-          <a
-            class="proof-card proof-card--audible"
-            href="https://moifort.github.io/audible-api-ts/"
-            rel="noopener"
-            data-category="library"
-          >
-            <span class="proof-card__date">Mar 2026</span>
-            <div class="proof-card__body proof-card__body--wide">
-              <span class="proof-card__icon proof-card__icon--emoji" aria-hidden="true">🎧</span>
-              <p class="proof-card__eyebrow">audible-api-ts · npm</p>
-              <p class="proof-card__title">Typed Audible API client.</p>
-              <p class="proof-card__caption">Auth, library, wishlist and catalog search, fully typed.</p>
-              <span class="proof-card__cta">Read the docs →</span>
-            </div>
-          </a>
-        </Reveal>
-        <Reveal delay={0.4}>
           <a
             class="proof-card proof-card--homefan"
             href="https://github.com/moifort/homebridge-create-fan"
@@ -523,24 +483,7 @@ const timeline = [
             </div>
           </a>
         </Reveal>
-        <Reveal delay={0.45}>
-          <div class="proof-card proof-card--shield" data-category="3d-printing">
-            <span class="proof-card__date">Jul 2026</span>
-            <div class="proof-card__body">
-              <span class="proof-card__icon proof-card__icon--emoji" aria-hidden="true">🌦️</span>
-              <p class="proof-card__eyebrow">3D print</p>
-              <p class="proof-card__title">Shield any temperature sensor.</p>
-              <p class="proof-card__caption">
-                Radiation shield in white PETG. Prints without supports, snaps together without
-                glue.
-              </p>
-            </div>
-            <div class="proof-card__model" aria-hidden="true">
-              <ModelViewer src="/models/sensor-shield.v1.glb" alt="" />
-            </div>
-          </div>
-        </Reveal>
-        <Reveal delay={0.5}>
+        <Reveal delay={0.35}>
           <a
             class="proof-card proof-card--dashboard"
             href="https://github.com/moifort/home-dashboard"
@@ -569,6 +512,63 @@ const timeline = [
                 alt=""
                 cameraOrbit="18deg 80deg 62%"
               />
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.4}>
+          <a
+            class="proof-card proof-card--bazar"
+            href="https://github.com/moifort/bazar"
+            rel="noopener"
+            data-category="ios"
+          >
+            <span class="proof-card__date">Apr 2026</span>
+            <div class="proof-card__body proof-card__body--wide">
+              <Image
+                class="proof-card__icon"
+                src={bazarIcon}
+                alt="Bazar app icon"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Bazar · iOS</p>
+              <p class="proof-card__title">Know where everything is.</p>
+              <p class="proof-card__caption">Scan your stuff with AI, sort it by place, room and zone.</p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.45}>
+          <a
+            class="proof-card proof-card--airprint"
+            href="https://github.com/moifort/airprint"
+            rel="noopener"
+            data-category="utility"
+          >
+            <span class="proof-card__date">Jun 2026</span>
+            <div class="proof-card__body proof-card__body--wide">
+              <span class="proof-card__icon proof-card__icon--emoji" aria-hidden="true">🖨️</span>
+              <p class="proof-card__eyebrow">AirPrint Bridge · Docker</p>
+              <p class="proof-card__title">Open AirPrint for all printers.</p>
+              <p class="proof-card__caption">A clean web UI, free and open source.</p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.5}>
+          <a
+            class="proof-card proof-card--audible"
+            href="https://moifort.github.io/audible-api-ts/"
+            rel="noopener"
+            data-category="library"
+          >
+            <span class="proof-card__date">Mar 2026</span>
+            <div class="proof-card__body proof-card__body--wide">
+              <span class="proof-card__icon proof-card__icon--emoji" aria-hidden="true">🎧</span>
+              <p class="proof-card__eyebrow">audible-api-ts · npm</p>
+              <p class="proof-card__title">Typed Audible API client.</p>
+              <p class="proof-card__caption">Auth, library, wishlist and catalog search, fully typed.</p>
+              <span class="proof-card__cta">Read the docs →</span>
             </div>
           </a>
         </Reveal>
