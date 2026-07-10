@@ -28,7 +28,7 @@ input {
 :root {
   --font-sans: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui,
     sans-serif;
-  --container: 72rem;
+  --container: 80rem;
   --container-narrow: 44rem;
   --section-gap: clamp(6rem, 14vh, 11rem);
   --radius-card: 1.5rem;

@@ -13,7 +13,7 @@ import IPhoneFrame from '../components/IPhoneFrame.astro'
 import Reveal from '../components/Reveal.astro'
 import SiteFooter from '../components/SiteFooter.astro'
 import StatCounter from '../components/StatCounter.astro'
-import { cryptoBot, sinceLabel } from '../data/crypto-bot'
+import { cryptoBot } from '../data/crypto-bot'
 import { site } from '../data/site'
 import Base from '../layouts/Base.astro'
 
@@ -138,9 +138,10 @@ const stack = [
             </h1>
           </Reveal>
           <Reveal delay={0.15}>
-            <p class="lede hero__lede">
+            <p class="hero__lede">
               AI is changing our job, let's not pretend otherwise. What it still lacks is method,
-              architecture and product vision.
+              architecture and product vision. On my own, I now cover what used to need a full team:
+              UI/UX, senior development, ops, security and data.
             </p>
           </Reveal>
         </div>
@@ -148,13 +149,12 @@ const stack = [
           <Reveal>
           <a class="proof-card proof-card--crypto" href="/crypto-bot">
             <div class="proof-card__body">
-              <p class="proof-card__eyebrow">CryptoBot · Grid trading, 24/7</p>
-              <p class="proof-card__stat">
+              <p class="proof-card__eyebrow">CryptoBot</p>
+              <p class="proof-card__sub">Grid trading, 24/7</p>
+              <p class="proof-card__stat proof-card__stat--sm">
                 <StatCounter value={cryptoBot.netPercent} decimals={2} prefix="+" suffix="%" />
               </p>
-              <p class="proof-card__caption">
-                net, on real money, while Bitcoin dropped {Math.abs(cryptoBot.holdPercent)}%
-              </p>
+              <p class="proof-card__caption">net since April</p>
               <span class="proof-card__cta">See it work →</span>
             </div>
             <div class="proof-card__phone" aria-hidden="true">
@@ -378,11 +378,15 @@ const stack = [
   }
 
   .hero__lede {
-    max-width: 38rem;
+    max-width: 40rem;
+    font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+    line-height: 1.7;
+    color: var(--muted);
+    text-wrap: pretty;
   }
 
   .hero :global(.display) {
-    font-size: clamp(1.9rem, 3.4vw, 3rem);
+    font-size: clamp(2rem, 3.4vw, 3.35rem);
     line-height: 1.08;
     text-wrap: balance;
   }
@@ -415,6 +419,7 @@ const stack = [
 
   .profile-card__status {
     display: inline-flex;
+    align-self: flex-start;
     align-items: center;
     gap: 0.45rem;
     padding: 0.35rem 0.85rem;
@@ -832,6 +837,18 @@ const stack = [
     line-height: 1;
     color: var(--green);
     font-variant-numeric: tabular-nums;
+  }
+
+  .proof-card__stat--sm {
+    font-size: clamp(2.1rem, 3vw, 2.75rem);
+    margin-top: 0.35rem;
+  }
+
+  .proof-card__sub {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    opacity: 0.7;
+    margin-top: -0.15rem;
   }
 
   .proof-card--vinarium {
