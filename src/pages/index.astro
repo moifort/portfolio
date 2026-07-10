@@ -13,7 +13,8 @@ import IPhoneFrame from '../components/IPhoneFrame.astro'
 import Reveal from '../components/Reveal.astro'
 import SiteFooter from '../components/SiteFooter.astro'
 import StatCounter from '../components/StatCounter.astro'
-import { cryptoBot } from '../data/crypto-bot'
+import cryptoIcon from '../assets/crypto-bot/app-icon.png'
+import { cryptoBot, sinceLabel } from '../data/crypto-bot'
 import { site } from '../data/site'
 import Base from '../layouts/Base.astro'
 
@@ -149,12 +150,18 @@ const stack = [
           <Reveal>
           <a class="proof-card proof-card--crypto" href="/crypto-bot">
             <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={cryptoIcon}
+                alt="CryptoBot app icon"
+                width={200}
+                height={200}
+              />
               <p class="proof-card__eyebrow">CryptoBot</p>
-              <p class="proof-card__sub">Grid trading, 24/7</p>
               <p class="proof-card__stat proof-card__stat--sm">
                 <StatCounter value={cryptoBot.netPercent} decimals={2} prefix="+" suffix="%" />
               </p>
-              <p class="proof-card__caption">net since April</p>
+              <p class="proof-card__caption">net since {sinceLabel} · Grid trading, 24/7</p>
               <span class="proof-card__cta">See it work →</span>
             </div>
             <div class="proof-card__phone" aria-hidden="true">
@@ -842,13 +849,6 @@ const stack = [
   .proof-card__stat--sm {
     font-size: clamp(2.1rem, 3vw, 2.75rem);
     margin-top: 0.35rem;
-  }
-
-  .proof-card__sub {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    opacity: 0.7;
-    margin-top: -0.15rem;
   }
 
   .proof-card--vinarium {
