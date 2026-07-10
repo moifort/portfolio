@@ -40,6 +40,32 @@ const roles = [
   { icon: 'lucide:bug', label: 'QA' },
 ]
 
+const filters = [
+  { key: 'all', label: 'All' },
+  { key: 'ios', label: 'iOS' },
+  { key: 'macos', label: 'macOS' },
+  { key: 'home-automation', label: 'Home automation' },
+  { key: 'library', label: 'Library' },
+]
+
+const toolbox = [
+  'Craftsmanship',
+  'DDD',
+  'CQRS',
+  'Event Sourcing',
+  'Functional Programming',
+  'Atomic Design',
+  'TypeScript',
+  'Kotlin',
+  'Java',
+  'Spring Boot',
+  'NuxtJS',
+  'Firebase (Firestore, Hosting, Functions…)',
+  'Docker',
+  'Infra as Code',
+  'CI/CD',
+]
+
 type Influence = {
   name: string
   url: string
@@ -252,6 +278,12 @@ const timeline = [
             }
           </ul>
         </aside>
+        <aside class="influences-card toolbox-card">
+          <p class="influences-card__eyebrow">Toolbox</p>
+          <ul class="toolbox-card__list">
+            {toolbox.map((tool) => <li>{tool}</li>)}
+          </ul>
+        </aside>
       </Reveal>
       <div class="hero__right">
         <div class="hero__text">
@@ -281,9 +313,28 @@ const timeline = [
             </ul>
           </Reveal>
         </div>
+        <Reveal delay={0.25}>
+          <div class="proof__header">
+            <p class="proof__label">
+              The apps I built with Claude Opus 4.8 &amp; Fable during my paternity leave:
+            </p>
+            <div class="proof__filters" role="group" aria-label="Filter projects">
+              {
+                filters.map((f) => (
+                  <button
+                    class:list={['proof__filter', { 'is-active': f.key === 'all' }]}
+                    data-filter={f.key}
+                  >
+                    {f.label}
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+        </Reveal>
         <div class="proof__grid" id="proof">
           <Reveal>
-          <a class="proof-card proof-card--crypto" href="/crypto-bot">
+          <a class="proof-card proof-card--crypto" href="/crypto-bot" data-category="ios">
             <div class="proof-card__body">
               <Image
                 class="proof-card__icon"
@@ -310,7 +361,7 @@ const timeline = [
           </a>
         </Reveal>
         <Reveal delay={0.1}>
-          <a class="proof-card proof-card--vinarium" href="/vinarium">
+          <a class="proof-card proof-card--vinarium" href="/vinarium" data-category="ios">
             <div class="proof-card__body">
               <Image
                 class="proof-card__icon"
@@ -342,6 +393,7 @@ const timeline = [
             class="proof-card proof-card--stats"
             href="https://github.com/moifort/minimal-stats"
             rel="noopener"
+            data-category="macos"
           >
             <div class="proof-card__body">
               <Image
@@ -367,6 +419,24 @@ const timeline = [
     </div>
   </header>
 </Base>
+
+<script>
+  // Project card filtering by category
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.proof__filter')
+  const cards = document.querySelectorAll<HTMLElement>('.proof-card[data-category]')
+
+  for (const button of buttons) {
+    button.addEventListener('click', () => {
+      const filter = button.dataset['filter']
+      for (const b of buttons) b.classList.toggle('is-active', b === button)
+      for (const card of cards) {
+        const wrapper = (card.parentElement ?? card) as HTMLElement
+        wrapper.style.display =
+          filter === 'all' || card.dataset['category'] === filter ? '' : 'none'
+      }
+    })
+  }
+</script>
 
 <style>
   .hero {
@@ -498,6 +568,25 @@ const timeline = [
     height: 0.9em;
     color: var(--accent);
     flex-shrink: 0;
+  }
+
+  /* Toolbox card: keyword chips */
+  .toolbox-card__list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .toolbox-card__list li {
+    padding: 0.32rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text);
   }
 
   .hero__right {
@@ -977,6 +1066,49 @@ const timeline = [
     background: var(--card);
     font-size: 0.9375rem;
     font-weight: 550;
+  }
+
+  /* Header above the project cards: label + clickable filters */
+  :global(.proof__header) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .proof__label {
+    font-size: 0.9375rem;
+    color: var(--muted);
+  }
+
+  .proof__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .proof__filter {
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 0.8438rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  .proof__filter:hover {
+    border-color: var(--accent);
+  }
+
+  .proof__filter.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
   }
 
   /* Proof: uniform grid of project cards, all the same size */
