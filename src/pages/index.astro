@@ -312,7 +312,7 @@ const timeline = [
               }
               {' '}
               With them behind me, I build like never before, 10 to 30× faster, and finally
-              ship complete products all the way to production.
+              ship high quality products all the way to production.
             </p>
           </Reveal>
         </div>
@@ -539,6 +539,38 @@ const timeline = [
               <ModelViewer src="/models/sensor-shield.v1.glb" alt="" />
             </div>
           </div>
+        </Reveal>
+        <Reveal delay={0.5}>
+          <a
+            class="proof-card proof-card--dashboard"
+            href="https://github.com/moifort/home-dashboard"
+            rel="noopener"
+            data-category="home-automation"
+          >
+            <span class="proof-card__date">Feb 2026</span>
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={homeIcon}
+                alt="Apple Home app icon"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Home Dashboard · ESP32 + Docker</p>
+              <p class="proof-card__title">Your home on e-paper.</p>
+              <p class="proof-card__caption">
+                Electricity, solar, water, plants and network.
+              </p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+            <div class="proof-card__model proof-card__model--dashboard" aria-hidden="true">
+              <ModelViewer
+                src="/models/home-dashboard.v1.glb"
+                alt=""
+                cameraOrbit="18deg 80deg 62%"
+              />
+            </div>
+          </a>
         </Reveal>
         </div>
       </div>
@@ -1433,6 +1465,35 @@ const timeline = [
     background: radial-gradient(120% 120% at 80% 0%, #1c2733 0%, #0a0e14 58%);
     color: #ecf2f8;
     justify-content: center;
+  }
+
+  .proof-card--dashboard {
+    background: radial-gradient(120% 120% at 20% 0%, #232b23 0%, #0d100d 58%);
+    color: #edf3ed;
+    justify-content: center;
+  }
+
+  /* the eyebrow spans the full card width (no wrap), while the title and
+     caption stay narrow so they clear the floating device */
+  .proof-card--dashboard .proof-card__body {
+    max-width: 100%;
+  }
+
+  .proof-card--dashboard .proof-card__title,
+  .proof-card--dashboard .proof-card__caption {
+    max-width: 60%;
+  }
+
+  /* The wide e-paper device floats on the right, filling the full card height
+     and bled off the right edge so roughly its left half shows. */
+  .proof-card__model--dashboard {
+    top: 0;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    transform: translateX(48%);
+    width: clamp(360px, 44vw, 540px);
+    height: auto;
   }
 
   /* emoji stand-in for the app icon (AirPrint has no icon file) */

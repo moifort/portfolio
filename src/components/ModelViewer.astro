@@ -6,9 +6,16 @@
 interface Props {
   src: string
   alt: string
+  cameraOrbit?: string
+  fieldOfView?: string
 }
 
-const { src, alt } = Astro.props
+const {
+  src,
+  alt,
+  cameraOrbit = '30deg 78deg auto',
+  fieldOfView = '28deg',
+} = Astro.props
 ---
 
 <model-viewer
@@ -22,19 +29,22 @@ const { src, alt } = Astro.props
   disable-tap
   interaction-prompt="none"
   camera-target="0m 0m 0m"
-  camera-orbit="30deg 78deg auto"
-  field-of-view="28deg"
+  camera-orbit={cameraOrbit}
+  field-of-view={fieldOfView}
   shadow-intensity="0.6"
   exposure="1.1"
   loading="lazy"
 ></model-viewer>
 
 <script>
-  const BASE_ORBIT = '30deg 78deg auto'
-
-  // While the pointer is over the card, the model stops spinning and turns
-  // toward the cursor; it resumes spinning when the pointer leaves.
+  // While the pointer is over the card, the model stops spinning and the
+  // cursor fully drives its orientation: sweeping the card left to right spins
+  // it a full turn, top to bottom tips it right over. It resumes spinning when
+  // the pointer leaves. The zoom (orbit radius) is kept from the element's
+  // initial camera-orbit so per-card framing survives the hover.
   const followPointer = (viewer: Element) => {
+    const base = viewer.getAttribute('camera-orbit') ?? '30deg 78deg auto'
+    const radius = base.trim().split(/\s+/)[2] ?? 'auto'
     const card = viewer.closest('.proof-card') ?? viewer
     card.addEventListener('pointermove', (event) => {
       const { clientX, clientY } = event as PointerEvent
@@ -42,10 +52,11 @@ const { src, alt } = Astro.props
       const nx = Math.min(1, Math.max(-1, ((clientX - rect.left) / rect.width) * 2 - 1))
       const ny = Math.min(1, Math.max(-1, ((clientY - rect.top) / rect.height) * 2 - 1))
       viewer.removeAttribute('auto-rotate')
-      viewer.setAttribute('camera-orbit', `${30 + nx * 35}deg ${78 - ny * 20}deg auto`)
+      // full azimuth sweep (-180deg..180deg) and near-full polar tilt (~15deg..165deg)
+      viewer.setAttribute('camera-orbit', `${nx * 180}deg ${90 - ny * 75}deg ${radius}`)
     })
     card.addEventListener('pointerleave', () => {
-      viewer.setAttribute('camera-orbit', BASE_ORBIT)
+      viewer.setAttribute('camera-orbit', base)
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         viewer.setAttribute('auto-rotate', '')
       }
