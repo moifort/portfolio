@@ -5,4 +5,5 @@ export const site = {
   domain: 'https://mottet.me',
   email: 'thibaut.mottet@gmail.com',
   github: 'https://github.com/moifort',
+  dailyRate: 750, // TJM in euros
 } as const
