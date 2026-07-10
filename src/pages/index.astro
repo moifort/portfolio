@@ -5,6 +5,7 @@ import { Image } from 'astro:assets'
 import arnaudImg from '../assets/influences/arnaud-lemaire.jpg'
 import cyrilImg from '../assets/influences/cyril-martraire.jpg'
 import davidImg from '../assets/influences/david-gageot.jpg'
+import evansImg from '../assets/influences/eric-evans.jpg'
 import fowlerImg from '../assets/influences/martin-fowler.jpg'
 import mancusoImg from '../assets/influences/sandro-mancuso.jpg'
 import mattImg from '../assets/influences/matt-pocock.jpg'
@@ -35,6 +36,7 @@ const roles = [
   { icon: 'lucide:terminal', label: 'Ops' },
   { icon: 'lucide:shield', label: 'Security' },
   { icon: 'lucide:database', label: 'Data' },
+  { icon: 'lucide:bug', label: 'QA' },
 ]
 
 type Influence = {
@@ -57,8 +59,8 @@ const influences: Influence[] = [
   {
     name: 'Eric Evans',
     url: 'https://www.domainlanguage.com',
-    mono: 'EE',
-    items: [{ icon: 'lucide:book-open', label: 'Domain-Driven Design · the blue book' }],
+    img: evansImg,
+    items: [{ icon: 'lucide:book-open', label: 'Domain-Driven Design' }],
   },
   {
     name: 'Martin Fowler',
@@ -185,13 +187,6 @@ const timeline = [
             </div>
           </div>
           <ol class="profile-card__timeline">
-            <li class="tl-birth">
-              <span class="profile-card__period">1985</span>
-              <strong>Born <span class="tl-baby">👶</span></strong>
-            </li>
-            <li class="tl-gap" aria-hidden="true">
-              <span>a lot happened…</span>
-            </li>
             {
               timeline.map((t) => (
                 <li class:list={['tl-entry', { 'is-current': t.current }]}>
@@ -201,6 +196,13 @@ const timeline = [
                 </li>
               ))
             }
+            <li class="tl-gap" aria-hidden="true">
+              <span>a lot happened…</span>
+            </li>
+            <li class="tl-birth">
+              <span class="profile-card__period">1985</span>
+              <strong>Born <span class="tl-baby">👶</span></strong>
+            </li>
           </ol>
           <div class="profile-card__offer">
             <p class="profile-card__price">
@@ -745,20 +747,21 @@ const timeline = [
     background: var(--border);
   }
 
-  /* Birth entry (top of the timeline) */
+  /* Birth entry (bottom of the timeline, chronological origin) */
   .tl-birth::before {
     background: var(--gold);
-  }
-
-  .tl-birth::after {
-    display: none;
   }
 
   .tl-baby {
     font-size: 0.95em;
   }
 
-  /* Dashed "a lot happened" gap between birth and career */
+  /* the last career entry connects to birth via the dashed gap, not a solid line */
+  .tl-entry:has(+ .tl-gap)::after {
+    display: none;
+  }
+
+  /* Dashed "a lot happened" gap between the earliest job and birth */
   .tl-gap {
     min-height: 2.4rem;
     justify-content: center;
