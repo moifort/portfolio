@@ -19,6 +19,9 @@ export const cryptoBot = {
   pair: 'BTC/USDC',
   exchange: 'Kraken',
   cycleSeconds: 30,
+  // "life" snapshot shown in the hero status strip (from the app's activity feed)
+  openPositions: 4,
+  lastSale: '2 days ago',
 } as const
 
 export const sinceLabel = new Date(cryptoBot.since).toLocaleDateString('en-US', {

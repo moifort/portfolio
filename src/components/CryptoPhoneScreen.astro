@@ -38,12 +38,14 @@ const fr = (n: number) => n.toFixed(2).replace('.', ',')
       <line x1="0" y1={y} x2="300" y2={y} stroke="#30d158" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="4 5" />
     ))}
     <path
+      class="chart-line"
       d="M0,120 C20,110 30,128 45,122 S70,90 85,96 S105,130 125,124 S150,84 168,92 S195,118 215,108 S250,96 268,100 S288,94 300,90"
+      pathLength="1"
       fill="none"
       stroke="#0a84ff"
       stroke-width="2.5"
       stroke-linecap="round"></path>
-    <circle cx="300" cy="90" r="4" fill="#0a84ff"></circle>
+    <circle class="chart-dot" cx="300" cy="90" r="4" fill="#0a84ff"></circle>
   </svg>
 </div>
 
@@ -94,6 +96,67 @@ const fr = (n: number) => n.toFixed(2).replace('.', ',')
     height: 2.2cqw;
     border-radius: 50%;
     background: #30d158;
+    animation: live-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes live-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(48, 209, 88, 0.55);
+    }
+    50% {
+      box-shadow: 0 0 0 1.6cqw rgba(48, 209, 88, 0);
+    }
+  }
+
+  /* the price line redraws itself in a loop, like a live chart */
+  .chart-line {
+    stroke-dasharray: 1;
+    animation: chart-draw 8s ease-in-out infinite;
+  }
+
+  .chart-dot {
+    animation: dot-blink 8s ease-in-out infinite;
+  }
+
+  @keyframes chart-draw {
+    0% {
+      stroke-dashoffset: 1;
+      opacity: 1;
+    }
+    55%,
+    88% {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+    97%,
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0;
+    }
+  }
+
+  @keyframes dot-blink {
+    0%,
+    50% {
+      opacity: 0;
+    }
+    58%,
+    88% {
+      opacity: 1;
+    }
+    97%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .screen__live-dot,
+    .chart-line,
+    .chart-dot {
+      animation: none;
+    }
   }
 
   .screen__percent {

@@ -12,7 +12,7 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
 ---
 
 <Base
-  title={`CryptoBot — +${cryptoBot.netPercent}% while Bitcoin dropped ${holdAbs}%`}
+  title={`CryptoBot · +${cryptoBot.netPercent}% while Bitcoin dropped ${holdAbs}%`}
   description={`A self-tuning grid-trading bot on real money, 24/7 on ${cryptoBot.exchange}. +${cryptoBot.alphaVsHold} points of alpha over buy-and-hold since ${sinceLabel}. Built by supervising Claude.`}
   theme="crypto"
 >
@@ -21,7 +21,7 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
     <div class="container hero__inner">
       <div class="hero__text">
         <Reveal>
-          <p class="eyebrow">CryptoBot — a side project with a P&amp;L</p>
+          <p class="eyebrow">CryptoBot · a side project with a P&amp;L</p>
         </Reveal>
         <Reveal delay={0.1}>
           <span class="badge">
@@ -38,6 +38,13 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
           <p class="lede hero__lede">
             Net return since launch.<br />
             Over the same period, <strong>holding Bitcoin lost {holdAbs}%</strong>.
+          </p>
+        </Reveal>
+        <Reveal delay={0.35}>
+          <p class="hero__status">
+            {cryptoBot.openPositions} positions waiting for their sell · last sale {
+              cryptoBot.lastSale
+            } · {cryptoBot.gridLevels} levels armed
           </p>
         </Reveal>
       </div>
@@ -88,8 +95,8 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
           </Reveal>
           <Reveal delay={0.1}>
             <p class="lede">
-              of alpha over just holding. The bot doesn't bet on the market going up. It sells the
-              swings, in both directions, and keeps the spread.
+              of alpha compared to just holding. The bot does not bet on the market going up. It
+              captures the swings, in both directions, and keeps the spread.
             </p>
           </Reveal>
         </div>
@@ -140,25 +147,25 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
             <h3>1 · A grid around the price</h3>
             <p>
               The bot keeps a ladder of {cryptoBot.gridLevels} limit orders around the current
-              price of {cryptoBot.pair}: buys below, sells above. Nothing clever. It's just always
-              in position.
+              price of {cryptoBot.pair}: buys below, sells above. Nothing fancy: it is simply
+              always in position.
             </p>
           </li></Reveal>
           <Reveal><li>
             <h3>2 · Volatility becomes income</h3>
             <p>
-              The price dips, one of the buys fills. It comes back, the matching sell fills. The
-              gap between the two, minus fees, stays in the account. It checks the market every
-              {cryptoBot.cycleSeconds} seconds and never second-guesses itself, which is more than
-              I can say for how I used to trade by hand.
+              The price goes down, one of the buys fills. It comes back, the matching sell fills.
+              The gap between the two, minus the fees, stays in the account. The bot checks the
+              market every {cryptoBot.cycleSeconds} seconds, it never hesitates and it never
+              panics. Me, when I traded by hand, I did both.
             </p>
           </li></Reveal>
           <Reveal><li>
             <h3>3 · It tunes itself</h3>
             <p>
-              I don't adjust anything. Spacing follows the last 14 days of volatility, the band
-              recenters when the market drifts, order size follows the balance. My involvement is
-              checking the app with my morning coffee.
+              I adjust nothing. The spacing follows the volatility of the last 14 days, the band
+              recenters when the market moves, the order size follows the balance. My only job is
+              to check the app with my morning coffee.
             </p>
           </li></Reveal>
         </ol>
@@ -203,9 +210,9 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
       </Reveal>
       <Reveal>
         <p class="numbers__honesty">
-          It's a small account, on purpose. What I wanted to prove was never that this makes me
-          rich. It's that a machine I built can run unattended with real money and come out ahead,
-          and it has, every week since {sinceLabel}.
+          It is a small account, on purpose. The goal was never to become rich. The goal was to
+          prove that a machine I built can run alone, with real money, and stay positive. It does,
+          since {sinceLabel}.
         </p>
       </Reveal>
     </div>
@@ -222,43 +229,43 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
         <div class="card hood__item">
           <h3>Self-tuning grid</h3>
           <p>
-            Spacing = max(1.5% of price, half the 14-day ATR). Band recentered every cycle, order
-            size derived from the live balance. Zero knobs.
+            Spacing = max(1.5% of price, half the 14-day ATR). The band recenters every cycle, the
+            order size follows the live balance. Zero parameters to tune.
           </p>
         </div>
         <div class="card hood__item">
           <h3>Risk, handled</h3>
           <p>
-            Stop-loss on drawdown from the high-watermark, cumulative take-profit target, post-only
+            Stop-loss on drawdown from the highest point, cumulative take-profit target, post-only
             orders so every fill pays maker fees.
           </p>
         </div>
         <div class="card hood__item">
           <h3>Sandbox first</h3>
           <p>
-            A full simulation mode ran the strategy on paper before a single real dollar was
-            deployed. Same code path, fake fills.
+            A full simulation mode ran the strategy on paper before one real dollar was engaged.
+            Same code, fake orders.
           </p>
         </div>
         <div class="card hood__item">
           <h3>GraphQL API</h3>
           <p>
-            Every stat on this page — profit, fees, alpha vs HOLD — is computed by the bot's own
+            Every stat on this page (profit, fees, alpha vs HOLD) is computed by the bot's own
             typed GraphQL API, not a spreadsheet.
           </p>
         </div>
         <div class="card hood__item">
           <h3>iOS app + widget</h3>
           <p>
-            A native SwiftUI dashboard with a home-screen widget. The P&amp;L is two glances away,
-            all day.
+            A native SwiftUI dashboard with a home-screen widget. The P&amp;L is always one look
+            away.
           </p>
         </div>
         <div class="card hood__item">
           <h3>Runs at home</h3>
           <p>
             Dockerized on a home server, monitored with Sentry, forward-only data migrations. It
-            has survived every deploy since launch.
+            survived every deploy since the launch.
           </p>
         </div>
       </Reveal>
@@ -270,7 +277,7 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
     <div class="container--narrow craft">
       <Reveal><p class="eyebrow">The craft</p></Reveal>
       <Reveal delay={0.05}>
-        <h2 class="headline">Probably over-engineered.<br />That's deliberate.</h2>
+        <h2 class="headline">Probably over-engineered.<br />It is on purpose.</h2>
       </Reveal>
       <Reveal group class="craft__chips">
         <span>TypeScript</span><span>Nitro</span><span>Bun</span><span>GraphQL · Pothos</span>
@@ -280,10 +287,10 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
       <Reveal>
         <p class="craft__copy">
           Domain-driven design with strict CQRS and a purely functional core, for a bot with
-          exactly one user. That's the point: side projects are where I stress-test the method
-          before applying it elsewhere. The Kraken integration is hand-rolled REST with Web
-          Crypto, the API is typed GraphQL, and every line was written by Claude under my review,
-          across roughly 220 commits since February 2026.
+          exactly one user. That is the point: side projects are where I test the method before
+          applying it elsewhere. The Kraken integration is hand-written REST with Web Crypto, the
+          API is typed GraphQL, and every line was written by Claude under my review. Around 220
+          commits since February 2026.
         </p>
       </Reveal>
       <Reveal delay={0.1}>
@@ -396,6 +403,12 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
   .hero__lede strong {
     color: var(--red);
     font-weight: 650;
+  }
+
+  .hero__status {
+    font-size: 0.9375rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
   }
 
   /* :global — classes on component-rendered elements (Reveal) miss the scope hash */

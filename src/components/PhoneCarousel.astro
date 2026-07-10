@@ -1,0 +1,77 @@
+---
+/**
+ * Auto-playing screenshot carousel meant to live inside <IPhoneFrame>.
+ * Crossfades between exactly 4 images (the keyframes assume 4 slots).
+ * Static first image under prefers-reduced-motion.
+ */
+import type { ImageMetadata } from 'astro'
+import { Image } from 'astro:assets'
+
+interface Props {
+  images: { src: ImageMetadata; alt: string }[]
+  priority?: boolean
+}
+
+const { images, priority = false } = Astro.props
+---
+
+<div class="carousel" aria-label={images[0]?.alt}>
+  {
+    images.map((img, i) => (
+      <Image
+        src={img.src}
+        alt={img.alt}
+        widths={[320, 480, 720, 1206]}
+        sizes="(max-width: 768px) 76vw, 340px"
+        loading={priority && i === 0 ? 'eager' : 'lazy'}
+        fetchpriority={priority && i === 0 ? 'high' : 'auto'}
+        style={`animation-delay: ${i * 3}s`}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .carousel {
+    position: absolute;
+    inset: 0;
+  }
+
+  .carousel :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: carousel-fade 12s infinite;
+  }
+
+  @keyframes carousel-fade {
+    0% {
+      opacity: 0;
+    }
+    3% {
+      opacity: 1;
+    }
+    25% {
+      opacity: 1;
+    }
+    31% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel :global(img) {
+      animation: none;
+    }
+
+    .carousel :global(img:first-child) {
+      opacity: 1;
+    }
+  }
+</style>

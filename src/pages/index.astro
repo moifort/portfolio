@@ -2,8 +2,12 @@
 import { Image } from 'astro:assets'
 import portrait from '../assets/portrait.jpg'
 import appIcon from '../assets/vinarium/app-icon.png'
+import cellarShot from '../assets/vinarium/cellar.png'
 import dashboardShot from '../assets/vinarium/dashboard.png'
+import scanReviewShot from '../assets/vinarium/scan-review.png'
+import scanShot from '../assets/vinarium/scan.png'
 import CryptoPhoneScreen from '../components/CryptoPhoneScreen.astro'
+import PhoneCarousel from '../components/PhoneCarousel.astro'
 import IPhoneFrame from '../components/IPhoneFrame.astro'
 import Reveal from '../components/Reveal.astro'
 import SiteFooter from '../components/SiteFooter.astro'
@@ -16,22 +20,22 @@ const method = [
   {
     n: '01',
     title: 'Vision & domain',
-    text: 'I start by naming things. What are the concepts, where are the boundaries, what can never happen. Boring work, and it decides everything that follows.',
+    text: 'Name the concepts, draw the boundaries, decide what can never happen. Everything else depends on this.',
   },
   {
     n: '02',
     title: 'Architecture as guardrails',
-    text: 'A functional core, branded types, errors as plain values. If the types are strict enough, Claude physically cannot wander off the design.',
+    text: 'A functional core and strict types. If the types are right, Claude cannot leave the design.',
   },
   {
     n: '03',
     title: 'Supervised build loops',
-    text: 'Claude writes, I review. Small slices, precise briefs, and I reject a lot. Most days something ships.',
+    text: 'Claude writes, I review. Small slices, precise briefs, many rejections. Something ships almost every day.',
   },
   {
     n: '04',
     title: 'Production, for real',
-    text: 'Both products below run in production with my own money and my own wine in them. Nothing teaches you faster than that.',
+    text: 'Both products run with my own money and my own wine inside. Nothing teaches faster.',
   },
 ]
 
@@ -50,8 +54,8 @@ const stack = [
 ---
 
 <Base
-  title="Thibaut Mottet — I don't write code anymore. I ship products."
-  description="Senior full-stack developer turned LLM supervisor. Architecture, FP, DDD and product method — Claude writes the code. Real products, used every day."
+  title="Thibaut Mottet · I don't write code anymore. I ship products."
+  description="Senior full-stack developer turned LLM supervisor. Architecture, FP, DDD and product method. Claude writes the code. Real products, used every day."
   theme="home"
 >
   <!-- Act 1 · Hero -->
@@ -68,8 +72,8 @@ const stack = [
         </Reveal>
         <Reveal delay={0.15}>
           <p class="lede hero__lede">
-            Since LLMs arrived, my job has changed completely. I design the architecture, set the
-            constraints, and Claude writes the code. This site shows what that actually produces.
+            Since the LLMs arrived, my job has completely changed. I design the architecture, I
+            set the constraints, and Claude writes the code. This site shows what it produces.
           </p>
         </Reveal>
         <Reveal delay={0.2}>
@@ -93,98 +97,8 @@ const stack = [
     </div>
   </header>
 
-  <!-- Act 2 · The shift -->
-  <section class="section">
-    <div class="container--narrow">
-      <Reveal><p class="eyebrow">The paradigm shift</p></Reveal>
-      <Reveal delay={0.05}>
-        <h2 class="headline shift__headline">
-          I spent years learning languages by heart. Then that stopped mattering.
-        </h2>
-      </Reveal>
-      <Reveal group class="shift__copy">
-        <p>
-          For most of my career, being senior meant knowing your stack inside out. The obscure
-          APIs, the framework quirks, the things that only bite you in production. That knowledge
-          took years to build, and it was what you were paid for.
-        </p>
-        <p>
-          Claude knows all of it, instantly. Which is uncomfortable at first, until you notice
-          what it doesn't have: deciding what to build, structuring a system so it survives
-          change, and telling good code from code that merely looks good. Those were always the
-          hard parts anyway.
-        </p>
-        <p>
-          So that's my job now. I design, I constrain, I review, and Claude types. I ship more
-          than I ever have.
-        </p>
-      </Reveal>
-    </div>
-  </section>
-
-  <!-- Act 3 · How I work now -->
-  <section class="section">
-    <div class="container">
-      <Reveal><p class="eyebrow">How I work now</p></Reveal>
-      <Reveal delay={0.05}><h2 class="headline">What I actually bring</h2></Reveal>
-      <Reveal group class="how__grid">
-        <article class="card how__card">
-          <h3>Architect's vision</h3>
-          <p>
-            Functional programming, DDD, CQRS. I define the domain and the types before anything
-            else, so there's a clear frame for the LLM to work inside. It's the same discipline as
-            before, applied at a different level.
-          </p>
-        </article>
-        <article class="card how__card">
-          <h3>Product method</h3>
-          <p>
-            I start from what the product should do for someone, cut it into thin slices, and keep
-            something usable running at every step. Both apps below were in daily use long before
-            they were finished.
-          </p>
-        </article>
-        <article class="card how__card">
-          <h3>LLM supervision</h3>
-          <p>
-            Working with Claude is like leading a very fast, very literal team. What comes out
-            depends entirely on the brief and the review. That turned out to be a real skill, and
-            I've been sharpening it every day for a while now.
-          </p>
-        </article>
-      </Reveal>
-    </div>
-  </section>
-
-  <!-- Act 3b · The method, in practice -->
-  <section class="section">
-    <div class="container">
-      <Reveal><p class="eyebrow">The method, in practice</p></Reveal>
-      <Reveal delay={0.05}>
-        <h2 class="headline">From idea to production, every time</h2>
-      </Reveal>
-      <Reveal group class="method__grid">
-        {
-          method.map((step) => (
-            <article class="method__step">
-              <span class="method__n">{step.n}</span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </article>
-          ))
-        }
-      </Reveal>
-      <Reveal class="stack">
-        <p class="stack__label">Supervised daily, across the whole stack:</p>
-        <ul class="stack__list">
-          {stack.map((tech) => <li>{tech}</li>)}
-        </ul>
-      </Reveal>
-    </div>
-  </section>
-
-  <!-- Act 4 · Proof -->
-  <section class="section" id="proof">
+  <!-- Act 2 · The projects, first -->
+  <section class="section proof" id="proof">
     <div class="container">
       <Reveal><p class="eyebrow">The proof</p></Reveal>
       <Reveal delay={0.05}>
@@ -199,7 +113,7 @@ const stack = [
                 <StatCounter value={cryptoBot.netPercent} decimals={2} prefix="+" suffix="%" />
               </p>
               <p class="proof-card__caption">
-                net, on real money — while Bitcoin dropped {Math.abs(cryptoBot.holdPercent)}%
+                net, on real money, while Bitcoin dropped {Math.abs(cryptoBot.holdPercent)}%
               </p>
               <ul class="proof-card__facts">
                 <li><strong>+{cryptoBot.alphaVsHold} pts</strong> alpha vs HOLD</li>
@@ -238,7 +152,16 @@ const stack = [
               <span class="proof-card__cta">Take the tour →</span>
             </div>
             <div class="proof-card__phone" aria-hidden="true">
-              <IPhoneFrame src={dashboardShot} alt="" />
+              <IPhoneFrame>
+                <PhoneCarousel
+                  images={[
+                    { src: dashboardShot, alt: 'Vinarium dashboard' },
+                    { src: scanShot, alt: 'Scanning a wine label' },
+                    { src: scanReviewShot, alt: 'AI-filled wine record' },
+                    { src: cellarShot, alt: 'Cellar map' },
+                  ]}
+                />
+              </IPhoneFrame>
             </div>
           </a>
         </Reveal>
@@ -246,16 +169,107 @@ const stack = [
     </div>
   </section>
 
+  <!-- Act 2 · The shift -->
+  <section class="section">
+    <div class="container--narrow">
+      <Reveal><p class="eyebrow">The paradigm shift</p></Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline shift__headline">
+          I spent years learning languages by heart. Now it doesn't matter anymore.
+        </h2>
+      </Reveal>
+      <Reveal group class="shift__copy">
+        <p>
+          Before, being senior meant to know your stack perfectly: the obscure APIs, the strange
+          behaviors, the traps you only discover in production. Claude knows all of that,
+          instantly.
+        </p>
+        <p>
+          What it does not have is judgment. Decide what to build, structure a system so it
+          survives change, see the difference between good code and code that only looks good.
+          That is my job now: I design, I review, Claude types. And I ship more than ever.
+        </p>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Act 3 · How I work now -->
+  <section class="section">
+    <div class="container">
+      <Reveal><p class="eyebrow">How I work now</p></Reveal>
+      <Reveal delay={0.05}><h2 class="headline">What I bring</h2></Reveal>
+      <Reveal group class="how__grid">
+        <article class="card how__card">
+          <h3>Architect's vision</h3>
+          <p>
+            Functional programming, DDD, CQRS. I define the domain and the types first, so the LLM
+            works inside a frame it cannot leave.
+          </p>
+        </article>
+        <article class="card how__card">
+          <h3>Product method</h3>
+          <p>
+            Small slices, something usable at every step. Both apps were used daily long before
+            they were finished.
+          </p>
+        </article>
+        <article class="card how__card">
+          <h3>LLM supervision</h3>
+          <p>
+            Claude is like a very fast, very literal team. The quality of the output depends on
+            the brief and on the review. It is a real skill, and I practice it every day.
+          </p>
+        </article>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Act 3b · The method, in practice -->
+  <section class="section">
+    <div class="container">
+      <Reveal><p class="eyebrow">The method, in practice</p></Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline">From idea to production, every time</h2>
+      </Reveal>
+      <Reveal group class="method__grid">
+        {
+          method.map((step) => (
+            <article class="method__step">
+              <span class="method__n">{step.n}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </article>
+          ))
+        }
+      </Reveal>
+      <Reveal class="stack">
+        <p class="stack__label">Supervised daily, across the whole stack:</p>
+        <ul class="stack__list">
+          {stack.map((tech) => <li>{tech}</li>)}
+        </ul>
+      </Reveal>
+    </div>
+  </section>
+
   <!-- Act 5 · Contact -->
   <section class="section contact">
     <div class="container--narrow contact__inner">
       <Reveal>
-        <h2 class="headline">If this sounds useful to your team, let's talk.</h2>
+        <Image
+          class="contact__portrait"
+          src={portrait}
+          alt="Thibaut Mottet"
+          width={200}
+          height={200}
+        />
+      </Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline">If this way of working can be useful to your team, let's talk.</h2>
       </Reveal>
       <Reveal delay={0.1}>
         <p class="lede">
-          I'm looking for a senior role where this way of building — architecture first, AI doing
-          the typing — gets put to work on real problems.
+          I am looking for a senior role where this way of building can be applied to real
+          problems.
         </p>
       </Reveal>
       <Reveal delay={0.2}>
@@ -272,7 +286,7 @@ const stack = [
 
 <style>
   .hero {
-    min-height: 92svh;
+    min-height: 78svh;
     display: grid;
     align-items: center;
     padding-block: 4rem;
@@ -303,7 +317,7 @@ const stack = [
   }
 
   :global(.hero__portrait) {
-    width: clamp(13rem, 22vw, 19rem);
+    width: clamp(14rem, 26vw, 22rem);
     height: auto;
     border-radius: 2rem;
     box-shadow: 0 40px 80px -30px rgba(22, 24, 29, 0.4);
@@ -587,5 +601,13 @@ const stack = [
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
+  }
+
+  :global(.contact__portrait) {
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 16px 32px -12px rgba(22, 24, 29, 0.35);
   }
 </style>
