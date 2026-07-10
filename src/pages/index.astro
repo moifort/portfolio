@@ -1,6 +1,8 @@
 ---
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
+import fowlerImg from '../assets/influences/martin-fowler.jpg'
+import mancusoImg from '../assets/influences/sandro-mancuso.jpg'
 import portrait from '../assets/portrait.jpg'
 import appIcon from '../assets/vinarium/app-icon.png'
 import cellarShot from '../assets/vinarium/cellar.png'
@@ -25,6 +27,24 @@ const roles = [
   { icon: 'lucide:terminal', label: 'Ops' },
   { icon: 'lucide:shield', label: 'Security' },
   { icon: 'lucide:database', label: 'Data' },
+]
+
+const influences = [
+  {
+    name: 'Martin Fowler',
+    url: 'https://martinfowler.com',
+    img: fowlerImg,
+    items: [
+      { icon: 'lucide:book-open', label: 'Refactoring' },
+      { icon: 'lucide:youtube', label: 'Conference talks' },
+    ],
+  },
+  {
+    name: 'Sandro Mancuso',
+    url: 'https://www.codurance.com',
+    img: mancusoImg,
+    items: [{ icon: 'lucide:book-open', label: 'The Software Craftsman' }],
+  },
 ]
 
 const timeline = [
@@ -105,6 +125,37 @@ const timeline = [
               Hire me <Icon name="lucide:arrow-right" />
             </a>
           </div>
+        </aside>
+        <aside class="influences-card">
+          <p class="influences-card__eyebrow">Influences</p>
+          <ul class="influences-card__list">
+            {
+              influences.map((person) => (
+                <li class="influences-card__row">
+                  <Image
+                    class="influences-card__avatar"
+                    src={person.img}
+                    alt={`Portrait of ${person.name}`}
+                    width={120}
+                    height={120}
+                  />
+                  <div class="influences-card__info">
+                    <a href={person.url} rel="noopener">{person.name}</a>
+                    <ul class="influences-card__items">
+                      {
+                        person.items.map((item) => (
+                          <li>
+                            <Icon name={item.icon} />
+                            {item.label}
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
         </aside>
       </Reveal>
       <div class="hero__right">
@@ -251,6 +302,8 @@ const timeline = [
 
   :global(.hero__card-wrap) {
     display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
     min-width: 0;
   }
 
@@ -258,12 +311,101 @@ const timeline = [
     flex: 1;
   }
 
+  /* Influences card, under the profile card */
+  .influences-card {
+    padding: 1.4rem 1.6rem;
+    border-radius: 1.5rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    box-shadow: 0 28px 56px -28px rgba(38, 34, 26, 0.22);
+  }
+
+  .influences-card__eyebrow {
+    font-size: 0.7188rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.9rem;
+  }
+
+  .influences-card__list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .influences-card__row {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  :global(.influences-card__avatar) {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px rgba(38, 34, 26, 0.08);
+  }
+
+  .influences-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .influences-card__info > a {
+    font-weight: 700;
+    font-size: 0.9375rem;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .influences-card__info > a:hover {
+    text-decoration: underline;
+  }
+
+  .influences-card__items {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 0.9rem;
+    row-gap: 0.15rem;
+  }
+
+  .influences-card__items li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8438rem;
+    color: var(--muted);
+  }
+
+  .influences-card__items [data-icon] {
+    width: 0.9em;
+    height: 0.9em;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
   .hero__right {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: 2rem;
     min-width: 0;
+  }
+
+  /* project cards absorb the remaining height so the column bottoms stay aligned */
+  .hero__right .proof__grid {
+    flex: 1;
+    margin-top: auto;
   }
 
   .hero__text {
