@@ -107,36 +107,36 @@ const timeline = [
           </div>
         </aside>
       </Reveal>
-      <div class="hero__text">
-        <Reveal delay={0.08}>
-          <h1 class="display">
-            One senior developer.<br />The impact of a <span class="display__grad"
-              >whole team</span
-            >.
-          </h1>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p class="hero__lede">
-            AI is changing our job, let's not pretend otherwise. What it still lacks is method,
-            architecture and product vision. On my own, I now have a full team at my disposal:
-          </p>
-        </Reveal>
-        <Reveal delay={0.2}>
-          <ul class="hero__roles" aria-label="Roles I cover">
-            {
-              roles.map((r) => (
-                <li class="hero__role">
-                  <Icon name={r.icon} />
-                  {r.label}
-                </li>
-              ))
-            }
-          </ul>
-        </Reveal>
-      </div>
-      </div>
-      <div class="proof__grid" id="proof">
-        <Reveal>
+      <div class="hero__right">
+        <div class="hero__text">
+          <Reveal delay={0.08}>
+            <h1 class="display">
+              One senior developer.<br />The impact of a <span class="display__grad"
+                >whole team</span
+              >.
+            </h1>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p class="hero__lede">
+              AI is changing our job, let's not pretend otherwise. What it still lacks is method,
+              architecture and product vision. On my own, I now have a full team at my disposal:
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <ul class="hero__roles" aria-label="Roles I cover">
+              {
+                roles.map((r) => (
+                  <li class="hero__role">
+                    <Icon name={r.icon} />
+                    {r.label}
+                  </li>
+                ))
+              }
+            </ul>
+          </Reveal>
+        </div>
+        <div class="proof__grid" id="proof">
+          <Reveal>
           <a class="proof-card proof-card--crypto" href="/crypto-bot">
             <div class="proof-card__body">
               <Image
@@ -190,31 +190,33 @@ const timeline = [
             </div>
           </a>
         </Reveal>
-        <Reveal delay={0.15}>
-          <a
-            class="proof-card proof-card--stats"
-            href="https://github.com/moifort/minimal-stats"
-            rel="noopener"
-          >
-            <div class="proof-card__body">
-              <Image
-                class="proof-card__icon"
-                src={statsIcon}
-                alt="Stats app icon"
-                width={200}
-                height={200}
-              />
-              <p class="proof-card__eyebrow">Stats · macOS</p>
-              <p class="proof-card__title">Minimalist stats.</p>
-              <p class="proof-card__caption">CPU, network, disk and Claude usage in the menu bar.</p>
-              <span class="proof-card__cta">See more →</span>
-            </div>
-            <div class="proof-card__window" aria-hidden="true">
-              <Image src={statsPopover} alt="" width={524} height={440} />
-            </div>
-          </a>
-        </Reveal>
+        </div>
       </div>
+      </div>
+      <Reveal delay={0.15} class="stats-row">
+        <a
+          class="proof-card proof-card--stats proof-card--wide"
+          href="https://github.com/moifort/minimal-stats"
+          rel="noopener"
+        >
+          <div class="proof-card__body">
+            <Image
+              class="proof-card__icon"
+              src={statsIcon}
+              alt="Stats app icon"
+              width={200}
+              height={200}
+            />
+            <p class="proof-card__eyebrow">Stats · macOS</p>
+            <p class="proof-card__title">Minimalist stats.</p>
+            <p class="proof-card__caption">CPU, network, disk and Claude usage in the menu bar.</p>
+            <span class="proof-card__cta">See more →</span>
+          </div>
+          <div class="proof-card__window" aria-hidden="true">
+            <Image src={statsPopover} alt="" width={524} height={440} />
+          </div>
+        </a>
+      </Reveal>
     </div>
   </header>
 </Base>
@@ -276,8 +278,11 @@ const timeline = [
       grid-template-columns: 1fr;
     }
 
-    .hero__text {
+    .hero__right {
       order: 2;
+    }
+
+    .hero__text {
       align-items: center;
       text-align: center;
     }
@@ -676,22 +681,49 @@ const timeline = [
     font-weight: 550;
   }
 
-  /* Proof: uniform grid of project cards (grows as more are added) */
+  /* Proof: two cards at the bottom of the hero right column */
   .proof__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 1.25rem;
     align-items: stretch;
   }
 
-  /* the Reveal wrapper around each card must stretch so cards match height */
+  /* the Reveal wrapper around each card must stretch so both cards match height */
   .proof__grid > :global(*) {
     display: flex;
   }
 
-  @media (max-width: 900px) {
-    .proof__grid {
-      grid-template-columns: repeat(2, 1fr);
+  /* Stats card: full-width row under the hero */
+  :global(.stats-row) {
+    display: flex;
+  }
+
+  .proof-card--wide {
+    min-height: 15rem;
+    padding: 1.9rem 2.25rem;
+    justify-content: center;
+  }
+
+  .proof-card--wide .proof-card__body {
+    max-width: 62%;
+  }
+
+  .proof-card--wide .proof-card__window {
+    right: 3rem;
+    top: 50%;
+    translate: 0 -50%;
+    width: clamp(240px, 26vw, 340px);
+    rotate: -3deg;
+  }
+
+  @media (max-width: 700px) {
+    .proof-card--wide .proof-card__body {
+      max-width: 100%;
+    }
+
+    .proof-card--wide .proof-card__window {
+      display: none;
     }
   }
 
