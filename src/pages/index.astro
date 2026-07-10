@@ -6,40 +6,15 @@ import appIcon from '../assets/vinarium/app-icon.png'
 import cellarShot from '../assets/vinarium/cellar.png'
 import dashboardShot from '../assets/vinarium/dashboard.png'
 import scanReviewShot from '../assets/vinarium/scan-review.png'
-import scanShot from '../assets/vinarium/scan.png'
 import CryptoPhoneScreen from '../components/CryptoPhoneScreen.astro'
 import PhoneCarousel from '../components/PhoneCarousel.astro'
 import IPhoneFrame from '../components/IPhoneFrame.astro'
 import Reveal from '../components/Reveal.astro'
-import SiteFooter from '../components/SiteFooter.astro'
 import StatCounter from '../components/StatCounter.astro'
 import cryptoIcon from '../assets/crypto-bot/app-icon.png'
 import { cryptoBot, sinceLabel } from '../data/crypto-bot'
 import { site } from '../data/site'
 import Base from '../layouts/Base.astro'
-
-const method = [
-  {
-    n: '01',
-    title: 'Reach & user flow',
-    text: 'How will the product reach its users? Wireframes to understand the user flow, before one line of code.',
-  },
-  {
-    n: '02',
-    title: 'First iteration',
-    text: 'A first usable version, quickly, on a stack that is scalable and robust to change.',
-  },
-  {
-    n: '03',
-    title: 'Rails for the LLM',
-    text: 'Domain-driven architecture, strong typing, data visualization, CI/CD. Everything that helps Claude deliver with almost no errors.',
-  },
-  {
-    n: '04',
-    title: 'Run & protect',
-    text: 'Sentry watches bugs and performance permanently. The infrastructure rebuilds with one command. The application and the data stay secured.',
-  },
-]
 
 const timeline = [
   {
@@ -47,23 +22,14 @@ const timeline = [
     role: 'Paternity leave',
     note: 'shipping CryptoBot & Vinarium with Claude',
   },
-  { period: '2018 · 2025', role: 'Freelance full-stack developer & lead tech', note: 'Paris' },
+  {
+    period: '2018 · 2025',
+    role: 'Freelance full-stack developer & lead tech',
+    note: 'remote, abroad',
+  },
   { period: '2017 · 2018', role: 'CTO', note: 'pupscan.com' },
   { period: '2016 · 2017', role: 'Web developer', note: 'Société Générale' },
   { period: '2014 · 2016', role: 'CTO', note: 'alantaya.com' },
-]
-
-const stack = [
-  'TypeScript',
-  'Swift · SwiftUI',
-  'GraphQL · Pothos',
-  'Nitro · Bun',
-  'Firebase · GCP',
-  'Firestore',
-  'Terraform',
-  'Docker',
-  'Claude API',
-  'Gemini API',
 ]
 ---
 
@@ -157,12 +123,12 @@ const stack = [
                 width={200}
                 height={200}
               />
-              <p class="proof-card__eyebrow">CryptoBot</p>
+              <p class="proof-card__eyebrow">CryptoBot · iOS</p>
               <p class="proof-card__stat proof-card__stat--sm">
                 <StatCounter value={cryptoBot.netPercent} decimals={2} prefix="+" suffix="%" />
               </p>
               <p class="proof-card__caption">net since {sinceLabel} · Grid trading, 24/7</p>
-              <span class="proof-card__cta">See it work →</span>
+              <span class="proof-card__cta">See more →</span>
             </div>
             <div class="proof-card__phone" aria-hidden="true">
               <IPhoneFrame>
@@ -184,14 +150,13 @@ const stack = [
               <p class="proof-card__eyebrow">Vinarium · iOS</p>
               <p class="proof-card__title">A wine cellar that knows itself.</p>
               <p class="proof-card__caption">AI label scanning, live value, drink windows.</p>
-              <span class="proof-card__cta">Take the tour →</span>
+              <span class="proof-card__cta">See more →</span>
             </div>
             <div class="proof-card__phone" aria-hidden="true">
               <IPhoneFrame>
                 <PhoneCarousel
                   images={[
                     { src: dashboardShot, alt: 'Vinarium dashboard' },
-                    { src: scanShot, alt: 'Scanning a wine label' },
                     { src: scanReviewShot, alt: 'AI-filled wine record' },
                     { src: cellarShot, alt: 'Cellar map' },
                   ]}
@@ -204,129 +169,14 @@ const stack = [
       </div>
     </div>
   </header>
-
-  <!-- Act 2 · The shift -->
-  <section class="section">
-    <div class="container--narrow">
-      <Reveal><p class="eyebrow">The paradigm shift</p></Reveal>
-      <Reveal delay={0.05}>
-        <h2 class="headline shift__headline">
-          AI is changing our profession. Let's not pretend otherwise.
-        </h2>
-      </Reveal>
-      <Reveal group class="shift__copy">
-        <p>
-          Today, a senior developer with a good method can deliver what used to take a whole
-          team. I see it every day: Claude writes excellent code, fast. The hard part has moved
-          somewhere else.
-        </p>
-        <p>
-          Because AI will not tell you to think about how to reach your customers, to draw
-          wireframes to understand the user flow before coding, or to choose a stack that will
-          survive three years of change. Product vision, methodology, architecture: this is where
-          the human makes the difference. This is my job.
-        </p>
-      </Reveal>
-    </div>
-  </section>
-
-  <!-- Act 3 · How I work now -->
-  <section class="section">
-    <div class="container">
-      <Reveal><p class="eyebrow">How I work now</p></Reveal>
-      <Reveal delay={0.05}><h2 class="headline">What I bring</h2></Reveal>
-      <Reveal group class="how__grid">
-        <article class="card how__card">
-          <h3>Product vision</h3>
-          <p>
-            How do we reach our customers? What is the user flow? Wireframes first, then a first
-            iteration that real users can try. The code comes after the thinking.
-          </p>
-        </article>
-        <article class="card how__card">
-          <h3>Architecture that lasts</h3>
-          <p>
-            A stack that scales and accepts change: domain-driven boundaries, strong typing,
-            CI/CD, an infrastructure easy to rebuild, the application and the data secured.
-          </p>
-        </article>
-        <article class="card how__card">
-          <h3>LLM supervision</h3>
-          <p>
-            Rails that help Claude deliver with the fewest errors possible: strict types, clear
-            domains, code review on everything, and Sentry watching bugs and performance in
-            production.
-          </p>
-        </article>
-      </Reveal>
-    </div>
-  </section>
-
-  <!-- Act 3b · The method, in practice -->
-  <section class="section">
-    <div class="container">
-      <Reveal><p class="eyebrow">The method, in practice</p></Reveal>
-      <Reveal delay={0.05}>
-        <h2 class="headline">From idea to production, every time</h2>
-      </Reveal>
-      <Reveal group class="method__grid">
-        {
-          method.map((step) => (
-            <article class="method__step">
-              <span class="method__n">{step.n}</span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </article>
-          ))
-        }
-      </Reveal>
-      <Reveal class="stack">
-        <p class="stack__label">Supervised daily, across the whole stack:</p>
-        <ul class="stack__list">
-          {stack.map((tech) => <li>{tech}</li>)}
-        </ul>
-      </Reveal>
-    </div>
-  </section>
-
-  <!-- Act 5 · Contact -->
-  <section class="section contact">
-    <div class="container--narrow contact__inner">
-      <Reveal>
-        <Image
-          class="contact__portrait"
-          src={portrait}
-          alt="Thibaut Mottet"
-          width={200}
-          height={200}
-        />
-      </Reveal>
-      <Reveal delay={0.05}>
-        <h2 class="headline">If this way of working can be useful to your team, let's talk.</h2>
-      </Reveal>
-      <Reveal delay={0.1}>
-        <p class="lede">
-          I am looking for a senior role where this way of building can be applied to real
-          problems.
-        </p>
-      </Reveal>
-      <Reveal delay={0.2}>
-        <div class="hero__actions contact__actions">
-          <a class="btn btn--primary" href={`mailto:${site.email}`}>Get in touch</a>
-          <a class="btn btn--ghost" href={site.github} rel="noopener">GitHub</a>
-        </div>
-      </Reveal>
-    </div>
-  </section>
-
-  <SiteFooter />
 </Base>
 
 <style>
   .hero {
     display: grid;
     align-items: center;
-    padding-block: clamp(2rem, 4vh, 3.25rem);
+    min-height: 100svh;
+    padding-block: clamp(2rem, 5vh, 4rem);
     position: relative;
     overflow: clip;
     background:
