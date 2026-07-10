@@ -128,29 +128,24 @@ const stack = [
           </div>
         </aside>
       </Reveal>
-      <div class="hero__text">
-        <Reveal delay={0.08}>
-          <h1 class="display">
-            One senior developer.<br />The impact of a <span class="display__grad"
-              >whole team</span
-            >.
-          </h1>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p class="lede hero__lede">
-            AI is changing our job, let's not pretend otherwise. What it still lacks is method,
-            architecture and product vision.
-          </p>
-        </Reveal>
-      </div>
-    </div>
-  </header>
-
-  <!-- Act 2 · The projects, first -->
-  <section class="proof" id="proof">
-    <div class="container">
-      <div class="proof__grid">
-        <Reveal>
+      <div class="hero__right">
+        <div class="hero__text">
+          <Reveal delay={0.08}>
+            <h1 class="display">
+              One senior developer.<br />The impact of a <span class="display__grad"
+                >whole team</span
+              >.
+            </h1>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <p class="lede hero__lede">
+              AI is changing our job, let's not pretend otherwise. What it still lacks is method,
+              architecture and product vision.
+            </p>
+          </Reveal>
+        </div>
+        <div class="proof__grid" id="proof">
+          <Reveal>
           <a class="proof-card proof-card--crypto" href="/crypto-bot">
             <div class="proof-card__body">
               <p class="proof-card__eyebrow">CryptoBot · Grid trading, 24/7</p>
@@ -210,9 +205,10 @@ const stack = [
             </div>
           </a>
         </Reveal>
+        </div>
       </div>
     </div>
-  </section>
+  </header>
 
   <!-- Act 2 · The shift -->
   <section class="section">
@@ -346,36 +342,50 @@ const stack = [
 
   .hero__inner {
     display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: clamp(2rem, 6vw, 5rem);
+    grid-template-columns: minmax(0, 22rem) 1fr;
+    align-items: stretch;
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  :global(.hero__card-wrap) {
+    display: flex;
+    min-width: 0;
+  }
+
+  .hero__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    min-width: 0;
   }
 
   .hero__text {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.75rem;
+    gap: 1.5rem;
+    padding-top: clamp(0.5rem, 3vh, 2.5rem);
   }
 
-  :global(.hero__card-wrap) {
-    justify-self: center;
-  }
-
-  @media (max-width: 820px) {
+  @media (max-width: 900px) {
     .hero__inner {
       grid-template-columns: 1fr;
-      justify-items: center;
-      text-align: center;
+    }
+
+    .hero__right {
+      order: 2;
     }
 
     .hero__text {
       align-items: center;
-      order: 2;
+      text-align: center;
     }
 
     :global(.hero__card-wrap) {
       order: 1;
+      width: min(26rem, 100%);
+      margin-inline: auto;
     }
   }
 
@@ -398,7 +408,9 @@ const stack = [
 
   /* Profile card: light, clean, like a product card */
   .profile-card {
-    width: min(21.5rem, 100%);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     padding: 1.6rem;
     border-radius: 1.5rem;
     color: var(--text);
@@ -564,7 +576,7 @@ const stack = [
 
   /* price + CTA, like a product card */
   .profile-card__offer {
-    margin-top: 1.4rem;
+    margin-top: auto;
     padding-top: 1.3rem;
     border-top: 1px solid var(--border);
     display: flex;
@@ -721,14 +733,10 @@ const stack = [
     font-weight: 550;
   }
 
-  /* Proof */
-  .proof {
-    padding-bottom: var(--section-gap);
-  }
-
+  /* Proof: two cards filling the bottom of the hero right column */
   .proof__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 1.25rem;
     align-items: stretch;
   }
@@ -742,12 +750,18 @@ const stack = [
     position: relative;
     display: block;
     flex: 1;
-    min-height: 19rem;
+    min-height: 17rem;
     padding: 1.75rem;
     border-radius: var(--radius-card);
     text-decoration: none;
     transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
     overflow: hidden;
+  }
+
+  @media (max-width: 560px) {
+    .proof__grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .proof-card__body {
