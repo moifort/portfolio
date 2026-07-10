@@ -16,22 +16,22 @@ const method = [
   {
     n: '01',
     title: 'Vision & domain',
-    text: 'Name the concepts, draw the boundaries. A domain model everyone — human or machine — can reason about.',
+    text: 'I start by naming things. What are the concepts, where are the boundaries, what can never happen. Boring work, and it decides everything that follows.',
   },
   {
     n: '02',
     title: 'Architecture as guardrails',
-    text: 'FP core, branded types, errors as values. Types so strict the LLM cannot drift outside the design.',
+    text: 'A functional core, branded types, errors as plain values. If the types are strict enough, Claude physically cannot wander off the design.',
   },
   {
     n: '03',
     title: 'Supervised build loops',
-    text: 'Claude writes, I review. Thin vertical slices, precise briefs, ruthless code review — shipped daily.',
+    text: 'Claude writes, I review. Small slices, precise briefs, and I reject a lot. Most days something ships.',
   },
   {
     n: '04',
     title: 'Production, for real',
-    text: 'Real users, real money, monitoring, forward-only migrations. Products that survive contact with reality.',
+    text: 'Both products below run in production with my own money and my own wine in them. Nothing teaches you faster than that.',
   },
 ]
 
@@ -68,8 +68,8 @@ const stack = [
         </Reveal>
         <Reveal delay={0.15}>
           <p class="lede hero__lede">
-            LLMs flipped software development on its head. I supply the architecture, the method and
-            the taste — Claude supplies the code. The products below are the proof.
+            Since LLMs arrived, my job has changed completely. I design the architecture, set the
+            constraints, and Claude writes the code. This site shows what that actually produces.
           </p>
         </Reveal>
         <Reveal delay={0.2}>
@@ -99,24 +99,24 @@ const stack = [
       <Reveal><p class="eyebrow">The paradigm shift</p></Reveal>
       <Reveal delay={0.05}>
         <h2 class="headline shift__headline">
-          The value of a senior developer used to be syntax. Not anymore.
+          I spent years learning languages by heart. Then that stopped mattering.
         </h2>
       </Reveal>
       <Reveal group class="shift__copy">
         <p>
-          For most of my career, seniority meant mastering languages down to their darkest corners.
-          That knowledge was the moat — and models like Claude drained it almost overnight.
+          For most of my career, being senior meant knowing your stack inside out. The obscure
+          APIs, the framework quirks, the things that only bite you in production. That knowledge
+          took years to build, and it was what you were paid for.
         </p>
         <p>
-          The bottleneck is no longer <em>writing</em> code. It's knowing what to build, how to
-          shape it, and how to tell good from bad — fast. So I stopped memorizing syntax and
-          doubled down on what doesn't commoditize: <strong
-            >architecture, method, and product judgment.</strong
-          >
+          Claude knows all of it, instantly. Which is uncomfortable at first, until you notice
+          what it doesn't have: deciding what to build, structuring a system so it survives
+          change, and telling good code from code that merely looks good. Those were always the
+          hard parts anyway.
         </p>
         <p>
-          Today I work as a tech lead for machines. I set the constraints, review everything, and
-          ship every day.
+          So that's my job now. I design, I constrain, I review, and Claude types. I ship more
+          than I ever have.
         </p>
       </Reveal>
     </div>
@@ -131,22 +131,25 @@ const stack = [
         <article class="card how__card">
           <h3>Architect's vision</h3>
           <p>
-            Functional programming, DDD &amp; CQRS, branded types, errors as discriminated unions.
-            I draw the boundaries of the system — the LLM fills them in, and can't drift outside.
+            Functional programming, DDD, CQRS. I define the domain and the types before anything
+            else, so there's a clear frame for the LLM to work inside. It's the same discipline as
+            before, applied at a different level.
           </p>
         </article>
         <article class="card how__card">
           <h3>Product method</h3>
           <p>
-            From vision to domain model to thin vertical slices. Ship something usable early, then
-            compound. A product you use every day beats a perfect backlog.
+            I start from what the product should do for someone, cut it into thin slices, and keep
+            something usable running at every step. Both apps below were in daily use long before
+            they were finished.
           </p>
         </article>
         <article class="card how__card">
           <h3>LLM supervision</h3>
           <p>
-            I direct Claude the way a lead directs a team: precise briefs, hard constraints,
-            ruthless reviews, tight feedback loops. Output is only as good as its supervision.
+            Working with Claude is like leading a very fast, very literal team. What comes out
+            depends entirely on the brief and the review. That turned out to be a real skill, and
+            I've been sharpening it every day for a while now.
           </p>
         </article>
       </Reveal>
@@ -185,7 +188,7 @@ const stack = [
     <div class="container">
       <Reveal><p class="eyebrow">The proof</p></Reveal>
       <Reveal delay={0.05}>
-        <h2 class="headline">Two real products.<br />Built with Claude. Used every day.</h2>
+        <h2 class="headline">Two products I built this way,<br />and use every day.</h2>
       </Reveal>
       <div class="proof__grid">
         <Reveal>
@@ -247,12 +250,12 @@ const stack = [
   <section class="section contact">
     <div class="container--narrow contact__inner">
       <Reveal>
-        <h2 class="headline">Looking for someone who ships?</h2>
+        <h2 class="headline">If this sounds useful to your team, let's talk.</h2>
       </Reveal>
       <Reveal delay={0.1}>
         <p class="lede">
-          I'm open to senior roles where architecture, product sense and AI leverage matter more
-          than typing speed.
+          I'm looking for a senior role where this way of building — architecture first, AI doing
+          the typing — gets put to work on real problems.
         </p>
       </Reveal>
       <Reveal delay={0.2}>

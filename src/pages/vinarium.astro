@@ -54,8 +54,8 @@ import Base from '../layouts/Base.astro'
         </Reveal>
         <Reveal delay={0.2}>
           <p class="lede hero__lede">
-            Every bottle scanned, located, valued — and opened at its peak. A wine cellar that
-            finally knows itself.
+            I built Vinarium because I kept finding bottles in my cellar past their peak. Now
+            every bottle is scanned, located, valued, and opened when it should be.
           </p>
         </Reveal>
       </div>
@@ -70,13 +70,14 @@ import Base from '../layouts/Base.astro'
     <div class="container">
       <Reveal><p class="eyebrow">The magic trick</p></Reveal>
       <Reveal delay={0.05}>
-        <h2 class="headline">Point. Shoot. Cellared.</h2>
+        <h2 class="headline">Adding a bottle takes one photo.</h2>
       </Reveal>
       <Reveal delay={0.1}>
         <p class="lede scan__lede">
-          Photograph any label. <strong>Claude</strong> reads it — producer, appellation, vintage,
-          grape varieties. <strong>Gemini</strong> scours the web and estimates the price. You
-          glance, confirm, done: a complete cellar record in seconds.
+          You photograph the label. <strong>Claude</strong> reads it and fills in the producer,
+          appellation, vintage and grapes; <strong>Gemini</strong> searches the web and estimates
+          what the bottle is worth. You fix the odd field and save. It takes about ten seconds,
+          which is the reason the cellar actually stays up to date.
         </p>
       </Reveal>
       <div class="scan__duo">
@@ -101,8 +102,8 @@ import Base from '../layouts/Base.astro'
           <Reveal><h2 class="headline">Every bottle has an address.</h2></Reveal>
           <Reveal delay={0.08}>
             <p class="feature__copy">
-              Row A, column 4. Vinarium mirrors your physical cellar, bottle by bottle — so you
-              grab the right one without lifting ten others.
+              Row A, column 4. The app mirrors my actual cellar, bottle by bottle, so I pull the
+              right one without lifting ten others to check the labels.
             </p>
           </Reveal>
         </div>
@@ -116,9 +117,9 @@ import Base from '../layouts/Base.astro'
           <Reveal><h2 class="headline">Your cellar's worth, live.</h2></Reveal>
           <Reveal delay={0.08}>
             <p class="feature__copy">
-              Total value, bottles in stock, what deserves attention — one glance. And when a wine
-              enters its drink window, Vinarium flags it <em>before</em> it's too late. Right on
-              your home screen, with widgets.
+              Total value, what's in stock, what deserves attention. When a wine enters its drink
+              window, the app flags it — which is exactly the problem that made me build this in
+              the first place.
             </p>
           </Reveal>
         </div>
@@ -132,8 +133,8 @@ import Base from '../layouts/Base.astro'
           <Reveal><h2 class="headline">A sommelier's memory.</h2></Reveal>
           <Reveal delay={0.08}>
             <p class="feature__copy">
-              Grapes, appellations, classifications, purchase price, tasting notes, gifts given and
-              received. Everything a bottle can tell, structured and searchable.
+              Grapes, appellations, classifications, purchase price, tasting notes. The kind of
+              detail you swear you'll remember about a bottle, and never do.
             </p>
           </Reveal>
         </div>
@@ -147,8 +148,8 @@ import Base from '../layouts/Base.astro'
           <Reveal><h2 class="headline">In and out, remembered.</h2></Reveal>
           <Reveal delay={0.08}>
             <p class="feature__copy">
-              Every bottle that enters or leaves, dated and noted. Your cellar's story writes
-              itself.
+              Every bottle that comes in or goes out, dated and noted. Ask me what we opened at
+              Christmas two years ago; I can tell you.
             </p>
           </Reveal>
         </div>
@@ -184,7 +185,7 @@ import Base from '../layouts/Base.astro'
     <div class="container">
       <Reveal><p class="eyebrow">And everything else</p></Reveal>
       <Reveal delay={0.05}>
-        <h2 class="headline">Deep where a collection needs it.</h2>
+        <h2 class="headline">It went further than I planned.</h2>
       </Reveal>
       <Reveal group class="extras__grid">
         <div class="card extras__item">
@@ -197,8 +198,8 @@ import Base from '../layouts/Base.astro'
         <div class="card extras__item">
           <h3>Drink windows</h3>
           <p>
-            Every wine carries its window. "Before 2027" is a promise the app keeps for you — the
-            dashboard surfaces what's ready.
+            Every wine carries its window, and the dashboard surfaces what's ready. "Before 2027"
+            stops being something you have to remember.
           </p>
         </div>
         <div class="card extras__item">
@@ -211,21 +212,22 @@ import Base from '../layouts/Base.astro'
         <div class="card extras__item">
           <h3>Beyond wine</h3>
           <p>
-            Port, rum, sake, beer — structured subtypes for any bottle worth keeping, with the
+            Port, rum, sake, beer. Anything worth keeping gets proper structured fields, with the
             same care as a grand cru.
           </p>
         </div>
         <div class="card extras__item">
           <h3>Tasting journal</h3>
           <p>
-            Notes and ratings on every bottle opened. Your palate's history, searchable.
+            Notes and ratings on every bottle opened. A searchable history of what my palate
+            actually liked, as opposed to what I think it likes.
           </p>
         </div>
         <div class="card extras__item">
           <h3>Your data, yours</h3>
           <p>
-            Full JSON export and import. Sign in with Apple, per-user isolation in Firestore — and
-            an exit door, always.
+            Full JSON export and import, Sign in with Apple, per-user isolation in Firestore. If I
+            ever want out of my own app, there's a door.
           </p>
         </div>
       </Reveal>
@@ -234,7 +236,8 @@ import Base from '../layouts/Base.astro'
 
   <Reveal>
     <p class="french-note container--narrow">
-      Oui — the app speaks French. Wine tastes better in its native language.
+      The app is in French because I built it for myself, and I'm French. The screenshots are the
+      real thing.
     </p>
   </Reveal>
 
@@ -243,7 +246,7 @@ import Base from '../layouts/Base.astro'
     <div class="container--narrow craft">
       <Reveal><p class="eyebrow">The craft</p></Reveal>
       <Reveal delay={0.05}>
-        <h2 class="headline">Two AIs in production.<br />One command to deploy it all.</h2>
+        <h2 class="headline">The part only<br />developers will care about.</h2>
       </Reveal>
       <Reveal group class="craft__chips">
         <span>SwiftUI · Swift 6</span><span>iOS 26</span><span>GraphQL typed end-to-end</span>
@@ -254,9 +257,10 @@ import Base from '../layouts/Base.astro'
       <Reveal>
         <p class="craft__copy">
           Same method as everything I ship: domain-driven design with strict CQRS, business rules
-          as pure functions — 100% tested — and a GraphQL schema typed end-to-end, from Firestore
-          to SwiftUI. The entire GCP/Firebase infrastructure bootstraps with one Terraform command.
-          Architecture and reviews by me — the code written by Claude, under close supervision.
+          as pure functions (all of them tested), and a GraphQL schema typed end-to-end from
+          Firestore to SwiftUI. The whole GCP infrastructure bootstraps with a single Terraform
+          command. Architecture and reviews by me; the code written by Claude, under close
+          supervision.
         </p>
       </Reveal>
       <Reveal delay={0.1}>

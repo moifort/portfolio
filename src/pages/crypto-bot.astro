@@ -54,7 +54,7 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
     <div class="container versus">
       <Reveal><p class="eyebrow">CryptoBot vs HOLD</p></Reveal>
       <Reveal delay={0.05}>
-        <h2 class="headline">The market went down.<br />The bot didn't care.</h2>
+        <h2 class="headline">Bitcoin dropped 15%.<br />The bot still came out ahead.</h2>
       </Reveal>
       <div class="versus__layout">
         <Reveal class="versus__chart-wrap">
@@ -88,8 +88,8 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
           </Reveal>
           <Reveal delay={0.1}>
             <p class="lede">
-              of alpha over buy-and-hold. Not a bet on direction — spread captured trade by trade,
-              whatever the market does.
+              of alpha over just holding. The bot doesn't bet on the market going up. It sells the
+              swings, in both directions, and keeps the spread.
             </p>
           </Reveal>
         </div>
@@ -102,7 +102,7 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
     <div class="container">
       <Reveal><p class="eyebrow">How it works</p></Reveal>
       <Reveal delay={0.05}>
-        <h2 class="headline">Meet the most reliable employee<br />you'll never hire.</h2>
+        <h2 class="headline">The strategy is old and boring.<br />That's why it works.</h2>
       </Reveal>
       <div class="grid-story__layout">
         <div class="grid-story__visual">
@@ -139,23 +139,26 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
           <Reveal><li>
             <h3>1 · A grid around the price</h3>
             <p>
-              CryptoBot places a ladder of {cryptoBot.gridLevels} limit orders around the market
-              price — buys below, sells above. Always armed, on {cryptoBot.pair}.
+              The bot keeps a ladder of {cryptoBot.gridLevels} limit orders around the current
+              price of {cryptoBot.pair}: buys below, sells above. Nothing clever. It's just always
+              in position.
             </p>
           </li></Reveal>
           <Reveal><li>
             <h3>2 · Volatility becomes income</h3>
             <p>
-              Price dips: a buy fills. Price recovers: the matching sell fills. The spread between
-              the two, minus fees, is locked-in profit. Repeat — every {cryptoBot.cycleSeconds}
-              seconds, 24/7. It never sleeps, never panics, never gets greedy.
+              The price dips, one of the buys fills. It comes back, the matching sell fills. The
+              gap between the two, minus fees, stays in the account. It checks the market every
+              {cryptoBot.cycleSeconds} seconds and never second-guesses itself, which is more than
+              I can say for how I used to trade by hand.
             </p>
           </li></Reveal>
           <Reveal><li>
             <h3>3 · It tunes itself</h3>
             <p>
-              Spacing derives from 14-day volatility, the band recenters as the market drifts,
-              order size adapts to the balance. <strong>No parameters to babysit.</strong>
+              I don't adjust anything. Spacing follows the last 14 days of volatility, the band
+              recenters when the market drifts, order size follows the balance. My involvement is
+              checking the app with my morning coffee.
             </p>
           </li></Reveal>
         </ol>
@@ -167,7 +170,7 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
   <section class="section">
     <div class="container">
       <Reveal><p class="eyebrow">Real numbers</p></Reveal>
-      <Reveal delay={0.05}><h2 class="headline">No backtest. A live P&amp;L.</h2></Reveal>
+      <Reveal delay={0.05}><h2 class="headline">Real numbers, not a backtest.</h2></Reveal>
       <Reveal class="numbers__equation">
         <div class="numbers__term">
           <p class="numbers__value pos">
@@ -200,8 +203,9 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
       </Reveal>
       <Reveal>
         <p class="numbers__honesty">
-          Small capital, real conditions. The point isn't the amount — it's that the machine works,
-          unattended, since {sinceLabel}.
+          It's a small account, on purpose. What I wanted to prove was never that this makes me
+          rich. It's that a machine I built can run unattended with real money and come out ahead,
+          and it has, every week since {sinceLabel}.
         </p>
       </Reveal>
     </div>
@@ -266,7 +270,7 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
     <div class="container--narrow craft">
       <Reveal><p class="eyebrow">The craft</p></Reveal>
       <Reveal delay={0.05}>
-        <h2 class="headline">Built like a trading desk.<br />Sized like a side project.</h2>
+        <h2 class="headline">Probably over-engineered.<br />That's deliberate.</h2>
       </Reveal>
       <Reveal group class="craft__chips">
         <span>TypeScript</span><span>Nitro</span><span>Bun</span><span>GraphQL · Pothos</span>
@@ -275,10 +279,11 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
       </Reveal>
       <Reveal>
         <p class="craft__copy">
-          Domain-driven design with strict CQRS, a purely functional core, illegal states made
-          unrepresentable. The Kraken API integration is hand-rolled REST with Web Crypto — no
-          heavyweight trading library. Architecture and reviews by me — every line of code written
-          by Claude, under close supervision, across roughly 220 commits since February 2026.
+          Domain-driven design with strict CQRS and a purely functional core, for a bot with
+          exactly one user. That's the point: side projects are where I stress-test the method
+          before applying it elsewhere. The Kraken integration is hand-rolled REST with Web
+          Crypto, the API is typed GraphQL, and every line was written by Claude under my review,
+          across roughly 220 commits since February 2026.
         </p>
       </Reveal>
       <Reveal delay={0.1}>
