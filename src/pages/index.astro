@@ -19,24 +19,36 @@ import Base from '../layouts/Base.astro'
 const method = [
   {
     n: '01',
-    title: 'Vision & domain',
-    text: 'Name the concepts, draw the boundaries, decide what can never happen. Everything else depends on this.',
+    title: 'Reach & user flow',
+    text: 'How will the product reach its users? Wireframes to understand the user flow, before one line of code.',
   },
   {
     n: '02',
-    title: 'Architecture as guardrails',
-    text: 'A functional core and strict types. If the types are right, Claude cannot leave the design.',
+    title: 'First iteration',
+    text: 'A first usable version, quickly, on a stack that is scalable and robust to change.',
   },
   {
     n: '03',
-    title: 'Supervised build loops',
-    text: 'Claude writes, I review. Small slices, precise briefs, many rejections. Something ships almost every day.',
+    title: 'Rails for the LLM',
+    text: 'Domain-driven architecture, strong typing, data visualization, CI/CD. Everything that helps Claude deliver with almost no errors.',
   },
   {
     n: '04',
-    title: 'Production, for real',
-    text: 'Both products run with my own money and my own wine inside. Nothing teaches faster.',
+    title: 'Run & protect',
+    text: 'Sentry watches bugs and performance permanently. The infrastructure rebuilds with one command. The application and the data stay secured.',
   },
+]
+
+const timeline = [
+  {
+    period: 'Since Jan. 2026',
+    role: 'Paternity leave',
+    note: 'shipping CryptoBot & Vinarium with Claude',
+  },
+  { period: '2018 · 2025', role: 'Freelance full-stack developer & lead tech', note: 'Paris' },
+  { period: '2017 · 2018', role: 'CTO', note: 'pupscan.com' },
+  { period: '2016 · 2017', role: 'Web developer', note: 'Société Générale' },
+  { period: '2014 · 2016', role: 'CTO', note: 'alantaya.com' },
 ]
 
 const stack = [
@@ -54,8 +66,8 @@ const stack = [
 ---
 
 <Base
-  title="Thibaut Mottet · I don't write code anymore. I ship products."
-  description="Senior full-stack developer turned LLM supervisor. Architecture, FP, DDD and product method. Claude writes the code. Real products, used every day."
+  title="Thibaut Mottet · Senior full-stack developer, the impact of a whole team"
+  description="AI is changing software development. I bring the method, the architecture and the product vision, Claude writes the code. Real products in production, used every day."
   theme="home"
 >
   <!-- Act 1 · Hero -->
@@ -67,18 +79,18 @@ const stack = [
         </Reveal>
         <Reveal delay={0.08}>
           <h1 class="display">
-            I don't write code anymore.<br />I ship products.
+            One senior developer.<br />The impact of a whole team.
           </h1>
         </Reveal>
         <Reveal delay={0.15}>
           <p class="lede hero__lede">
-            Since the LLMs arrived, my job has completely changed. I design the architecture, I
-            set the constraints, and Claude writes the code. This site shows what it produces.
+            AI is changing our job, let's not pretend otherwise. What it still lacks is method,
+            architecture and product vision. That is what I bring. Claude writes the code.
           </p>
         </Reveal>
         <Reveal delay={0.2}>
           <div class="hero__actions">
-            <a class="btn btn--primary" href="#proof">See the proof</a>
+            <a class="btn btn--primary" href={`mailto:${site.email}`}>Get in touch</a>
             <a class="btn btn--ghost" href={site.github} rel="noopener">GitHub</a>
           </div>
         </Reveal>
@@ -96,6 +108,23 @@ const stack = [
       </Reveal>
     </div>
   </header>
+
+  <!-- Compact timeline -->
+  <section class="timeline-strip">
+    <div class="container">
+      <Reveal group class="timeline">
+        {
+          timeline.map((t) => (
+            <div class="timeline__item">
+              <span class="timeline__period">{t.period}</span>
+              <strong class="timeline__role">{t.role}</strong>
+              <span class="timeline__note">{t.note}</span>
+            </div>
+          ))
+        }
+      </Reveal>
+    </div>
+  </section>
 
   <!-- Act 2 · The projects, first -->
   <section class="section proof" id="proof">
@@ -175,19 +204,20 @@ const stack = [
       <Reveal><p class="eyebrow">The paradigm shift</p></Reveal>
       <Reveal delay={0.05}>
         <h2 class="headline shift__headline">
-          I spent years learning languages by heart. Now it doesn't matter anymore.
+          AI is changing our profession. Let's not pretend otherwise.
         </h2>
       </Reveal>
       <Reveal group class="shift__copy">
         <p>
-          Before, being senior meant to know your stack perfectly: the obscure APIs, the strange
-          behaviors, the traps you only discover in production. Claude knows all of that,
-          instantly.
+          Today, a senior developer with a good method can deliver what used to take a whole
+          team. I see it every day: Claude writes excellent code, fast. The hard part has moved
+          somewhere else.
         </p>
         <p>
-          What it does not have is judgment. Decide what to build, structure a system so it
-          survives change, see the difference between good code and code that only looks good.
-          That is my job now: I design, I review, Claude types. And I ship more than ever.
+          Because AI will not tell you to think about how to reach your customers, to draw
+          wireframes to understand the user flow before coding, or to choose a stack that will
+          survive three years of change. Product vision, methodology, architecture: this is where
+          the human makes the difference. This is my job.
         </p>
       </Reveal>
     </div>
@@ -200,24 +230,25 @@ const stack = [
       <Reveal delay={0.05}><h2 class="headline">What I bring</h2></Reveal>
       <Reveal group class="how__grid">
         <article class="card how__card">
-          <h3>Architect's vision</h3>
+          <h3>Product vision</h3>
           <p>
-            Functional programming, DDD, CQRS. I define the domain and the types first, so the LLM
-            works inside a frame it cannot leave.
+            How do we reach our customers? What is the user flow? Wireframes first, then a first
+            iteration that real users can try. The code comes after the thinking.
           </p>
         </article>
         <article class="card how__card">
-          <h3>Product method</h3>
+          <h3>Architecture that lasts</h3>
           <p>
-            Small slices, something usable at every step. Both apps were used daily long before
-            they were finished.
+            A stack that scales and accepts change: domain-driven boundaries, strong typing,
+            CI/CD, an infrastructure easy to rebuild, the application and the data secured.
           </p>
         </article>
         <article class="card how__card">
           <h3>LLM supervision</h3>
           <p>
-            Claude is like a very fast, very literal team. The quality of the output depends on
-            the brief and on the review. It is a real skill, and I practice it every day.
+            Rails that help Claude deliver with the fewest errors possible: strict types, clear
+            domains, code review on everything, and Sentry watching bugs and performance in
+            production.
           </p>
         </article>
       </Reveal>
@@ -348,6 +379,66 @@ const stack = [
 
   .hero__lede {
     max-width: 38rem;
+  }
+
+  /* Compact timeline strip */
+  .timeline-strip {
+    border-block: 1px solid var(--border);
+    padding-block: 2rem;
+    background: var(--card);
+  }
+
+  :global(.timeline) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 1.5rem;
+  }
+
+  .timeline__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border);
+    position: relative;
+  }
+
+  .timeline__item::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 0.45rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+
+  .timeline__item:first-child {
+    border-left-color: var(--green);
+  }
+
+  .timeline__item:first-child::before {
+    background: var(--green);
+  }
+
+  .timeline__period {
+    font-size: 0.8125rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .timeline__role {
+    font-size: 0.9688rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .timeline__note {
+    font-size: 0.875rem;
+    color: var(--muted);
   }
 
   .hero__actions {
