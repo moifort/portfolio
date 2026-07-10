@@ -3,7 +3,7 @@ export const site = {
   role: 'Senior Full-Stack Developer',
   location: 'Paris',
   domain: 'https://mottet.me',
-  email: 'thibaut.mottet@gmail.com',
+  email: 'thibaut@polyforms.co',
   github: 'https://github.com/moifort',
   dailyRate: 750, // TJM in euros
 } as const
