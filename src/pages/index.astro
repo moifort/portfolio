@@ -31,13 +31,13 @@ import { site } from '../data/site'
 import Base from '../layouts/Base.astro'
 
 const roles = [
-  { icon: 'lucide:pen-tool', label: 'UI/UX' },
-  { icon: 'lucide:monitor', label: 'Frontend' },
-  { icon: 'lucide:server', label: 'Backend' },
-  { icon: 'lucide:terminal', label: 'Ops' },
-  { icon: 'lucide:shield', label: 'Security' },
-  { icon: 'lucide:database', label: 'Data' },
-  { icon: 'lucide:bug', label: 'QA' },
+  { icon: 'lucide:pen-tool', label: 'UI/UX', color: '#d6336c' },
+  { icon: 'lucide:monitor', label: 'Frontend', color: '#1c7ed6' },
+  { icon: 'lucide:server', label: 'Backend', color: '#2f9e44' },
+  { icon: 'lucide:terminal', label: 'Ops', color: '#e8930c' },
+  { icon: 'lucide:shield', label: 'Security', color: '#e03131' },
+  { icon: 'lucide:database', label: 'Data', color: '#4263eb' },
+  { icon: 'lucide:bug', label: 'QA', color: '#9c36b5' },
 ]
 
 const filters = [
@@ -152,18 +152,18 @@ const timeline = [
     current: true,
   },
   {
-    period: 'Jul. → Dec. 2025',
+    period: 'Jul. 2025 → Jan. 2026',
     role: 'Senior developer',
     note: 'Sunday',
   },
   {
-    period: '2018 · 2025',
+    period: '2018 → 2025',
     role: 'Freelance full-stack developer & lead tech',
     note: 'remote, abroad',
   },
-  { period: '2017 · 2018', role: 'CTO', note: 'pupscan.com' },
-  { period: '2016 · 2017', role: 'Web developer', note: 'Société Générale' },
-  { period: '2014 · 2016', role: 'CTO', note: 'alantaya.com' },
+  { period: '2017 → 2018', role: 'CTO', note: 'pupscan.com' },
+  { period: '2016 → 2017', role: 'Web developer', note: 'Société Générale' },
+  { period: '2014 → 2016', role: 'CTO', note: 'alantaya.com' },
 ]
 ---
 
@@ -295,18 +295,25 @@ const timeline = [
               AI is changing our job, let's not pretend otherwise. What it still lacks is method,
               architecture and product vision. On my own, I now have a full team at my disposal:
               {' '}
-              <span class="hero__roles">
-                {
-                  roles.map((r) => (
-                    <span class="hero__role">
-                      <Icon name={r.icon} />
-                      {r.label}
-                    </span>
-                  ))
-                }
+              {
+                roles.map((r) => (
+                  <span class="inline-badge" style={`--c:${r.color}`}>
+                    <Icon name={r.icon} />
+                    {r.label}
+                  </span>
+                ))
+              }{' '}
+              With them, I built the apps<sup class="hero__ref">*</sup> below using{' '}
+              <span class="inline-badge" style="--c:#c96442">
+                <Icon name="lucide:sparkles" />Claude Opus 4.8
+              </span>{' '}&amp;{' '}
+              <span class="inline-badge" style="--c:#7c5cff">
+                <Icon name="lucide:sparkles" />Fable
               </span>{' '}
-              With them, I built the apps below using Claude Opus 4.8 &amp; Fable during my
-              paternity leave — each one runs in production and is ready to scale.
+              during my paternity leave.
+            </p>
+            <p class="hero__footnote">
+              <span class="hero__ref">*</span> each one runs in production and is ready to scale.
             </p>
           </Reveal>
         </div>
@@ -625,30 +632,40 @@ const timeline = [
     text-wrap: pretty;
   }
 
-  /* role tags flowing inline within the pitch paragraph */
-  .hero__roles {
-    display: inline;
-  }
-
-  .hero__role {
+  /* colored badges flowing inline within the pitch paragraph */
+  .inline-badge {
     display: inline-flex;
     align-items: center;
     vertical-align: middle;
-    gap: 0.35rem;
-    margin: 0.22rem 0.15rem;
-    padding: 0.28rem 0.7rem;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: var(--card);
-    font-size: 0.875rem;
-    font-weight: 600;
-    line-height: 1.2;
+    gap: 0.3rem;
+    margin: 0.18rem 0.12rem;
+    padding: 0.14rem 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+    background: color-mix(in srgb, var(--c) 12%, transparent);
+    color: var(--c);
+    font-size: 0.8125rem;
+    font-weight: 650;
+    line-height: 1.35;
+    white-space: nowrap;
   }
 
-  .hero__role [data-icon] {
-    width: 1em;
-    height: 1em;
+  .inline-badge [data-icon] {
+    width: 0.95em;
+    height: 0.95em;
+    color: var(--c);
+  }
+
+  .hero__ref {
     color: var(--accent);
+    font-weight: 700;
+  }
+
+  .hero__footnote {
+    margin-top: 0.4rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-style: italic;
   }
 
   @media (max-width: 900px) {
