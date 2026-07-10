@@ -23,7 +23,12 @@ import PhoneCarousel from '../components/PhoneCarousel.astro'
 import IPhoneFrame from '../components/IPhoneFrame.astro'
 import Reveal from '../components/Reveal.astro'
 import StatCounter from '../components/StatCounter.astro'
+import bazarIcon from '../assets/bazar/app-icon.png'
+import bloomin8Logo from '../assets/bloomin8/logo.png'
+import bloomin8Screen from '../assets/bloomin8/app-screen.png'
 import cryptoIcon from '../assets/crypto-bot/app-icon.png'
+import homeIcon from '../assets/homebridge-fan/apple-home-icon.jpg'
+import homeFanScreen from '../assets/homebridge-fan/app-screen.png'
 import statsIcon from '../assets/stats/app-icon.png'
 import statsPopover from '../assets/stats/popover.png'
 import { cryptoBot, sinceLabel } from '../data/crypto-bot'
@@ -47,6 +52,7 @@ const filters = [
   { key: 'home-automation', label: 'Home automation' },
   { key: 'library', label: 'Library' },
   { key: '3d-printing', label: '3D printing' },
+  { key: 'utility', label: 'Utility' },
 ]
 
 const toolbox = [
@@ -401,6 +407,115 @@ const timeline = [
             </div>
             <div class="proof-card__window" aria-hidden="true">
               <Image src={statsPopover} alt="" width={524} height={440} />
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <a
+            class="proof-card proof-card--bloomin8"
+            href="https://github.com/moifort/bloomin8"
+            rel="noopener"
+            data-category="ios"
+          >
+            <span class="proof-card__date">Feb 2026</span>
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon proof-card__icon--b8"
+                src={bloomin8Logo}
+                alt="Bloomin8 logo"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Bloomin8 · iOS + Docker</p>
+              <p class="proof-card__title">Fix a bad e-ink app.</p>
+              <p class="proof-card__caption">Self-hosted server, bulk upload, playlists and a battery widget.</p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+            <div class="proof-card__phone" aria-hidden="true">
+              <IPhoneFrame src={bloomin8Screen} alt="Bloomin8 Canvas app" />
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.25}>
+          <a
+            class="proof-card proof-card--bazar"
+            href="https://github.com/moifort/bazar"
+            rel="noopener"
+            data-category="ios"
+          >
+            <span class="proof-card__date">Apr 2026</span>
+            <div class="proof-card__body proof-card__body--wide">
+              <Image
+                class="proof-card__icon"
+                src={bazarIcon}
+                alt="Bazar app icon"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Bazar · iOS</p>
+              <p class="proof-card__title">Know where everything is.</p>
+              <p class="proof-card__caption">Scan your stuff with AI, sort it by place, room and zone.</p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.3}>
+          <a
+            class="proof-card proof-card--airprint"
+            href="https://github.com/moifort/airprint"
+            rel="noopener"
+            data-category="utility"
+          >
+            <span class="proof-card__date">Jun 2026</span>
+            <div class="proof-card__body proof-card__body--wide">
+              <span class="proof-card__icon proof-card__icon--emoji" aria-hidden="true">🖨️</span>
+              <p class="proof-card__eyebrow">AirPrint Bridge · Docker</p>
+              <p class="proof-card__title">Open AirPrint for all printers.</p>
+              <p class="proof-card__caption">A clean web UI, free and open source.</p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.35}>
+          <a
+            class="proof-card proof-card--audible"
+            href="https://moifort.github.io/audible-api-ts/"
+            rel="noopener"
+            data-category="library"
+          >
+            <span class="proof-card__date">Mar 2026</span>
+            <div class="proof-card__body proof-card__body--wide">
+              <span class="proof-card__icon proof-card__icon--emoji" aria-hidden="true">🎧</span>
+              <p class="proof-card__eyebrow">audible-api-ts · npm</p>
+              <p class="proof-card__title">Typed Audible API client.</p>
+              <p class="proof-card__caption">Auth, library, wishlist and catalog search, fully typed.</p>
+              <span class="proof-card__cta">Read the docs →</span>
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.4}>
+          <a
+            class="proof-card proof-card--homefan"
+            href="https://github.com/moifort/homebridge-create-fan"
+            rel="noopener"
+            data-category="home-automation"
+          >
+            <span class="proof-card__date">Jun 2023</span>
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={homeIcon}
+                alt="Apple Home app icon"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Create Ceiling Fan · Homebridge</p>
+              <p class="proof-card__title">Your ceiling fan, in HomeKit.</p>
+              <p class="proof-card__caption">Speed, direction and light for CREATE fans, right from the Home app.</p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+            <div class="proof-card__phone" aria-hidden="true">
+              <IPhoneFrame src={homeFanScreen} alt="CREATE ceiling fan in the Home app" />
             </div>
           </a>
         </Reveal>
@@ -1236,6 +1351,59 @@ const timeline = [
     background: radial-gradient(120% 120% at 80% 0%, #23253a 0%, #101018 55%);
     color: #eef0f8;
     justify-content: center;
+  }
+
+  .proof-card--airprint {
+    background: radial-gradient(120% 120% at 20% 0%, #1a2b33 0%, #0c1417 60%);
+    color: #eaf3f5;
+    justify-content: center;
+  }
+
+  .proof-card--bloomin8 {
+    background: radial-gradient(120% 120% at 80% 0%, #24303a 0%, #0c0f13 58%);
+    color: #eef2f6;
+    justify-content: center;
+  }
+
+  /* Bloomin8 logo is black on transparent — sit it on a light tile so it reads
+     on the dark card */
+  :global(.proof-card__icon--b8) {
+    background: #f5f5f7;
+    padding: 0.5rem;
+    object-fit: contain;
+  }
+
+  .proof-card--bazar {
+    background: radial-gradient(120% 120% at 20% 0%, #2a2340 0%, #12101c 60%);
+    color: #efecf8;
+    justify-content: center;
+  }
+
+  .proof-card--audible {
+    background: radial-gradient(120% 120% at 80% 0%, #3a2410 0%, #140d06 60%);
+    color: #f7ecdf;
+    justify-content: center;
+  }
+
+  .proof-card--homefan {
+    background: radial-gradient(120% 120% at 20% 0%, #2b2620 0%, #14110c 60%);
+    color: #f3ede2;
+    justify-content: center;
+  }
+
+  /* emoji stand-in for the app icon (AirPrint has no icon file) */
+  .proof-card__icon--emoji {
+    display: grid;
+    place-items: center;
+    font-size: 1.75rem;
+    line-height: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* no floating mockup on this card — let the text use the full width */
+  .proof-card__body--wide {
+    max-width: 100%;
   }
 
   /* floating macOS window mockup for the Stats card */
