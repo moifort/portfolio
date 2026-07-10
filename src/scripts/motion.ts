@@ -1,6 +1,5 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Lenis from 'lenis'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -17,11 +16,6 @@ export const prefersReducedMotion = () =>
  */
 export function initMotion(): void {
   if (prefersReducedMotion()) return
-
-  const lenis = new Lenis({ lerp: 0.16 })
-  lenis.on('scroll', ScrollTrigger.update)
-  gsap.ticker.add((time) => lenis.raf(time * 1000))
-  gsap.ticker.lagSmoothing(0)
 
   for (const el of document.querySelectorAll<HTMLElement>('[data-reveal]')) {
     gsap.from(el, {
