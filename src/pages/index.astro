@@ -16,6 +16,15 @@ import { cryptoBot, sinceLabel } from '../data/crypto-bot'
 import { site } from '../data/site'
 import Base from '../layouts/Base.astro'
 
+const roles = [
+  { icon: 'lucide:pen-tool', label: 'UI/UX' },
+  { icon: 'lucide:monitor', label: 'Frontend' },
+  { icon: 'lucide:server', label: 'Backend' },
+  { icon: 'lucide:terminal', label: 'Ops' },
+  { icon: 'lucide:shield', label: 'Security' },
+  { icon: 'lucide:database', label: 'Data' },
+]
+
 const timeline = [
   {
     period: 'Since Jan. 2026',
@@ -108,8 +117,19 @@ const timeline = [
             <p class="hero__lede">
               AI is changing our job, let's not pretend otherwise. What it still lacks is method,
               architecture and product vision. On my own, I now cover what used to need a full team:
-              UI/UX, senior development, ops, security and data.
             </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <ul class="hero__roles" aria-label="Roles I cover">
+              {
+                roles.map((r) => (
+                  <li class="hero__role">
+                    <Icon name={r.icon} />
+                    {r.label}
+                  </li>
+                ))
+              }
+            </ul>
           </Reveal>
         </div>
         <div class="proof__grid" id="proof">
@@ -238,8 +258,40 @@ const timeline = [
     max-width: 40rem;
     font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
     line-height: 1.7;
-    color: var(--muted);
+    color: var(--text);
     text-wrap: pretty;
+  }
+
+  .hero__roles {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  .hero__role {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .hero__role [data-icon] {
+    width: 1em;
+    height: 1em;
+    color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    .hero__roles {
+      justify-content: center;
+    }
   }
 
   .hero :global(.display) {
