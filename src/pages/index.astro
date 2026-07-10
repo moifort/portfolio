@@ -294,37 +294,34 @@ const timeline = [
             <p class="hero__lede">
               AI is changing our job, let's not pretend otherwise. What it still lacks is method,
               architecture and product vision. On my own, I now have a full team at my disposal:
+              {' '}
+              <span class="hero__roles">
+                {
+                  roles.map((r) => (
+                    <span class="hero__role">
+                      <Icon name={r.icon} />
+                      {r.label}
+                    </span>
+                  ))
+                }
+              </span>{' '}
+              With them, I built the apps below using Claude Opus 4.8 &amp; Fable during my
+              paternity leave — each one runs in production and is ready to scale.
             </p>
-            <ul class="hero__roles" aria-label="Roles I cover">
-              {
-                roles.map((r) => (
-                  <li class="hero__role">
-                    <Icon name={r.icon} />
-                    {r.label}
-                  </li>
-                ))
-              }
-            </ul>
           </Reveal>
         </div>
         <Reveal delay={0.25}>
-          <div class="proof__header">
-            <p class="proof__label">
-              The apps I built with Claude Opus 4.8 &amp; Fable during my paternity leave.
-              <span class="proof__label-strong">Each one runs in production and is ready to scale.</span>
-            </p>
-            <div class="proof__filters" role="group" aria-label="Filter projects">
-              {
-                filters.map((f) => (
-                  <button
-                    class:list={['proof__filter', { 'is-active': f.key === 'all' }]}
-                    data-filter={f.key}
-                  >
-                    {f.label}
-                  </button>
-                ))
-              }
-            </div>
+          <div class="proof__filters" role="group" aria-label="Filter projects">
+            {
+              filters.map((f) => (
+                <button
+                  class:list={['proof__filter', { 'is-active': f.key === 'all' }]}
+                  data-filter={f.key}
+                >
+                  {f.label}
+                </button>
+              ))
+            }
           </div>
         </Reveal>
         <div class="proof__grid" id="proof">
@@ -628,30 +625,24 @@ const timeline = [
     text-wrap: pretty;
   }
 
-  :global(.hero__pitch) {
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-  }
-
+  /* role tags flowing inline within the pitch paragraph */
   .hero__roles {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem;
+    display: inline;
   }
 
   .hero__role {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
-    padding: 0.5rem 1rem;
+    vertical-align: middle;
+    gap: 0.35rem;
+    margin: 0.22rem 0.15rem;
+    padding: 0.28rem 0.7rem;
     border-radius: 999px;
     border: 1px solid var(--border);
     background: var(--card);
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     font-weight: 600;
+    line-height: 1.2;
   }
 
   .hero__role [data-icon] {
@@ -1069,31 +1060,12 @@ const timeline = [
     font-weight: 550;
   }
 
-  /* Header above the project cards: label + clickable filters */
-  :global(.proof__header) {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem 1.5rem;
-    margin-bottom: 1.1rem;
-  }
-
-  .proof__label {
-    font-size: 0.9375rem;
-    color: var(--muted);
-    max-width: 34rem;
-  }
-
-  .proof__label-strong {
-    color: var(--text);
-    font-weight: 650;
-  }
-
-  .proof__filters {
+  /* Clickable filters above the project cards */
+  :global(.proof__filters) {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
+    margin-bottom: 1.1rem;
   }
 
   .proof__filter {
