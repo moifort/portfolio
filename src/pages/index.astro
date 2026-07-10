@@ -202,7 +202,7 @@ const timeline = [
             </li>
             <li class="tl-birth">
               <span class="profile-card__period">1985</span>
-              <strong>Born <span class="tl-baby">👶</span></strong>
+              <strong class="tl-baby">👶</strong>
             </li>
           </ol>
           <div class="profile-card__offer">
@@ -400,10 +400,6 @@ const timeline = [
     flex-direction: column;
     gap: 1.25rem;
     min-width: 0;
-  }
-
-  .profile-card {
-    flex: 1;
   }
 
   /* Influences card, under the profile card */
@@ -767,6 +763,7 @@ const timeline = [
      Two dashed segments (from the last job's dot, then through the gap)
      form one continuous dashed line, same position/width as the solid ones. */
   .tl-entry:has(+ .tl-gap)::after {
+    top: 0.62rem;
     background: none;
     width: 0;
     border-left: 1px dashed color-mix(in srgb, var(--muted) 42%, transparent);
@@ -802,8 +799,7 @@ const timeline = [
   .profile-card__period {
     font-size: 0.7188rem;
     font-weight: 650;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
     color: var(--muted);
   }
 
@@ -821,8 +817,8 @@ const timeline = [
 
   /* price + CTA, like a product card */
   .profile-card__offer {
-    margin-top: auto;
-    padding-top: 1.3rem;
+    margin-top: 1.4rem;
+    padding-top: 1.4rem;
     border-top: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -1129,8 +1125,7 @@ const timeline = [
   .proof-card__eyebrow {
     font-size: 0.8125rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
     opacity: 0.6;
   }
 
