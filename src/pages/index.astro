@@ -323,6 +323,7 @@ const timeline = [
         <div class="proof__grid" id="proof">
           <Reveal>
           <a class="proof-card proof-card--crypto" href="/crypto-bot" data-category="ios">
+            <span class="proof-card__date">Feb 2026</span>
             <div class="proof-card__body">
               <Image
                 class="proof-card__icon"
@@ -350,6 +351,7 @@ const timeline = [
         </Reveal>
         <Reveal delay={0.1}>
           <a class="proof-card proof-card--vinarium" href="/vinarium" data-category="ios">
+            <span class="proof-card__date">Jan 2026</span>
             <div class="proof-card__body">
               <Image
                 class="proof-card__icon"
@@ -383,6 +385,7 @@ const timeline = [
             rel="noopener"
             data-category="macos"
           >
+            <span class="proof-card__date">Feb 2026</span>
             <div class="proof-card__body">
               <Image
                 class="proof-card__icon"
@@ -1124,6 +1127,22 @@ const timeline = [
     .proof__grid {
       grid-template-columns: 1fr;
     }
+  }
+
+  .proof-card__date {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.4rem;
+    z-index: 2;
+    padding: 0.22rem 0.6rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(6px);
+    font-size: 0.7188rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.85);
   }
 
   .proof-card__body {
