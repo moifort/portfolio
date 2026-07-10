@@ -734,7 +734,8 @@ const timeline = [
     box-shadow: 0 0 8px rgba(30, 125, 67, 0.45);
   }
 
-  .profile-card__timeline li:not(:last-child)::after {
+  /* solid connectors between consecutive career entries */
+  .profile-card__timeline .tl-entry:has(+ .tl-entry)::after {
     content: '';
     position: absolute;
     left: 3px;
@@ -762,9 +763,14 @@ const timeline = [
   /* Dashed "a lot happened" gap between the earliest job and birth.
      Two dashed segments (from the last job's dot, then through the gap)
      form one continuous dashed line, same position/width as the solid ones. */
-  .tl-entry:has(+ .tl-gap)::after {
-    top: 0.62rem;
-    background: none;
+  /* dashed line: last job's dot → through the gap → birth dot (two segments
+     that meet exactly at the gap's top edge, forming one continuous line) */
+  .profile-card__timeline .tl-entry:has(+ .tl-gap)::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 0.5rem;
+    bottom: -1.05rem;
     width: 0;
     border-left: 1px dashed color-mix(in srgb, var(--muted) 42%, transparent);
   }
@@ -779,15 +785,14 @@ const timeline = [
     display: none;
   }
 
-  .tl-gap::after {
+  .profile-card__timeline .tl-gap::after {
     content: '';
     position: absolute;
     left: 3px;
-    top: -1.05rem;
+    top: 0;
     bottom: -1.05rem;
     width: 0;
     border-left: 1px dashed color-mix(in srgb, var(--muted) 42%, transparent);
-    background: none;
   }
 
   .tl-gap > span {
