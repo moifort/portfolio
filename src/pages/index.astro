@@ -151,7 +151,8 @@ const timeline = [
                 <StatCounter value={cryptoBot.netPercent} decimals={2} prefix="+" suffix="%" />
               </p>
               <p class="proof-card__caption">
-                net since {sinceLabel} · holding BTC: {cryptoBot.holdPercent}%
+                net since {sinceLabel} · holding BTC:
+                <span class="hold-down">▼&nbsp;{Math.abs(cryptoBot.holdPercent)}%</span>
               </p>
               <span class="proof-card__cta">See more →</span>
             </div>
@@ -195,7 +196,7 @@ const timeline = [
       </div>
       <Reveal delay={0.15} class="stats-row">
         <a
-          class="proof-card proof-card--stats proof-card--wide"
+          class="proof-card proof-card--stats"
           href="https://github.com/moifort/minimal-stats"
           rel="noopener"
         >
@@ -694,36 +695,24 @@ const timeline = [
     display: flex;
   }
 
-  /* Stats card: full-width row under the hero */
+  /* Stats card: same width as the grid cards, aligned under the first one */
   :global(.stats-row) {
-    display: flex;
+    display: grid;
+    grid-template-columns: calc(22rem + clamp(1.5rem, 4vw, 3rem) - 1.25rem) 1fr 1fr;
+    column-gap: 1.25rem;
   }
 
-  .proof-card--wide {
-    min-height: 15rem;
-    padding: 1.9rem 2.25rem;
-    justify-content: center;
+  :global(.stats-row) .proof-card {
+    grid-column: 2;
   }
 
-  .proof-card--wide .proof-card__body {
-    max-width: 62%;
-  }
-
-  .proof-card--wide .proof-card__window {
-    right: 3rem;
-    top: 50%;
-    translate: 0 -50%;
-    width: clamp(240px, 26vw, 340px);
-    rotate: -3deg;
-  }
-
-  @media (max-width: 700px) {
-    .proof-card--wide .proof-card__body {
-      max-width: 100%;
+  @media (max-width: 900px) {
+    :global(.stats-row) {
+      grid-template-columns: 1fr;
     }
 
-    .proof-card--wide .proof-card__window {
-      display: none;
+    :global(.stats-row) .proof-card {
+      grid-column: auto;
     }
   }
 
@@ -879,8 +868,18 @@ const timeline = [
   }
 
   .proof-card__caption {
-    opacity: 0.65;
     font-size: 0.9375rem;
+    color: color-mix(in srgb, currentColor 65%, transparent);
+  }
+
+  .hold-down {
+    color: var(--red);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .hold-down::first-letter {
+    font-size: 0.82em;
   }
 
   .proof-card__cta {
