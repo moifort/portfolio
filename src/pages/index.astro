@@ -13,6 +13,7 @@ import Reveal from '../components/Reveal.astro'
 import StatCounter from '../components/StatCounter.astro'
 import cryptoIcon from '../assets/crypto-bot/app-icon.png'
 import statsIcon from '../assets/stats/app-icon.png'
+import statsPopover from '../assets/stats/popover.png'
 import { cryptoBot, sinceLabel } from '../data/crypto-bot'
 import { site } from '../data/site'
 import Base from '../layouts/Base.astro'
@@ -51,6 +52,7 @@ const timeline = [
   <!-- Act 1 · Hero -->
   <header class="hero">
     <div class="container hero__inner">
+      <div class="hero__top">
       <Reveal delay={0.15} class="hero__card-wrap">
         <aside class="profile-card">
           <span class="profile-card__status">
@@ -104,44 +106,36 @@ const timeline = [
             </a>
           </div>
         </aside>
-        <a class="mini-card" href="https://github.com/moifort/minimal-stats" rel="noopener">
-          <Image class="mini-card__icon" src={statsIcon} alt="Stats app icon" width={200} height={200} />
-          <span class="mini-card__text">
-            <span class="mini-card__title">Stats · macOS</span>
-            <span class="mini-card__sub">System metrics in your menu bar</span>
-          </span>
-          <Icon name="lucide:arrow-up-right" />
-        </a>
       </Reveal>
-      <div class="hero__right">
-        <div class="hero__text">
-          <Reveal delay={0.08}>
-            <h1 class="display">
-              One senior developer.<br />The impact of a <span class="display__grad"
-                >whole team</span
-              >.
-            </h1>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p class="hero__lede">
-              AI is changing our job, let's not pretend otherwise. What it still lacks is method,
-              architecture and product vision. On my own, I now have a full team at my disposal:
-            </p>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <ul class="hero__roles" aria-label="Roles I cover">
-              {
-                roles.map((r) => (
-                  <li class="hero__role">
-                    <Icon name={r.icon} />
-                    {r.label}
-                  </li>
-                ))
-              }
-            </ul>
-          </Reveal>
-        </div>
-        <div class="proof__grid" id="proof">
+      <div class="hero__text">
+        <Reveal delay={0.08}>
+          <h1 class="display">
+            One senior developer.<br />The impact of a <span class="display__grad"
+              >whole team</span
+            >.
+          </h1>
+        </Reveal>
+        <Reveal delay={0.15}>
+          <p class="hero__lede">
+            AI is changing our job, let's not pretend otherwise. What it still lacks is method,
+            architecture and product vision. On my own, I now have a full team at my disposal:
+          </p>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <ul class="hero__roles" aria-label="Roles I cover">
+            {
+              roles.map((r) => (
+                <li class="hero__role">
+                  <Icon name={r.icon} />
+                  {r.label}
+                </li>
+              ))
+            }
+          </ul>
+        </Reveal>
+      </div>
+      </div>
+      <div class="proof__grid" id="proof">
           <Reveal>
           <a class="proof-card proof-card--crypto" href="/crypto-bot">
             <div class="proof-card__body">
@@ -194,6 +188,30 @@ const timeline = [
             </div>
           </a>
         </Reveal>
+        <Reveal delay={0.15}>
+          <a
+            class="proof-card proof-card--stats"
+            href="https://github.com/moifort/minimal-stats"
+            rel="noopener"
+          >
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={statsIcon}
+                alt="Stats app icon"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Stats · macOS</p>
+              <p class="proof-card__title">Your Mac, at a glance.</p>
+              <p class="proof-card__caption">CPU, network, disk and Claude usage in the menu bar.</p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+            <div class="proof-card__window" aria-hidden="true">
+              <Image src={statsPopover} alt="" width={524} height={440} />
+            </div>
+          </a>
+        </Reveal>
         </div>
       </div>
     </div>
@@ -215,82 +233,20 @@ const timeline = [
   }
 
   .hero__inner {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 4vw, 3.25rem);
+  }
+
+  .hero__top {
     display: grid;
     grid-template-columns: minmax(0, 22rem) 1fr;
-    align-items: stretch;
+    align-items: center;
     gap: clamp(1.5rem, 4vw, 3rem);
   }
 
   :global(.hero__card-wrap) {
     display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    min-width: 0;
-  }
-
-  .profile-card {
-    flex: 1;
-  }
-
-  /* compact card under the profile card */
-  .mini-card {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    padding: 1rem 1.15rem;
-    border-radius: 1.25rem;
-    border: 1px solid var(--border);
-    background: var(--card);
-    box-shadow: 0 20px 40px -28px rgba(38, 34, 26, 0.22);
-    text-decoration: none;
-    color: var(--text);
-    transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
-  }
-
-  .mini-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 26px 48px -26px rgba(38, 34, 26, 0.3);
-  }
-
-  :global(.mini-card__icon) {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 0.7rem;
-    flex-shrink: 0;
-    box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.4);
-  }
-
-  .mini-card__text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    min-width: 0;
-  }
-
-  .mini-card__title {
-    font-weight: 700;
-    font-size: 0.9688rem;
-    letter-spacing: -0.01em;
-  }
-
-  .mini-card__sub {
-    font-size: 0.8438rem;
-    color: var(--muted);
-  }
-
-  .mini-card :global([data-icon]) {
-    margin-left: auto;
-    width: 1.1rem;
-    height: 1.1rem;
-    color: var(--muted);
-    flex-shrink: 0;
-  }
-
-  .hero__right {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 2rem;
     min-width: 0;
   }
 
@@ -299,19 +255,15 @@ const timeline = [
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
-    padding-top: clamp(0.5rem, 3vh, 2.5rem);
   }
 
   @media (max-width: 900px) {
-    .hero__inner {
+    .hero__top {
       grid-template-columns: 1fr;
     }
 
-    .hero__right {
-      order: 2;
-    }
-
     .hero__text {
+      order: 2;
       align-items: center;
       text-align: center;
     }
@@ -710,10 +662,10 @@ const timeline = [
     font-weight: 550;
   }
 
-  /* Proof: two cards filling the bottom of the hero right column */
+  /* Proof: full-width row of project cards */
   .proof__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
     gap: 1.25rem;
     align-items: stretch;
   }
@@ -826,6 +778,29 @@ const timeline = [
     background: radial-gradient(120% 120% at 20% 0%, #2c1a22 0%, #181114 60%);
     color: #f6efe7;
     justify-content: center;
+  }
+
+  .proof-card--stats {
+    background: radial-gradient(120% 120% at 80% 0%, #23253a 0%, #101018 55%);
+    color: #eef0f8;
+    justify-content: center;
+  }
+
+  /* floating macOS window mockup for the Stats card */
+  .proof-card__window {
+    position: absolute;
+    right: -2.25rem;
+    top: 2.25rem;
+    width: clamp(200px, 17vw, 250px);
+    rotate: -4deg;
+    pointer-events: none;
+  }
+
+  .proof-card__window :global(img) {
+    width: 100%;
+    height: auto;
+    border-radius: 0.9rem;
+    box-shadow: 0 24px 48px -18px rgba(0, 0, 0, 0.6);
   }
 
   :global(.proof-card__icon) {
