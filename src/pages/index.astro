@@ -1,0 +1,323 @@
+---
+import { Image } from 'astro:assets'
+import appIcon from '../assets/vinarium/app-icon.png'
+import Reveal from '../components/Reveal.astro'
+import SiteFooter from '../components/SiteFooter.astro'
+import StatCounter from '../components/StatCounter.astro'
+import { cryptoBot } from '../data/crypto-bot'
+import { site } from '../data/site'
+import Base from '../layouts/Base.astro'
+---
+
+<Base
+  title="Thibaut Mottet — I don't write code anymore. I ship products."
+  description="Senior full-stack developer turned LLM supervisor. Architecture, FP, DDD and product method — Claude writes the code. Real products, used every day."
+  theme="home"
+>
+  <!-- Act 1 · Hero -->
+  <header class="hero">
+    <div class="container hero__inner">
+      <Reveal>
+        <p class="eyebrow">{site.name} · {site.role} · {site.location}</p>
+      </Reveal>
+      <Reveal delay={0.1}>
+        <h1 class="display">
+          I don't write code anymore.<br />I ship products.
+        </h1>
+      </Reveal>
+      <Reveal delay={0.2}>
+        <p class="lede hero__lede">
+          LLMs flipped software development on its head. I supply the architecture, the method and
+          the taste — Claude supplies the code. The products below are the proof.
+        </p>
+      </Reveal>
+      <Reveal delay={0.3}>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#proof">See the proof</a>
+          <a class="btn btn--ghost" href={site.github} rel="noopener">GitHub</a>
+        </div>
+      </Reveal>
+    </div>
+  </header>
+
+  <!-- Act 2 · The shift -->
+  <section class="section">
+    <div class="container--narrow">
+      <Reveal><p class="eyebrow">The paradigm shift</p></Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline shift__headline">
+          The value of a senior developer used to be syntax. Not anymore.
+        </h2>
+      </Reveal>
+      <Reveal group class="shift__copy">
+        <p>
+          For most of my career, seniority meant mastering languages down to their darkest corners.
+          That knowledge was the moat — and models like Claude drained it almost overnight.
+        </p>
+        <p>
+          The bottleneck is no longer <em>writing</em> code. It's knowing what to build, how to
+          shape it, and how to tell good from bad — fast. So I stopped memorizing syntax and
+          doubled down on what doesn't commoditize: <strong
+            >architecture, method, and product judgment.</strong
+          >
+        </p>
+        <p>
+          Today I work as a tech lead for machines. I set the constraints, review everything, and
+          ship every day.
+        </p>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Act 3 · How I work now -->
+  <section class="section">
+    <div class="container">
+      <Reveal><p class="eyebrow">How I work now</p></Reveal>
+      <Reveal delay={0.05}><h2 class="headline">What I actually bring</h2></Reveal>
+      <Reveal group class="how__grid">
+        <article class="card how__card">
+          <h3>Architect's vision</h3>
+          <p>
+            Functional programming, DDD &amp; CQRS, branded types, errors as discriminated unions.
+            I draw the boundaries of the system — the LLM fills them in, and can't drift outside.
+          </p>
+        </article>
+        <article class="card how__card">
+          <h3>Product method</h3>
+          <p>
+            From vision to domain model to thin vertical slices. Ship something usable early, then
+            compound. A product you use every day beats a perfect backlog.
+          </p>
+        </article>
+        <article class="card how__card">
+          <h3>LLM supervision</h3>
+          <p>
+            I direct Claude the way a lead directs a team: precise briefs, hard constraints,
+            ruthless reviews, tight feedback loops. Output is only as good as its supervision.
+          </p>
+        </article>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Act 4 · Proof -->
+  <section class="section" id="proof">
+    <div class="container">
+      <Reveal><p class="eyebrow">The proof</p></Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline">Two real products.<br />Built with Claude. Used every day.</h2>
+      </Reveal>
+      <div class="proof__grid">
+        <Reveal>
+          <a class="proof-card proof-card--crypto" href="/crypto-bot">
+            <p class="proof-card__eyebrow">CryptoBot · Grid trading, 24/7</p>
+            <p class="proof-card__stat">
+              <StatCounter value={cryptoBot.netPercent} decimals={2} prefix="+" suffix="%" />
+            </p>
+            <p class="proof-card__caption">
+              net, on real money — while Bitcoin dropped {Math.abs(cryptoBot.holdPercent)}%
+            </p>
+            <span class="proof-card__cta">See it work →</span>
+          </a>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <a class="proof-card proof-card--vinarium" href="/vinarium">
+            <Image
+              class="proof-card__icon"
+              src={appIcon}
+              alt="Vinarium app icon"
+              width={200}
+              height={200}
+            />
+            <p class="proof-card__eyebrow">Vinarium · iOS</p>
+            <p class="proof-card__title">A wine cellar that knows itself.</p>
+            <p class="proof-card__caption">
+              AI label scanning, live cellar value, drink windows.
+            </p>
+            <span class="proof-card__cta">Take the tour →</span>
+          </a>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+
+  <!-- Act 5 · Contact -->
+  <section class="section contact">
+    <div class="container--narrow contact__inner">
+      <Reveal>
+        <h2 class="headline">Looking for someone who ships?</h2>
+      </Reveal>
+      <Reveal delay={0.1}>
+        <p class="lede">
+          I'm open to senior roles where architecture, product sense and AI leverage matter more
+          than typing speed.
+        </p>
+      </Reveal>
+      <Reveal delay={0.2}>
+        <div class="hero__actions contact__actions">
+          <a class="btn btn--primary" href={`mailto:${site.email}`}>Get in touch</a>
+          <a class="btn btn--ghost" href={site.github} rel="noopener">GitHub</a>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <SiteFooter />
+</Base>
+
+<style>
+  .hero {
+    min-height: 92svh;
+    display: grid;
+    place-items: center;
+    padding-block: 4rem;
+  }
+
+  .hero__inner {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+  }
+
+  .hero__lede {
+    max-width: 38rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .shift__headline {
+    margin-block: 1rem 2.25rem;
+  }
+
+  /* :global — these classes land on component-rendered elements (Reveal/Image),
+     which don't receive this page's scope hash */
+  :global(.shift__copy) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+    line-height: 1.7;
+  }
+
+  :global(.shift__copy) em {
+    font-style: italic;
+  }
+
+  :global(.how__grid) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .how__card {
+    padding: 2rem;
+  }
+
+  .how__card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+  }
+
+  .how__card p {
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .proof__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .proof-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    min-height: 24rem;
+    padding: 2.25rem;
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+    overflow: hidden;
+  }
+
+  .proof-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.35);
+  }
+
+  .proof-card--crypto {
+    background: radial-gradient(120% 120% at 80% 0%, #14231a 0%, #0a0a0f 55%);
+    color: #f5f5f7;
+    justify-content: center;
+  }
+
+  .proof-card__stat {
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    font-weight: 850;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--green);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .proof-card--vinarium {
+    background: radial-gradient(120% 120% at 20% 0%, #2c1a22 0%, #181114 60%);
+    color: #f6efe7;
+    justify-content: center;
+  }
+
+  :global(.proof-card__icon) {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 1.05rem;
+    box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.5);
+    margin-bottom: 0.5rem;
+  }
+
+  .proof-card__eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .proof-card__title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .proof-card__caption {
+    opacity: 0.65;
+    font-size: 1rem;
+  }
+
+  .proof-card__cta {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    font-weight: 650;
+  }
+
+  .contact__inner {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+</style>

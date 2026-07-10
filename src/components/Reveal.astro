@@ -1,0 +1,21 @@
+---
+interface Props {
+  delay?: number
+  group?: boolean
+  class?: string
+}
+
+const { delay, group = false, class: className } = Astro.props
+---
+
+{
+  group ? (
+    <div class={className} data-reveal-group>
+      <slot />
+    </div>
+  ) : (
+    <div class={className} data-reveal data-reveal-delay={delay}>
+      <slot />
+    </div>
+  )
+}

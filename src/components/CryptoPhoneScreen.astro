@@ -1,0 +1,180 @@
+---
+/**
+ * HTML recreation of the CryptoBot iOS dashboard (HeroProfitCard).
+ * Data-driven from src/data/crypto-bot.ts, so the mockup always
+ * matches the published numbers. Labels stay in French, like the real app.
+ */
+import { cryptoBot } from '../data/crypto-bot'
+
+const fr = (n: number) => n.toFixed(2).replace('.', ',')
+---
+
+<div class="screen" aria-label={`CryptoBot app: net +${cryptoBot.netPercent}%`}>
+  <div class="screen__statusbar"><span>14:47</span></div>
+  <h3 class="screen__title">CryptoBot</h3>
+  <div class="screen__live"><span class="screen__live-dot"></span>Live</div>
+  <p class="screen__percent">+{fr(cryptoBot.netPercent)}&nbsp;%</p>
+  <div class="screen__breakdown">
+    <div><small>Brut</small><span class="pos">+{fr(cryptoBot.grossProfit)} $</span></div>
+    <em>−</em>
+    <div><small>Frais</small><span class="neg">−{fr(cryptoBot.fees)} $</span></div>
+    <em>=</em>
+    <div><small>Net</small><span class="pos">+{fr(cryptoBot.netProfit)} $</span></div>
+  </div>
+  <p class="screen__meta">
+    Sur {cryptoBot.invested.toLocaleString('fr-FR')} $ investis · Alpha : +{
+      cryptoBot.alphaVsHold.toFixed(2).replace('.', ',')
+    } %
+  </p>
+  <p class="screen__meta">28 avr. → aujourd'hui · {cryptoBot.trades} trades</p>
+  <div class="screen__tabs">
+    <span class="is-active">Tout</span><span>Année</span><span>Mois</span><span>Semaine</span>
+  </div>
+  <svg class="screen__chart" viewBox="0 0 300 150" preserveAspectRatio="none" aria-hidden="true">
+    {[18, 42, 66, 90].map((y) => (
+      <line x1="0" y1={y} x2="300" y2={y} stroke="#ff453a" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="4 5" />
+    ))}
+    {[114, 138].map((y) => (
+      <line x1="0" y1={y} x2="300" y2={y} stroke="#30d158" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="4 5" />
+    ))}
+    <path
+      d="M0,120 C20,110 30,128 45,122 S70,90 85,96 S105,130 125,124 S150,84 168,92 S195,118 215,108 S250,96 268,100 S288,94 300,90"
+      fill="none"
+      stroke="#0a84ff"
+      stroke-width="2.5"
+      stroke-linecap="round"></path>
+    <circle cx="300" cy="90" r="4" fill="#0a84ff"></circle>
+  </svg>
+</div>
+
+<style>
+  .screen {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    color: #f5f5f7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4.5cqw 6cqw 0;
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+  }
+
+  .screen__statusbar {
+    width: 100%;
+    font-size: 3.6cqw;
+    font-weight: 650;
+    padding-inline: 4cqw;
+  }
+
+  .screen__title {
+    width: 100%;
+    font-size: 8.8cqw;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-top: 6cqw;
+  }
+
+  .screen__live {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.8cqw;
+    margin-top: 8cqw;
+    padding: 1.4cqw 4cqw;
+    border-radius: 999px;
+    background: rgba(48, 209, 88, 0.14);
+    color: #30d158;
+    font-size: 3.9cqw;
+    font-weight: 600;
+  }
+
+  .screen__live-dot {
+    width: 2.2cqw;
+    height: 2.2cqw;
+    border-radius: 50%;
+    background: #30d158;
+  }
+
+  .screen__percent {
+    font-size: 16.5cqw;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #30d158;
+    margin-top: 3cqw;
+    line-height: 1.1;
+  }
+
+  .screen__breakdown {
+    display: flex;
+    align-items: center;
+    gap: 3.4cqw;
+    margin-top: 2.5cqw;
+  }
+
+  .screen__breakdown div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4cqw;
+  }
+
+  .screen__breakdown small {
+    font-size: 3.4cqw;
+    color: #9a9aa5;
+  }
+
+  .screen__breakdown span {
+    font-size: 4.2cqw;
+    font-weight: 700;
+  }
+
+  .screen__breakdown em {
+    font-style: normal;
+    color: #9a9aa5;
+    font-size: 4.2cqw;
+  }
+
+  .pos {
+    color: #30d158;
+  }
+
+  .neg {
+    color: #ff9f0a;
+  }
+
+  .screen__meta {
+    font-size: 3.6cqw;
+    color: #9a9aa5;
+    margin-top: 1.6cqw;
+  }
+
+  .screen__tabs {
+    display: flex;
+    gap: 1cqw;
+    background: #1c1c22;
+    border-radius: 999px;
+    padding: 1.2cqw;
+    margin-top: 6cqw;
+    font-size: 3.8cqw;
+    font-weight: 600;
+    color: #d5d5da;
+  }
+
+  .screen__tabs span {
+    padding: 1.6cqw 5cqw;
+    border-radius: 999px;
+  }
+
+  .screen__tabs .is-active {
+    background: #3a3a42;
+    color: #fff;
+  }
+
+  .screen__chart {
+    width: 100%;
+    flex: 1;
+    margin-top: 7cqw;
+    min-height: 0;
+  }
+</style>

@@ -1,0 +1,20 @@
+---
+interface Props {
+  value: number
+  decimals?: number
+  prefix?: string
+  suffix?: string
+  class?: string
+}
+
+const { value, decimals = 0, prefix = '', suffix = '', class: className } = Astro.props
+const final = `${prefix}${value.toFixed(decimals)}${suffix}`
+---
+
+<span
+  class={className}
+  data-count-to={value}
+  data-count-decimals={decimals}
+  data-count-prefix={prefix}
+  data-count-suffix={suffix}>{final}</span
+>

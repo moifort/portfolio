@@ -1,0 +1,62 @@
+---
+import { site } from '../data/site'
+
+interface Props {
+  backLink?: boolean
+}
+
+const { backLink = false } = Astro.props
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__signature">
+      {site.name} — architecture &amp; product by a human, code by Claude, under close supervision.
+    </p>
+    <nav class="footer__links">
+      {backLink && <a href="/">← Home</a>}
+      <a href={site.github} rel="noopener">GitHub</a>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-block: 3rem;
+    margin-top: var(--section-gap);
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer__signature {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    max-width: 34rem;
+  }
+
+  .footer__links {
+    display: flex;
+    gap: 1.75rem;
+    font-size: 0.9375rem;
+    font-weight: 550;
+  }
+
+  .footer__links a {
+    text-decoration: none;
+    color: var(--text);
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+
+  .footer__links a:hover {
+    opacity: 1;
+  }
+</style>

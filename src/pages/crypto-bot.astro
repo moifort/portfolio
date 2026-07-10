@@ -1,0 +1,603 @@
+---
+import CryptoPhoneScreen from '../components/CryptoPhoneScreen.astro'
+import IPhoneFrame from '../components/IPhoneFrame.astro'
+import Reveal from '../components/Reveal.astro'
+import SiteFooter from '../components/SiteFooter.astro'
+import StatCounter from '../components/StatCounter.astro'
+import { cryptoBot, sinceLabel } from '../data/crypto-bot'
+import { site } from '../data/site'
+import Base from '../layouts/Base.astro'
+
+const holdAbs = Math.abs(cryptoBot.holdPercent)
+---
+
+<Base
+  title={`CryptoBot — +${cryptoBot.netPercent}% while Bitcoin dropped ${holdAbs}%`}
+  description={`A self-tuning grid-trading bot on real money, 24/7 on ${cryptoBot.exchange}. +${cryptoBot.alphaVsHold} points of alpha over buy-and-hold since ${sinceLabel}. Built by supervising Claude.`}
+  theme="crypto"
+>
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <Reveal>
+          <p class="eyebrow">CryptoBot — a side project with a P&amp;L</p>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <span class="badge">
+            <span class="badge__dot"></span>
+            Live · real money on {cryptoBot.exchange} since {sinceLabel}
+          </span>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <h1 class="giant-stat hero__stat">
+            <StatCounter value={cryptoBot.netPercent} decimals={2} prefix="+" suffix="%" />
+          </h1>
+        </Reveal>
+        <Reveal delay={0.3}>
+          <p class="lede hero__lede">
+            Net return since launch.<br />
+            Over the same period, <strong>holding Bitcoin lost {holdAbs}%</strong>.
+          </p>
+        </Reveal>
+      </div>
+      <Reveal delay={0.35} class="hero__phone">
+        <div data-parallax="0.12">
+          <IPhoneFrame>
+            <CryptoPhoneScreen />
+          </IPhoneFrame>
+        </div>
+      </Reveal>
+    </div>
+  </header>
+
+  <!-- Bot vs HOLD -->
+  <section class="section">
+    <div class="container versus">
+      <Reveal><p class="eyebrow">CryptoBot vs HOLD</p></Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline">The market went down.<br />The bot didn't care.</h2>
+      </Reveal>
+      <div class="versus__layout">
+        <Reveal class="versus__chart-wrap">
+          <div class="versus__chart" role="img" aria-label={`Buy and hold: ${cryptoBot.holdPercent}%. CryptoBot: +${cryptoBot.netPercent}%.`}>
+            <div class="versus__baseline" aria-hidden="true"></div>
+            <div class="versus__col">
+              <div class="versus__track">
+                <div
+                  class="bar bar--bot"
+                  style={`--h: ${((cryptoBot.netPercent / holdAbs) * 50).toFixed(1)}%`}
+                >
+                </div>
+              </div>
+              <p class="versus__value pos">+{cryptoBot.netPercent}%</p>
+              <p class="versus__label">CryptoBot</p>
+            </div>
+            <div class="versus__col">
+              <div class="versus__track">
+                <div class="bar bar--hold" style="--h: 50%"></div>
+              </div>
+              <p class="versus__value neg">{cryptoBot.holdPercent}%</p>
+              <p class="versus__label">Buy &amp; hold BTC</p>
+            </div>
+          </div>
+        </Reveal>
+        <div class="versus__alpha">
+          <Reveal>
+            <p class="giant-stat versus__alpha-stat">
+              <StatCounter value={cryptoBot.alphaVsHold} decimals={1} prefix="+" suffix=" pts" />
+            </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p class="lede">
+              of alpha over buy-and-hold. Not a bet on direction — spread captured trade by trade,
+              whatever the market does.
+            </p>
+          </Reveal>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The grid, explained -->
+  <section class="section grid-story">
+    <div class="container">
+      <Reveal><p class="eyebrow">How it works</p></Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline">Meet the most reliable employee<br />you'll never hire.</h2>
+      </Reveal>
+      <div class="grid-story__layout">
+        <div class="grid-story__visual">
+          <svg
+            id="grid-svg"
+            viewBox="0 0 600 420"
+            aria-label="Grid trading diagram: sell orders above the price, buy orders below"
+          >
+            {[50, 90, 130, 170].map((y) => (
+              <g>
+                <line x1="30" y1={y} x2="570" y2={y} stroke="#ff453a" stroke-opacity="0.5" stroke-width="1.5" stroke-dasharray="6 7" />
+                <text x="570" y={y - 7} text-anchor="end" fill="#ff453a" fill-opacity="0.7" font-size="13">sell</text>
+              </g>
+            ))}
+            {[250, 290, 330, 370].map((y) => (
+              <g>
+                <line x1="30" y1={y} x2="570" y2={y} stroke="#30d158" stroke-opacity="0.55" stroke-width="1.5" stroke-dasharray="6 7" />
+                <text x="570" y={y - 7} text-anchor="end" fill="#30d158" fill-opacity="0.75" font-size="13">buy</text>
+              </g>
+            ))}
+            <path
+              id="grid-price"
+              d="M30,210 C70,200 90,240 120,255 S170,300 200,292 S240,240 270,225 S320,180 350,172 S400,205 430,232 S480,265 510,250 S550,215 570,205"
+              fill="none"
+              stroke="#0a84ff"
+              stroke-width="3"
+              stroke-linecap="round"></path>
+            <circle class="grid-dot" cx="200" cy="292" r="7" fill="#30d158"></circle>
+            <circle class="grid-dot" cx="350" cy="172" r="7" fill="#ff453a"></circle>
+            <circle class="grid-dot" cx="430" cy="232" r="7" fill="#30d158"></circle>
+          </svg>
+        </div>
+        <ol class="grid-story__steps">
+          <Reveal><li>
+            <h3>1 · A grid around the price</h3>
+            <p>
+              CryptoBot places a ladder of {cryptoBot.gridLevels} limit orders around the market
+              price — buys below, sells above. Always armed, on {cryptoBot.pair}.
+            </p>
+          </li></Reveal>
+          <Reveal><li>
+            <h3>2 · Volatility becomes income</h3>
+            <p>
+              Price dips: a buy fills. Price recovers: the matching sell fills. The spread between
+              the two, minus fees, is locked-in profit. Repeat — every {cryptoBot.cycleSeconds}
+              seconds, 24/7. It never sleeps, never panics, never gets greedy.
+            </p>
+          </li></Reveal>
+          <Reveal><li>
+            <h3>3 · It tunes itself</h3>
+            <p>
+              Spacing derives from 14-day volatility, the band recenters as the market drifts,
+              order size adapts to the balance. <strong>No parameters to babysit.</strong>
+            </p>
+          </li></Reveal>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real numbers -->
+  <section class="section">
+    <div class="container">
+      <Reveal><p class="eyebrow">Real numbers</p></Reveal>
+      <Reveal delay={0.05}><h2 class="headline">No backtest. A live P&amp;L.</h2></Reveal>
+      <Reveal class="numbers__equation">
+        <div class="numbers__term">
+          <p class="numbers__value pos">
+            <StatCounter value={cryptoBot.grossProfit} decimals={2} prefix="+$" />
+          </p>
+          <p class="numbers__label">gross</p>
+        </div>
+        <span class="numbers__op">−</span>
+        <div class="numbers__term">
+          <p class="numbers__value fee">
+            <StatCounter value={cryptoBot.fees} decimals={2} prefix="$" />
+          </p>
+          <p class="numbers__label">fees</p>
+        </div>
+        <span class="numbers__op">=</span>
+        <div class="numbers__term">
+          <p class="numbers__value pos">
+            <StatCounter value={cryptoBot.netProfit} decimals={2} prefix="+$" />
+          </p>
+          <p class="numbers__label">net profit</p>
+        </div>
+      </Reveal>
+      <Reveal group class="numbers__facts">
+        <div class="card fact"><strong>${cryptoBot.invested.toLocaleString('en-US')}</strong><span>real capital deployed</span></div>
+        <div class="card fact"><strong>{cryptoBot.trades}</strong><span>round-trip trades</span></div>
+        <div class="card fact"><strong>{cryptoBot.gridLevels}</strong><span>grid levels, self-tuned</span></div>
+        <div class="card fact"><strong>{cryptoBot.cycleSeconds}s</strong><span>market check cycle</span></div>
+        <div class="card fact"><strong>Maker-only</strong><span>post-only orders, lowest fees</span></div>
+        <div class="card fact"><strong>Stop-loss</strong><span>armed on drawdown, always</span></div>
+      </Reveal>
+      <Reveal>
+        <p class="numbers__honesty">
+          Small capital, real conditions. The point isn't the amount — it's that the machine works,
+          unattended, since {sinceLabel}.
+        </p>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- The craft -->
+  <section class="section">
+    <div class="container--narrow craft">
+      <Reveal><p class="eyebrow">The craft</p></Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline">Built like a trading desk.<br />Sized like a side project.</h2>
+      </Reveal>
+      <Reveal group class="craft__chips">
+        <span>TypeScript</span><span>Nitro</span><span>Bun</span><span>GraphQL · Pothos</span>
+        <span>DDD &amp; CQRS</span><span>Pure FP core</span><span>Branded types</span>
+        <span>Errors as values</span><span>SwiftUI app + widget</span>
+      </Reveal>
+      <Reveal>
+        <p class="craft__copy">
+          Domain-driven design with strict CQRS, a purely functional core, illegal states made
+          unrepresentable. Architecture and reviews by me — every line of code written by Claude,
+          under close supervision.
+        </p>
+      </Reveal>
+      <Reveal delay={0.1}>
+        <div class="craft__actions">
+          <a class="btn btn--primary" href="/">Read how I work</a>
+          <a class="btn btn--ghost" href={site.github} rel="noopener">GitHub</a>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <SiteFooter backLink />
+</Base>
+
+<script>
+  import { gsap, prefersReducedMotion } from '../scripts/motion'
+
+  if (!prefersReducedMotion()) {
+    // Draw the price line through the grid as the section scrolls by
+    const price = document.querySelector<SVGPathElement>('#grid-price')
+    if (price) {
+      const length = price.getTotalLength()
+      gsap.set(price, { strokeDasharray: length, strokeDashoffset: length })
+      gsap.to(price, {
+        strokeDashoffset: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.grid-story__layout',
+          start: 'top 70%',
+          end: 'bottom 60%',
+          scrub: 0.5,
+        },
+      })
+      gsap.from('.grid-dot', {
+        scale: 0,
+        transformOrigin: 'center',
+        stagger: 0.3,
+        scrollTrigger: {
+          trigger: '.grid-story__layout',
+          start: 'top 45%',
+          end: 'bottom 60%',
+          scrub: 0.5,
+        },
+      })
+    }
+
+    // Grow the versus bars when they enter the viewport
+    gsap.from('.bar--bot', {
+      scaleY: 0,
+      transformOrigin: 'bottom',
+      duration: 1.2,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: '.versus__chart', start: 'top 75%', once: true },
+    })
+    gsap.from('.bar--hold', {
+      scaleY: 0,
+      transformOrigin: 'top',
+      duration: 1.2,
+      delay: 0.15,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: '.versus__chart', start: 'top 75%', once: true },
+    })
+  }
+</script>
+
+<style>
+  .hero {
+    min-height: 100svh;
+    display: grid;
+    align-items: center;
+    padding-block: 5rem;
+    background: radial-gradient(90% 60% at 70% 10%, rgba(48, 209, 88, 0.09) 0%, transparent 60%),
+      var(--bg);
+  }
+
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .hero__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .hero__stat {
+    color: var(--green);
+  }
+
+  .hero__lede {
+    max-width: 30rem;
+  }
+
+  .hero__lede strong {
+    color: var(--red);
+    font-weight: 650;
+  }
+
+  /* :global — classes on component-rendered elements (Reveal) miss the scope hash */
+  :global(.hero__phone) {
+    justify-self: center;
+  }
+
+  @media (max-width: 820px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .hero__text {
+      align-items: center;
+    }
+  }
+
+  /* Versus */
+  .versus__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 820px) {
+    .versus__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .versus__chart {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2.5rem 2rem 2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    background: var(--card);
+  }
+
+  .versus__baseline {
+    position: absolute;
+    left: 1.5rem;
+    right: 1.5rem;
+    /* aligned with the middle of the 16rem tracks below (2.5rem top padding + 8rem) */
+    top: 10.5rem;
+    border-top: 1px dashed rgba(245, 245, 247, 0.25);
+  }
+
+  .versus__col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .versus__track {
+    position: relative;
+    height: 16rem;
+    width: 100%;
+  }
+
+  .bar {
+    position: absolute;
+    left: 50%;
+    translate: -50% 0;
+    width: min(6rem, 60%);
+    border-radius: 0.75rem;
+    height: var(--h);
+  }
+
+  /* hold (−15.3%) is the reference: it fills the half-track (50%) */
+  .bar--bot {
+    min-height: 1.5rem;
+    bottom: 50%;
+    background: linear-gradient(180deg, #4cd964, #1fa348);
+    box-shadow: 0 0 32px rgba(48, 209, 88, 0.35);
+  }
+
+  .bar--hold {
+    top: 50%;
+    background: linear-gradient(180deg, #c73a31, #ff453a);
+    opacity: 0.9;
+  }
+
+  .versus__value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .versus__label {
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .pos {
+    color: var(--green);
+  }
+
+  .neg {
+    color: var(--red);
+  }
+
+  .fee {
+    color: #ff9f0a;
+  }
+
+  .versus__alpha {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .versus__alpha-stat {
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    color: var(--green);
+  }
+
+  /* Grid story */
+  .grid-story__layout {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3.5rem;
+    margin-top: 3rem;
+    align-items: start;
+  }
+
+  @media (max-width: 820px) {
+    .grid-story__layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .grid-story__visual {
+    position: sticky;
+    top: 12vh;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 1.5rem;
+  }
+
+  .grid-story__steps {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: min(18vh, 9rem);
+    padding-block: 4rem;
+  }
+
+  .grid-story__steps li {
+    list-style: none;
+  }
+
+  .grid-story__steps h3 {
+    font-size: 1.35rem;
+    font-weight: 750;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.6rem;
+  }
+
+  .grid-story__steps p {
+    color: var(--muted);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  .grid-story__steps strong {
+    color: var(--text);
+  }
+
+  /* Numbers */
+  :global(.numbers__equation) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1rem, 4vw, 3rem);
+    flex-wrap: wrap;
+    margin-block: 3.5rem 2.5rem;
+  }
+
+  .numbers__term {
+    text-align: center;
+  }
+
+  .numbers__value {
+    font-size: clamp(2rem, 5.5vw, 4rem);
+    font-weight: 820;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .numbers__label {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    margin-top: 0.25rem;
+  }
+
+  .numbers__op {
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    color: var(--muted);
+  }
+
+  :global(.numbers__facts) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 1rem;
+  }
+
+  .fact {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .fact strong {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .fact span {
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .numbers__honesty {
+    margin-top: 2.5rem;
+    color: var(--muted);
+    font-size: 1.0625rem;
+    max-width: 38rem;
+  }
+
+  /* Craft */
+  .craft {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  :global(.craft__chips) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  :global(.craft__chips) span {
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    font-size: 0.9375rem;
+    font-weight: 550;
+  }
+
+  .craft__copy {
+    color: var(--muted);
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+
+  .craft__actions {
+    display: flex;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+  }
+</style>
