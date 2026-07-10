@@ -203,7 +203,7 @@ const timeline = [
                 height={200}
               />
               <p class="proof-card__eyebrow">Stats · macOS</p>
-              <p class="proof-card__title">Your Mac, at a glance.</p>
+              <p class="proof-card__title">Minimalist stats.</p>
               <p class="proof-card__caption">CPU, network, disk and Claude usage in the menu bar.</p>
               <span class="proof-card__cta">See more →</span>
             </div>
@@ -235,14 +235,18 @@ const timeline = [
   .hero__inner {
     display: flex;
     flex-direction: column;
-    gap: clamp(2rem, 4vw, 3.25rem);
+    gap: 1.25rem;
   }
 
   .hero__top {
     display: grid;
     grid-template-columns: minmax(0, 22rem) 1fr;
-    align-items: center;
+    align-items: start;
     gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .hero__text {
+    padding-top: clamp(0.5rem, 4vh, 3rem);
   }
 
   :global(.hero__card-wrap) {
