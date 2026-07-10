@@ -6,3 +6,6 @@ dist/
 *.log
 .env
 .env.*
+
+# Claude Code local plans
+.claude/plans/
