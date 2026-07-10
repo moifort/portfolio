@@ -41,12 +41,10 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
           </p>
         </Reveal>
       </div>
-      <Reveal delay={0.35} class="hero__phone">
-        <div data-parallax="0.12">
-          <IPhoneFrame>
-            <CryptoPhoneScreen />
-          </IPhoneFrame>
-        </div>
+      <Reveal delay={0.2} class="hero__phone">
+        <IPhoneFrame>
+          <CryptoPhoneScreen />
+        </IPhoneFrame>
       </Reveal>
     </div>
   </header>
@@ -209,6 +207,60 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
     </div>
   </section>
 
+  <!-- Under the hood -->
+  <section class="section">
+    <div class="container">
+      <Reveal><p class="eyebrow">Under the hood</p></Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline">Boring where it matters.</h2>
+      </Reveal>
+      <Reveal group class="hood__grid">
+        <div class="card hood__item">
+          <h3>Self-tuning grid</h3>
+          <p>
+            Spacing = max(1.5% of price, half the 14-day ATR). Band recentered every cycle, order
+            size derived from the live balance. Zero knobs.
+          </p>
+        </div>
+        <div class="card hood__item">
+          <h3>Risk, handled</h3>
+          <p>
+            Stop-loss on drawdown from the high-watermark, cumulative take-profit target, post-only
+            orders so every fill pays maker fees.
+          </p>
+        </div>
+        <div class="card hood__item">
+          <h3>Sandbox first</h3>
+          <p>
+            A full simulation mode ran the strategy on paper before a single real dollar was
+            deployed. Same code path, fake fills.
+          </p>
+        </div>
+        <div class="card hood__item">
+          <h3>GraphQL API</h3>
+          <p>
+            Every stat on this page — profit, fees, alpha vs HOLD — is computed by the bot's own
+            typed GraphQL API, not a spreadsheet.
+          </p>
+        </div>
+        <div class="card hood__item">
+          <h3>iOS app + widget</h3>
+          <p>
+            A native SwiftUI dashboard with a home-screen widget. The P&amp;L is two glances away,
+            all day.
+          </p>
+        </div>
+        <div class="card hood__item">
+          <h3>Runs at home</h3>
+          <p>
+            Dockerized on a home server, monitored with Sentry, forward-only data migrations. It
+            has survived every deploy since launch.
+          </p>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
   <!-- The craft -->
   <section class="section">
     <div class="container--narrow craft">
@@ -224,8 +276,9 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
       <Reveal>
         <p class="craft__copy">
           Domain-driven design with strict CQRS, a purely functional core, illegal states made
-          unrepresentable. Architecture and reviews by me — every line of code written by Claude,
-          under close supervision.
+          unrepresentable. The Kraken API integration is hand-rolled REST with Web Crypto — no
+          heavyweight trading library. Architecture and reviews by me — every line of code written
+          by Claude, under close supervision, across roughly 220 commits since February 2026.
         </p>
       </Reveal>
       <Reveal delay={0.1}>
@@ -259,17 +312,6 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
           scrub: 0.5,
         },
       })
-      gsap.from('.grid-dot', {
-        scale: 0,
-        transformOrigin: 'center',
-        stagger: 0.3,
-        scrollTrigger: {
-          trigger: '.grid-story__layout',
-          start: 'top 45%',
-          end: 'bottom 60%',
-          scrub: 0.5,
-        },
-      })
     }
 
     // Grow the versus bars when they enter the viewport
@@ -297,8 +339,31 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
     display: grid;
     align-items: center;
     padding-block: 5rem;
-    background: radial-gradient(90% 60% at 70% 10%, rgba(48, 209, 88, 0.09) 0%, transparent 60%),
+    position: relative;
+    background:
+      radial-gradient(90% 60% at 70% 10%, rgba(48, 209, 88, 0.13) 0%, transparent 60%),
+      radial-gradient(50% 40% at 15% 85%, rgba(10, 132, 255, 0.08) 0%, transparent 65%),
       var(--bg);
+  }
+
+  /* faint trading-grid lines behind the hero */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(to bottom, rgba(245, 245, 247, 0.035) 0 1px, transparent 1px 72px),
+      repeating-linear-gradient(to right, rgba(245, 245, 247, 0.02) 0 1px, transparent 1px 72px);
+    mask-image: radial-gradient(80% 80% at 50% 40%, black 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .hero__inner {
+    position: relative;
+  }
+
+  :global(.hero__phone .iphone) {
+    --iphone-w: clamp(260px, 26vw, 380px);
   }
 
   .hero__inner {
@@ -565,6 +630,31 @@ const holdAbs = Math.abs(cryptoBot.holdPercent)
     color: var(--muted);
     font-size: 1.0625rem;
     max-width: 38rem;
+  }
+
+  /* Under the hood */
+  :global(.hood__grid) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .hood__item {
+    padding: 1.75rem;
+  }
+
+  .hood__item h3 {
+    font-size: 1.125rem;
+    font-weight: 750;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+  }
+
+  .hood__item p {
+    color: var(--muted);
+    font-size: 0.9688rem;
+    line-height: 1.6;
   }
 
   /* Craft */

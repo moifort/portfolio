@@ -1,12 +1,52 @@
 ---
 import { Image } from 'astro:assets'
+import portrait from '../assets/portrait.jpg'
 import appIcon from '../assets/vinarium/app-icon.png'
+import dashboardShot from '../assets/vinarium/dashboard.png'
+import CryptoPhoneScreen from '../components/CryptoPhoneScreen.astro'
+import IPhoneFrame from '../components/IPhoneFrame.astro'
 import Reveal from '../components/Reveal.astro'
 import SiteFooter from '../components/SiteFooter.astro'
 import StatCounter from '../components/StatCounter.astro'
-import { cryptoBot } from '../data/crypto-bot'
+import { cryptoBot, sinceLabel } from '../data/crypto-bot'
 import { site } from '../data/site'
 import Base from '../layouts/Base.astro'
+
+const method = [
+  {
+    n: '01',
+    title: 'Vision & domain',
+    text: 'Name the concepts, draw the boundaries. A domain model everyone — human or machine — can reason about.',
+  },
+  {
+    n: '02',
+    title: 'Architecture as guardrails',
+    text: 'FP core, branded types, errors as values. Types so strict the LLM cannot drift outside the design.',
+  },
+  {
+    n: '03',
+    title: 'Supervised build loops',
+    text: 'Claude writes, I review. Thin vertical slices, precise briefs, ruthless code review — shipped daily.',
+  },
+  {
+    n: '04',
+    title: 'Production, for real',
+    text: 'Real users, real money, monitoring, forward-only migrations. Products that survive contact with reality.',
+  },
+]
+
+const stack = [
+  'TypeScript',
+  'Swift · SwiftUI',
+  'GraphQL · Pothos',
+  'Nitro · Bun',
+  'Firebase · GCP',
+  'Firestore',
+  'Terraform',
+  'Docker',
+  'Claude API',
+  'Gemini API',
+]
 ---
 
 <Base
@@ -17,25 +57,38 @@ import Base from '../layouts/Base.astro'
   <!-- Act 1 · Hero -->
   <header class="hero">
     <div class="container hero__inner">
-      <Reveal>
-        <p class="eyebrow">{site.name} · {site.role} · {site.location}</p>
-      </Reveal>
-      <Reveal delay={0.1}>
-        <h1 class="display">
-          I don't write code anymore.<br />I ship products.
-        </h1>
-      </Reveal>
-      <Reveal delay={0.2}>
-        <p class="lede hero__lede">
-          LLMs flipped software development on its head. I supply the architecture, the method and
-          the taste — Claude supplies the code. The products below are the proof.
-        </p>
-      </Reveal>
-      <Reveal delay={0.3}>
-        <div class="hero__actions">
-          <a class="btn btn--primary" href="#proof">See the proof</a>
-          <a class="btn btn--ghost" href={site.github} rel="noopener">GitHub</a>
-        </div>
+      <div class="hero__text">
+        <Reveal>
+          <p class="eyebrow">{site.name} · {site.role} · {site.location}</p>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <h1 class="display">
+            I don't write code anymore.<br />I ship products.
+          </h1>
+        </Reveal>
+        <Reveal delay={0.15}>
+          <p class="lede hero__lede">
+            LLMs flipped software development on its head. I supply the architecture, the method and
+            the taste — Claude supplies the code. The products below are the proof.
+          </p>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#proof">See the proof</a>
+            <a class="btn btn--ghost" href={site.github} rel="noopener">GitHub</a>
+          </div>
+        </Reveal>
+      </div>
+      <Reveal delay={0.15} class="hero__portrait-wrap">
+        <Image
+          class="hero__portrait"
+          src={portrait}
+          alt="Portrait of Thibaut Mottet"
+          width={460}
+          height={460}
+          loading="eager"
+          fetchpriority="high"
+        />
       </Reveal>
     </div>
   </header>
@@ -100,6 +153,33 @@ import Base from '../layouts/Base.astro'
     </div>
   </section>
 
+  <!-- Act 3b · The method, in practice -->
+  <section class="section">
+    <div class="container">
+      <Reveal><p class="eyebrow">The method, in practice</p></Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline">From idea to production, every time</h2>
+      </Reveal>
+      <Reveal group class="method__grid">
+        {
+          method.map((step) => (
+            <article class="method__step">
+              <span class="method__n">{step.n}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </article>
+          ))
+        }
+      </Reveal>
+      <Reveal class="stack">
+        <p class="stack__label">Supervised daily, across the whole stack:</p>
+        <ul class="stack__list">
+          {stack.map((tech) => <li>{tech}</li>)}
+        </ul>
+      </Reveal>
+    </div>
+  </section>
+
   <!-- Act 4 · Proof -->
   <section class="section" id="proof">
     <div class="container">
@@ -110,31 +190,53 @@ import Base from '../layouts/Base.astro'
       <div class="proof__grid">
         <Reveal>
           <a class="proof-card proof-card--crypto" href="/crypto-bot">
-            <p class="proof-card__eyebrow">CryptoBot · Grid trading, 24/7</p>
-            <p class="proof-card__stat">
-              <StatCounter value={cryptoBot.netPercent} decimals={2} prefix="+" suffix="%" />
-            </p>
-            <p class="proof-card__caption">
-              net, on real money — while Bitcoin dropped {Math.abs(cryptoBot.holdPercent)}%
-            </p>
-            <span class="proof-card__cta">See it work →</span>
+            <div class="proof-card__body">
+              <p class="proof-card__eyebrow">CryptoBot · Grid trading, 24/7</p>
+              <p class="proof-card__stat">
+                <StatCounter value={cryptoBot.netPercent} decimals={2} prefix="+" suffix="%" />
+              </p>
+              <p class="proof-card__caption">
+                net, on real money — while Bitcoin dropped {Math.abs(cryptoBot.holdPercent)}%
+              </p>
+              <ul class="proof-card__facts">
+                <li><strong>+{cryptoBot.alphaVsHold} pts</strong> alpha vs HOLD</li>
+                <li><strong>{cryptoBot.trades}</strong> trades since {sinceLabel}</li>
+                <li><strong>{cryptoBot.cycleSeconds}s</strong> cycle on {cryptoBot.exchange}</li>
+              </ul>
+              <span class="proof-card__cta">See it work →</span>
+            </div>
+            <div class="proof-card__phone" aria-hidden="true">
+              <IPhoneFrame>
+                <CryptoPhoneScreen />
+              </IPhoneFrame>
+            </div>
           </a>
         </Reveal>
         <Reveal delay={0.1}>
           <a class="proof-card proof-card--vinarium" href="/vinarium">
-            <Image
-              class="proof-card__icon"
-              src={appIcon}
-              alt="Vinarium app icon"
-              width={200}
-              height={200}
-            />
-            <p class="proof-card__eyebrow">Vinarium · iOS</p>
-            <p class="proof-card__title">A wine cellar that knows itself.</p>
-            <p class="proof-card__caption">
-              AI label scanning, live cellar value, drink windows.
-            </p>
-            <span class="proof-card__cta">Take the tour →</span>
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={appIcon}
+                alt="Vinarium app icon"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Vinarium · iOS</p>
+              <p class="proof-card__title">A wine cellar that knows itself.</p>
+              <p class="proof-card__caption">
+                AI label scanning, live cellar value, drink windows.
+              </p>
+              <ul class="proof-card__facts">
+                <li><strong>Claude</strong> reads the labels</li>
+                <li><strong>Gemini</strong> estimates the price</li>
+                <li><strong>SwiftUI</strong> native, iOS 26</li>
+              </ul>
+              <span class="proof-card__cta">Take the tour →</span>
+            </div>
+            <div class="proof-card__phone" aria-hidden="true">
+              <IPhoneFrame src={dashboardShot} alt="" />
+            </div>
           </a>
         </Reveal>
       </div>
@@ -169,16 +271,62 @@ import Base from '../layouts/Base.astro'
   .hero {
     min-height: 92svh;
     display: grid;
-    place-items: center;
+    align-items: center;
     padding-block: 4rem;
+    position: relative;
+    overflow: clip;
+    background:
+      radial-gradient(55% 45% at 88% 12%, rgba(48, 209, 88, 0.09) 0%, transparent 65%),
+      radial-gradient(45% 40% at 8% 88%, rgba(114, 47, 55, 0.09) 0%, transparent 65%),
+      var(--bg);
   }
 
   .hero__inner {
-    text-align: center;
+    display: grid;
+    grid-template-columns: 1.35fr 0.65fr;
+    align-items: center;
+    gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .hero__text {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.75rem;
+  }
+
+  :global(.hero__portrait-wrap) {
+    justify-self: center;
+  }
+
+  :global(.hero__portrait) {
+    width: clamp(13rem, 22vw, 19rem);
+    height: auto;
+    border-radius: 2rem;
+    box-shadow: 0 40px 80px -30px rgba(22, 24, 29, 0.4);
+    rotate: 2deg;
+  }
+
+  @media (max-width: 820px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .hero__text {
+      align-items: center;
+      order: 2;
+    }
+
+    :global(.hero__portrait-wrap) {
+      order: 1;
+    }
+
+    :global(.hero__portrait) {
+      width: 11rem;
+      border-radius: 1.5rem;
+    }
   }
 
   .hero__lede {
@@ -233,6 +381,69 @@ import Base from '../layouts/Base.astro'
     font-size: 1rem;
   }
 
+  /* Method */
+  :global(.method__grid) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .method__step {
+    padding: 1.75rem;
+    border-left: 2px solid var(--border);
+  }
+
+  .method__n {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .method__step h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-block: 0.6rem 0.5rem;
+  }
+
+  .method__step p {
+    color: var(--muted);
+    font-size: 0.9688rem;
+    line-height: 1.6;
+  }
+
+  :global(.stack) {
+    margin-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stack__label {
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .stack__list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .stack__list li {
+    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    font-size: 0.9375rem;
+    font-weight: 550;
+  }
+
+  /* Proof */
   .proof__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
@@ -241,16 +452,70 @@ import Base from '../layouts/Base.astro'
   }
 
   .proof-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.6rem;
-    min-height: 24rem;
+    position: relative;
+    display: block;
+    min-height: 28rem;
     padding: 2.25rem;
     border-radius: var(--radius-card);
     text-decoration: none;
     transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
     overflow: hidden;
+  }
+
+  .proof-card__body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    height: 100%;
+    max-width: 62%;
+  }
+
+  .proof-card__facts {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-size: 0.9375rem;
+    opacity: 0.75;
+  }
+
+  .proof-card__facts strong {
+    font-weight: 750;
+  }
+
+  .proof-card__phone {
+    position: absolute;
+    right: -3.5rem;
+    top: 3.5rem;
+    rotate: 8deg;
+    pointer-events: none;
+  }
+
+  .proof-card__phone :global(.iphone) {
+    --iphone-w: clamp(180px, 16vw, 230px);
+  }
+
+  @media (max-width: 640px) {
+    .proof-card__body {
+      max-width: 100%;
+    }
+
+    .proof-card__phone {
+      position: static;
+      rotate: 0deg;
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .proof-card {
+      min-height: 0;
+    }
   }
 
   .proof-card:hover {

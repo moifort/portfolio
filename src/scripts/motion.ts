@@ -8,54 +8,40 @@ export const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /**
- * Declarative motion engine. Pages opt in via data attributes:
- *   data-reveal            fade-up on scroll (data-reveal-delay="0.15")
- *   data-reveal-group      staggered fade-up of direct children
- *   data-parallax="0.2"    element drifts slower than the scroll
+ * Declarative motion engine — deliberately restrained: soft fades only,
+ * no parallax, no scale. Pages opt in via data attributes:
+ *   data-reveal            gentle fade-up on scroll (data-reveal-delay="0.15", capped)
+ *   data-reveal-group      staggered gentle fade-up of direct children
  *   data-count-to="3.27"   number counts up when visible
  *                          (data-count-decimals / -prefix / -suffix)
  */
 export function initMotion(): void {
   if (prefersReducedMotion()) return
 
-  const lenis = new Lenis({ lerp: 0.12 })
+  const lenis = new Lenis({ lerp: 0.16 })
   lenis.on('scroll', ScrollTrigger.update)
   gsap.ticker.add((time) => lenis.raf(time * 1000))
   gsap.ticker.lagSmoothing(0)
 
   for (const el of document.querySelectorAll<HTMLElement>('[data-reveal]')) {
     gsap.from(el, {
-      y: 48,
+      y: 18,
       autoAlpha: 0,
-      duration: 1.1,
-      ease: 'power3.out',
-      delay: Number(el.dataset['revealDelay'] ?? 0),
-      scrollTrigger: { trigger: el, start: 'top 86%', once: true },
+      duration: 0.65,
+      ease: 'power2.out',
+      delay: Math.min(Number(el.dataset['revealDelay'] ?? 0), 0.2),
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
     })
   }
 
   for (const group of document.querySelectorAll<HTMLElement>('[data-reveal-group]')) {
     gsap.from(group.children, {
-      y: 40,
+      y: 18,
       autoAlpha: 0,
-      duration: 0.9,
-      ease: 'power3.out',
-      stagger: 0.12,
-      scrollTrigger: { trigger: group, start: 'top 82%', once: true },
-    })
-  }
-
-  for (const el of document.querySelectorAll<HTMLElement>('[data-parallax]')) {
-    const speed = Number(el.dataset['parallax'] ?? 0.15)
-    gsap.to(el, {
-      yPercent: -speed * 100,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: el.parentElement ?? el,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-      },
+      duration: 0.6,
+      ease: 'power2.out',
+      stagger: 0.08,
+      scrollTrigger: { trigger: group, start: 'top 85%', once: true },
     })
   }
 

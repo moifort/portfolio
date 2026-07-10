@@ -6,8 +6,19 @@ import dashboardShot from '../assets/vinarium/dashboard.png'
 import journalShot from '../assets/vinarium/journal.png'
 import scanReviewShot from '../assets/vinarium/scan-review.png'
 import scanShot from '../assets/vinarium/scan.png'
+import widgetCave from '../assets/vinarium/widget-en-cave.png'
+import widgetJournal from '../assets/vinarium/widget-journal.png'
+import widgetReady from '../assets/vinarium/widget-pret-a-deguster.png'
+import widgetValue from '../assets/vinarium/widget-valeur.png'
 import wineDetailShot from '../assets/vinarium/wine-detail.png'
 import wineListShot from '../assets/vinarium/wine-list.png'
+
+const widgets = [
+  { src: widgetValue, label: 'Cellar value', alt: 'iOS widget showing total cellar value' },
+  { src: widgetCave, label: 'In the cellar', alt: 'iOS widget showing bottles in the cellar' },
+  { src: widgetReady, label: 'Ready to drink', alt: 'iOS widget showing wines ready to drink' },
+  { src: widgetJournal, label: 'Journal', alt: 'iOS widget showing latest cellar activity' },
+]
 import IPhoneFrame from '../components/IPhoneFrame.astro'
 import Reveal from '../components/Reveal.astro'
 import SiteFooter from '../components/SiteFooter.astro'
@@ -22,6 +33,14 @@ import Base from '../layouts/Base.astro'
 >
   <!-- Hero -->
   <header class="hero">
+    <Image
+      class="hero__backdrop"
+      src={appIcon}
+      alt=""
+      width={640}
+      height={640}
+      aria-hidden="true"
+    />
     <div class="container hero__inner">
       <div class="hero__text">
         <Reveal>
@@ -40,10 +59,8 @@ import Base from '../layouts/Base.astro'
           </p>
         </Reveal>
       </div>
-      <Reveal delay={0.3} class="hero__phone">
-        <div data-parallax="0.12">
-          <IPhoneFrame src={dashboardShot} alt="Vinarium dashboard: bottles in cellar, total value, ready-to-drink list" priority />
-        </div>
+      <Reveal delay={0.2} class="hero__phone">
+        <IPhoneFrame src={dashboardShot} alt="Vinarium dashboard: bottles in cellar, total value, ready-to-drink list" priority />
       </Reveal>
     </div>
   </header>
@@ -90,9 +107,7 @@ import Base from '../layouts/Base.astro'
           </Reveal>
         </div>
         <Reveal class="feature__phone">
-          <div data-parallax="0.1">
-            <IPhoneFrame src={cellarShot} alt="Physical cellar map with bottles by row and column" />
-          </div>
+          <IPhoneFrame src={cellarShot} alt="Physical cellar map with bottles by row and column" />
         </Reveal>
       </div>
 
@@ -108,9 +123,7 @@ import Base from '../layouts/Base.astro'
           </Reveal>
         </div>
         <Reveal class="feature__phone">
-          <div data-parallax="0.1">
-            <IPhoneFrame src={wineListShot} alt="Wine collection with prices, filters and favorites" />
-          </div>
+          <IPhoneFrame src={wineListShot} alt="Wine collection with prices, filters and favorites" />
         </Reveal>
       </div>
 
@@ -125,9 +138,7 @@ import Base from '../layouts/Base.astro'
           </Reveal>
         </div>
         <Reveal class="feature__phone">
-          <div data-parallax="0.1">
-            <IPhoneFrame src={wineDetailShot} alt="Wine detail: color, estate, vintage, appellation, classification, grapes" />
-          </div>
+          <IPhoneFrame src={wineDetailShot} alt="Wine detail: color, estate, vintage, appellation, classification, grapes" />
         </Reveal>
       </div>
 
@@ -142,11 +153,82 @@ import Base from '../layouts/Base.astro'
           </Reveal>
         </div>
         <Reveal class="feature__phone">
-          <div data-parallax="0.1">
-            <IPhoneFrame src={journalShot} alt="Journal of cellar entries and exits by date" />
-          </div>
+          <IPhoneFrame src={journalShot} alt="Journal of cellar entries and exits by date" />
         </Reveal>
       </div>
+    </div>
+  </section>
+
+  <!-- Widgets -->
+  <section class="section widgets">
+    <div class="container">
+      <Reveal><p class="eyebrow">On your home screen</p></Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline">Your cellar, without opening the app.</h2>
+      </Reveal>
+      <Reveal group class="widgets__grid">
+        {
+          widgets.map((w) => (
+            <figure class="widgets__item">
+              <Image src={w.src} alt={w.alt} width={480} height={480} />
+              <figcaption>{w.label}</figcaption>
+            </figure>
+          ))
+        }
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- Everything else -->
+  <section class="section">
+    <div class="container">
+      <Reveal><p class="eyebrow">And everything else</p></Reveal>
+      <Reveal delay={0.05}>
+        <h2 class="headline">Deep where a collection needs it.</h2>
+      </Reveal>
+      <Reveal group class="extras__grid">
+        <div class="card extras__item">
+          <h3>Global search</h3>
+          <p>
+            One search across names, producers, regions, vintages, even people — ranked by
+            relevance, refined with combinable filter chips.
+          </p>
+        </div>
+        <div class="card extras__item">
+          <h3>Drink windows</h3>
+          <p>
+            Every wine carries its window. "Before 2027" is a promise the app keeps for you — the
+            dashboard surfaces what's ready.
+          </p>
+        </div>
+        <div class="card extras__item">
+          <h3>Gifts, both ways</h3>
+          <p>
+            Bottles received and bottles offered, tracked with who and when. Never re-gift a wine
+            to the person who gave it to you.
+          </p>
+        </div>
+        <div class="card extras__item">
+          <h3>Beyond wine</h3>
+          <p>
+            Port, rum, sake, beer — structured subtypes for any bottle worth keeping, with the
+            same care as a grand cru.
+          </p>
+        </div>
+        <div class="card extras__item">
+          <h3>Tasting journal</h3>
+          <p>
+            Notes and ratings on every bottle opened. Your palate's history, searchable.
+          </p>
+        </div>
+        <div class="card extras__item">
+          <h3>Your data, yours</h3>
+          <p>
+            Full JSON export and import. Sign in with Apple, per-user isolation in Firestore — and
+            an exit door, always.
+          </p>
+        </div>
+      </Reveal>
     </div>
   </section>
 
@@ -171,9 +253,10 @@ import Base from '../layouts/Base.astro'
       </Reveal>
       <Reveal>
         <p class="craft__copy">
-          Same method as everything I ship: domain-driven design with strict CQRS, a purely
-          functional core, infrastructure provisioned by a single command. Architecture and reviews
-          by me — the code written by Claude, under close supervision.
+          Same method as everything I ship: domain-driven design with strict CQRS, business rules
+          as pure functions — 100% tested — and a GraphQL schema typed end-to-end, from Firestore
+          to SwiftUI. The entire GCP/Firebase infrastructure bootstraps with one Terraform command.
+          Architecture and reviews by me — the code written by Claude, under close supervision.
         </p>
       </Reveal>
       <Reveal delay={0.1}>
@@ -194,8 +277,26 @@ import Base from '../layouts/Base.astro'
     display: grid;
     align-items: center;
     padding-block: 5rem;
-    background: radial-gradient(90% 65% at 75% 5%, rgba(114, 47, 55, 0.35) 0%, transparent 62%),
-      radial-gradient(60% 40% at 10% 90%, rgba(201, 162, 39, 0.08) 0%, transparent 60%), var(--bg);
+    position: relative;
+    overflow: clip;
+    background: radial-gradient(90% 65% at 75% 5%, rgba(114, 47, 55, 0.4) 0%, transparent 62%),
+      radial-gradient(60% 40% at 10% 90%, rgba(201, 162, 39, 0.1) 0%, transparent 60%), var(--bg);
+  }
+
+  /* the app icon, blown up and blurred, as an ambient backdrop */
+  :global(.hero__backdrop) {
+    position: absolute;
+    top: -12%;
+    left: -14%;
+    width: min(56vw, 780px);
+    height: auto;
+    filter: blur(90px) saturate(1.3);
+    opacity: 0.32;
+    pointer-events: none;
+  }
+
+  .hero__inner {
+    position: relative;
   }
 
   .hero__inner {
@@ -342,6 +443,64 @@ import Base from '../layouts/Base.astro'
     .feature--flip .feature__phone {
       order: 2;
     }
+  }
+
+  /* Widgets */
+  .widgets {
+    text-align: center;
+  }
+
+  :global(.widgets__grid) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .widgets__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    align-items: center;
+  }
+
+  .widgets__item :global(img) {
+    width: 100%;
+    max-width: 15rem;
+    height: auto;
+    border-radius: 1.75rem;
+    box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.55);
+  }
+
+  .widgets__item figcaption {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    font-weight: 550;
+  }
+
+  /* Extras */
+  :global(.extras__grid) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .extras__item {
+    padding: 1.75rem;
+  }
+
+  .extras__item h3 {
+    font-size: 1.125rem;
+    font-weight: 750;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+  }
+
+  .extras__item p {
+    color: var(--muted);
+    font-size: 0.9688rem;
+    line-height: 1.6;
   }
 
   .french-note {
