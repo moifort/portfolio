@@ -12,6 +12,7 @@ import IPhoneFrame from '../components/IPhoneFrame.astro'
 import Reveal from '../components/Reveal.astro'
 import StatCounter from '../components/StatCounter.astro'
 import cryptoIcon from '../assets/crypto-bot/app-icon.png'
+import statsIcon from '../assets/stats/app-icon.png'
 import { cryptoBot, sinceLabel } from '../data/crypto-bot'
 import { site } from '../data/site'
 import Base from '../layouts/Base.astro'
@@ -103,6 +104,14 @@ const timeline = [
             </a>
           </div>
         </aside>
+        <a class="mini-card" href="https://github.com/moifort/minimal-stats" rel="noopener">
+          <Image class="mini-card__icon" src={statsIcon} alt="Stats app icon" width={200} height={200} />
+          <span class="mini-card__text">
+            <span class="mini-card__title">Stats · macOS</span>
+            <span class="mini-card__sub">System metrics in your menu bar</span>
+          </span>
+          <Icon name="lucide:arrow-up-right" />
+        </a>
       </Reveal>
       <div class="hero__right">
         <div class="hero__text">
@@ -214,7 +223,67 @@ const timeline = [
 
   :global(.hero__card-wrap) {
     display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
     min-width: 0;
+  }
+
+  .profile-card {
+    flex: 1;
+  }
+
+  /* compact card under the profile card */
+  .mini-card {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 1rem 1.15rem;
+    border-radius: 1.25rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    box-shadow: 0 20px 40px -28px rgba(38, 34, 26, 0.22);
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+  }
+
+  .mini-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 26px 48px -26px rgba(38, 34, 26, 0.3);
+  }
+
+  :global(.mini-card__icon) {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.7rem;
+    flex-shrink: 0;
+    box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.4);
+  }
+
+  .mini-card__text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  .mini-card__title {
+    font-weight: 700;
+    font-size: 0.9688rem;
+    letter-spacing: -0.01em;
+  }
+
+  .mini-card__sub {
+    font-size: 0.8438rem;
+    color: var(--muted);
+  }
+
+  .mini-card :global([data-icon]) {
+    margin-left: auto;
+    width: 1.1rem;
+    height: 1.1rem;
+    color: var(--muted);
+    flex-shrink: 0;
   }
 
   .hero__right {
