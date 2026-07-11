@@ -164,7 +164,7 @@ const timeline = [
   {
     period: 'Since Jan. 2026',
     role: 'Paternity leave',
-    note: 'shipping product after product with Claude & Fable',
+    note: 'shipping product after product with Claude Opus & Fable',
     current: true,
   },
   {
@@ -325,7 +325,7 @@ const timeline = [
             </p>
           </Reveal>
         </div>
-        <Reveal delay={0.25}>
+        <Reveal delay={0.25} class="hero__filters">
           <div class="proof__filters" role="group" aria-label="Filter projects">
             {
               filters.map((f) => (
@@ -682,7 +682,7 @@ const timeline = [
                 width={200}
                 height={200}
               />
-              <p class="proof-card__eyebrow">Orb · Gaggia mod</p>
+              <p class="proof-card__eyebrow">Orb · Espresso machine</p>
               <p class="proof-card__title">Reinvent your espresso.</p>
               <p class="proof-card__caption">
                 A round-touchscreen mod for a Gaggia machine.
@@ -975,22 +975,49 @@ const timeline = [
 
   @media (max-width: 900px) {
     .hero__top {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
+      /* le gap clamp(1.5rem, 4vw, 3rem) existant s'applique verticalement */
     }
 
+    /* dissout les deux colonnes : leurs enfants deviennent des items flex
+       directs de .hero__top et peuvent être réordonnés librement */
+    :global(.hero__card-wrap),
     .hero__right {
-      order: 2;
+      display: contents;
     }
 
     .hero__text {
+      order: 1;
       align-items: center;
       text-align: center;
     }
 
-    :global(.hero__card-wrap) {
-      order: 1;
+    /* carte timeline : 2e position + rendu totalement plat.
+       Sélecteur .hero .profile-card (spécificité 0,2,0) pour battre la règle
+       de base .profile-card (0,1,0) définie plus bas dans la feuille. */
+    .hero .profile-card {
+      order: 2;
       width: min(26rem, 100%);
       margin-inline: auto;
+      border: none;
+      box-shadow: none;
+      background: transparent;
+      padding-inline: 0;
+    }
+
+    :global(.hero__filters) {
+      order: 3;
+    }
+
+    .proof__grid {
+      order: 4;
+    }
+
+    /* masquées sur mobile */
+    .influences-card,
+    .toolbox-card {
+      display: none;
     }
   }
 
@@ -1621,30 +1648,10 @@ const timeline = [
     pointer-events: none;
   }
 
-  @media (max-width: 640px) {
-    .proof-card__body {
-      max-width: 100%;
-    }
-
-    .proof-card__phone {
-      position: static;
-      rotate: 0deg;
-      margin-top: 1.5rem;
-      display: flex;
-      justify-content: center;
-    }
-
-    /* like the phone mockups, the 3D viewer disappears on small screens;
-       display none also keeps the observer from ever fetching the GLB */
-    .proof-card__model,
-    .proof-card__photo {
-      display: none;
-    }
-
-    .proof-card {
-      min-height: 0;
-    }
-  }
+  /* Sur mobile, les cartes gardent leur mise en page desktop (texte à gauche,
+     visuel / modèle 3D flottant à droite). .proof-card a overflow:hidden et une
+     hauteur fixe, donc les visuels qui débordent sont clippés sans provoquer de
+     scroll horizontal. Pas de reflow spécifique : rien à surcharger ici. */
 
   .proof-card:hover {
     transform: translateY(-6px);
