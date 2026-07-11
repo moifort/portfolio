@@ -464,7 +464,7 @@ const timeline = [
             rel="noopener"
             data-category="home-automation"
           >
-            <span class="proof-card__date">Jun 2023</span>
+            <span class="proof-card__date">Apr 2026</span>
             <div class="proof-card__body">
               <Image
                 class="proof-card__icon"
@@ -510,18 +510,61 @@ const timeline = [
               <ModelViewer
                 src="/models/home-dashboard.v1.glb"
                 alt=""
-                cameraOrbit="18deg 80deg 62%"
+                cameraOrbit="40deg 74deg 62%"
+                autoRotate={false}
+                interactive={false}
               />
             </div>
           </a>
         </Reveal>
         <Reveal delay={0.4}>
           <a
+            class="proof-card proof-card--stockalert"
+            href="https://github.com/moifort/stock-alert"
+            rel="noopener"
+            data-category="home-automation hardware"
+          >
+            <span class="proof-card__date">Jun 2026</span>
+            <svg
+              class="proof-card__matter"
+              viewBox="0 0 338.667 72.644"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="Works with Matter"
+            >
+              <path
+                fill="currentColor"
+                d="M294.697 60.122c6.777 0 12.314-3.055 15.781-7.762l-3.725-2.121c-2.691 3.415-6.831 5.641-12.056 5.641-8.464 0-14.985-5.832-15.666-13.294h33.565c.024-.441.05-.881.05-1.293 0-10.397-8.482-18.831-18.854-18.831s-18.802 8.435-18.802 18.832 8.43 18.829 19.706 18.829zm-.877-33.419c7.068 0 13.213 5.068 14.568 11.796h-29.139c1.346-6.727 7.455-11.796 14.571-11.796zm-99.896-4.243c-10.398 0-18.83 8.435-18.83 18.833s8.432 18.83 18.83 18.83c6.281 0 11.468-3.078 14.59-7.806v7.082h4.24V23.184h-4.24v7.082c-3.122-4.728-8.309-7.806-14.59-7.806zm0 4.243c8.07 0 14.59 6.518 14.59 14.59s-6.52 14.587-14.59 14.587a14.57 14.57 0 0 1-14.587-14.587c0-8.072 6.517-14.59 14.587-14.59zM65.715 32.905c-7.996 2.19-15.164 7.406-19.636 15.152s-5.407 16.568-3.306 24.587l7.835-4.526a23.9 23.9 0 0 1 1.105-11.836l18.309 10.569 4.303-2.487v-4.967L56.016 48.829a23.92 23.92 0 0 1 9.699-6.879zm-57.108 0v9.045a23.91 23.91 0 0 1 9.699 6.879L0 59.398v4.967l4.303 2.487 18.306-10.569c1.39 3.868 1.726 7.938 1.108 11.836l7.832 4.526c2.101-8.02 1.167-16.841-3.306-24.587A32.52 32.52 0 0 0 8.607 32.905zM337.063 22.46c-8.542 0-15.466 6.448-15.466 15.47v21.469h4.243V37.93c0-6.68 5.025-11.227 11.223-11.227h1.604V22.46zm-213.131 0c-8.542 0-15.466 6.448-15.466 15.47v21.469h4.243V37.93c0-6.68 5.023-11.227 11.223-11.227s11.227 4.547 11.227 11.227v21.469h4.243V37.93c0-6.68 5.023-11.227 11.223-11.227s11.227 4.547 11.227 11.227v21.469h4.243V37.93c0-9.021-6.927-15.47-15.47-15.47-5.535 0-10.576 2.848-13.37 8.642-2.845-5.741-7.84-8.642-13.323-8.642zm108.531-11.636l-4.24 2.43v9.931h-5.691v4.087h5.691v23.847c0 4.605 3.621 8.279 8.225 8.279h6.307v-4.243h-6.307c-2.175 0-3.986-1.811-3.986-4.087V27.271h21.574v23.847c0 4.605 3.619 8.279 8.171 8.279h6.364v-4.243h-6.364c-2.12 0-3.929-1.811-3.929-4.087V27.271h10.293v-4.087H258.28v-12.36l-4.243 2.43v9.931h-21.574zM37.161 0l-4.303 2.484v21.138c-4.046-.731-7.736-2.476-10.804-4.961l-7.838 4.522c5.895 5.83 14 9.429 22.946 9.429s17.051-3.599 22.946-9.429l-7.835-4.522a23.92 23.92 0 0 1-10.807 4.961V2.484z"
+              />
+            </svg>
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={homeIcon}
+                alt="Apple Home app icon"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Stock Alert · XIAO MG24</p>
+              <p class="proof-card__title">Never run out of anything.</p>
+              <p class="proof-card__caption">
+                A stock sensor that alerts you in the Home app.
+              </p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+            <div class="proof-card__model" aria-hidden="true">
+              <ModelViewer src="/models/stock-alert.v1.glb" alt="" />
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.45}>
+          <a
             class="proof-card proof-card--bazar"
             href="https://github.com/moifort/bazar"
             rel="noopener"
             data-category="ios"
           >
+            <span class="proof-card__ribbon">Coming soon</span>
             <span class="proof-card__date">Apr 2026</span>
             <div class="proof-card__body proof-card__body--wide">
               <Image
@@ -538,7 +581,7 @@ const timeline = [
             </div>
           </a>
         </Reveal>
-        <Reveal delay={0.45}>
+        <Reveal delay={0.5}>
           <a
             class="proof-card proof-card--airprint"
             href="https://github.com/moifort/airprint"
@@ -555,7 +598,7 @@ const timeline = [
             </div>
           </a>
         </Reveal>
-        <Reveal delay={0.5}>
+        <Reveal delay={0.55}>
           <a
             class="proof-card proof-card--audible"
             href="https://moifort.github.io/audible-api-ts/"
@@ -1314,6 +1357,30 @@ const timeline = [
     color: rgba(255, 255, 255, 0.92);
   }
 
+  /* diagonal "coming soon" ribbon, clipped by the card's overflow at the
+     top-right corner: vivid yellow gradient and a top shine */
+  .proof-card__ribbon {
+    position: absolute;
+    z-index: 3;
+    top: 1.5rem;
+    right: -3rem;
+    width: 11rem;
+    transform: rotate(45deg);
+    padding: 0.45rem 0;
+    text-align: center;
+    background: linear-gradient(180deg, #ffe456 0%, #ffd60a 55%, #dfae00 100%);
+    color: #2a2105;
+    font-size: 0.6875rem;
+    font-weight: 750;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 10px 22px -8px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      inset 0 -1px 0 rgba(42, 33, 5, 0.25);
+  }
+
   .proof-card__body {
     position: relative;
     z-index: 1;
@@ -1323,6 +1390,7 @@ const timeline = [
     gap: 0.4rem;
     height: 100%;
     max-width: 60%;
+    padding-bottom: 2.6rem;
   }
 
   .proof-card__facts {
@@ -1473,26 +1541,33 @@ const timeline = [
     justify-content: center;
   }
 
-  /* the eyebrow spans the full card width (no wrap), while the title and
-     caption stay narrow so they clear the floating device */
+  /* the text keeps to a left column so it never runs under the 3D device */
   .proof-card--dashboard .proof-card__body {
-    max-width: 100%;
+    max-width: 50%;
   }
 
-  .proof-card--dashboard .proof-card__title,
-  .proof-card--dashboard .proof-card__caption {
-    max-width: 60%;
+  .proof-card--stockalert {
+    background: radial-gradient(120% 120% at 80% 0%, #16302c 0%, #0a1311 58%);
+    color: #e9f4f1;
+    justify-content: center;
   }
 
-  /* The wide e-paper device floats on the right, filling the full card height
-     and bled off the right edge so roughly its left half shows. */
+  /* nudge the assembly right and shrink it a touch on this card */
+  .proof-card--stockalert .proof-card__model {
+    right: -0.8rem;
+    top: 3rem;
+    bottom: 3rem;
+    padding-left: 2rem;
+  }
+
+  /* The e-paper device sits on the right at a pronounced angle, shifted right so
+     its left edge stays clear of the copy (never clipped by the text column). */
   .proof-card__model--dashboard {
     top: 0;
     bottom: 0;
-    left: auto;
-    right: 0;
-    transform: translateX(48%);
-    width: clamp(360px, 44vw, 540px);
+    left: 52%;
+    right: -2rem;
+    width: auto;
     height: auto;
   }
 
@@ -1504,6 +1579,18 @@ const timeline = [
     line-height: 1;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* official Matter logo, aligned to the top-right corner of the card */
+  .proof-card__matter {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.4rem;
+    z-index: 3;
+    height: 1.05rem;
+    width: auto;
+    color: #e9f4f1;
+    opacity: 0.82;
   }
 
   /* no floating mockup on this card — let the text use the full width */
@@ -1566,8 +1653,12 @@ const timeline = [
   }
 
   .proof-card__cta {
-    margin-top: auto;
-    padding-top: 1.1rem;
+    position: absolute;
+    left: 0;
+    /* aligned with the date badge (1.4rem from the card edge); this sits inside
+       the body, already inset by the card's 1.6rem padding, so subtract it */
+    bottom: calc(1.4rem - 1.6rem);
+    z-index: 2;
     font-weight: 650;
     font-size: 0.9375rem;
   }

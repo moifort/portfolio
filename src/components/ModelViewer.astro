@@ -8,6 +8,8 @@ interface Props {
   alt: string
   cameraOrbit?: string
   fieldOfView?: string
+  autoRotate?: boolean
+  interactive?: boolean
 }
 
 const {
@@ -15,13 +17,16 @@ const {
   alt,
   cameraOrbit = '30deg 78deg auto',
   fieldOfView = '28deg',
+  autoRotate = true,
+  interactive = true,
 } = Astro.props
 ---
 
 <model-viewer
   src={src}
   alt={alt}
-  auto-rotate
+  data-static={interactive ? undefined : ''}
+  auto-rotate={autoRotate ? '' : undefined}
   auto-rotate-delay="0"
   rotation-per-second="18deg"
   disable-zoom
@@ -45,6 +50,9 @@ const {
   const followPointer = (viewer: Element) => {
     const base = viewer.getAttribute('camera-orbit') ?? '30deg 78deg auto'
     const radius = base.trim().split(/\s+/)[2] ?? 'auto'
+    // a model that starts without auto-rotate (a fixed pose) must not start
+    // spinning when the pointer leaves, only return to its base orientation
+    const spins = viewer.hasAttribute('auto-rotate')
     const card = viewer.closest('.proof-card') ?? viewer
     card.addEventListener('pointermove', (event) => {
       const { clientX, clientY } = event as PointerEvent
@@ -57,7 +65,7 @@ const {
     })
     card.addEventListener('pointerleave', () => {
       viewer.setAttribute('camera-orbit', base)
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (spins && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         viewer.setAttribute('auto-rotate', '')
       }
     })
@@ -82,7 +90,8 @@ const {
     )
     for (const viewer of viewers) {
       io.observe(viewer)
-      followPointer(viewer)
+      // static viewers keep their fixed pose: no pointer-driven rotation
+      if (!viewer.hasAttribute('data-static')) followPointer(viewer)
     }
   }
   lazyLoad()
