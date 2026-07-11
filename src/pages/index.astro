@@ -30,6 +30,8 @@ import carnetHome from '../assets/carnet/home.png'
 import carnetRecipe from '../assets/carnet/recipe.png'
 import carnetProposal from '../assets/carnet/proposal.png'
 import lerobotIcon from '../assets/lerobot/app-icon.png'
+import orbIcon from '../assets/orb/app-icon.png'
+import orbMachine from '../assets/orb/machine.png'
 import bloomin8Logo from '../assets/bloomin8/logo.png'
 import bloomin8Screen from '../assets/bloomin8/app-screen.png'
 import cryptoIcon from '../assets/crypto-bot/app-icon.png'
@@ -664,6 +666,35 @@ const timeline = [
           </a>
         </Reveal>
         <Reveal delay={0.55}>
+          <a
+            class="proof-card proof-card--orb"
+            href="https://github.com/moifort/orb"
+            rel="noopener"
+            data-category="hardware"
+          >
+            <span class="proof-card__ribbon proof-card__ribbon--archived">Archived</span>
+            <span class="proof-card__date">Mar 2026</span>
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={orbIcon}
+                alt="Orb icon"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Orb · Gaggia mod</p>
+              <p class="proof-card__title">Reinvent your espresso.</p>
+              <p class="proof-card__caption">
+                A round-touchscreen mod for a Gaggia machine.
+              </p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+            <div class="proof-card__photo" aria-hidden="true">
+              <Image src={orbMachine} alt="" widths={[257, 514]} sizes="220px" />
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.6}>
           <a
             class="proof-card proof-card--bazar"
             href="https://github.com/moifort/bazar"
@@ -1530,6 +1561,17 @@ const timeline = [
       inset 0 -1px 0 rgba(42, 33, 5, 0.25);
   }
 
+  /* muted slate variant for archived (discontinued) projects */
+  .proof-card__ribbon--archived {
+    background: linear-gradient(180deg, #8b929c 0%, #5b626d 55%, #3f454e 100%);
+    color: #f4f5f7;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+    box-shadow:
+      0 10px 22px -8px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  }
+
   .proof-card__body {
     position: relative;
     z-index: 1;
@@ -1594,7 +1636,8 @@ const timeline = [
 
     /* like the phone mockups, the 3D viewer disappears on small screens;
        display none also keeps the observer from ever fetching the GLB */
-    .proof-card__model {
+    .proof-card__model,
+    .proof-card__photo {
       display: none;
     }
 
@@ -1768,6 +1811,39 @@ const timeline = [
     background: radial-gradient(120% 120% at 82% 0%, #232830 0%, #0b0d11 58%);
     color: #eef1f6;
     justify-content: center;
+  }
+
+  /* warm espresso tones echoing the Orb round-display icon */
+  .proof-card--orb {
+    background: radial-gradient(120% 120% at 80% 0%, #2c1d10 0%, #120b06 58%);
+    color: #f3e7d5;
+    justify-content: center;
+  }
+
+  /* keep the copy clear of the machine render on the right */
+  .proof-card--orb .proof-card__body {
+    max-width: 60%;
+  }
+
+  /* the cut-out Gaggia render stands on the right side of the card */
+  .proof-card__photo {
+    position: absolute;
+    right: 1.2rem;
+    top: 1.6rem;
+    bottom: 1.3rem;
+    width: 38%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    pointer-events: none;
+  }
+
+  .proof-card__photo :global(img) {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.5));
   }
 
   /* the arm fills the right of the card; keep the copy in a left column */
