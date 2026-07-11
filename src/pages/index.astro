@@ -47,13 +47,14 @@ const roles = [
 ]
 
 const filters = [
-  { key: 'all', label: 'All' },
-  { key: 'ios', label: 'iOS' },
-  { key: 'macos', label: 'macOS' },
-  { key: 'home-automation', label: 'Home automation' },
-  { key: 'library', label: 'Library' },
-  { key: '3d-printing', label: '3D printing' },
-  { key: 'utility', label: 'Utility' },
+  { key: 'all', label: 'All', icon: 'lucide:layout-grid' },
+  { key: 'ios', label: 'iOS', icon: 'lucide:smartphone' },
+  { key: 'macos', label: 'macOS', icon: 'lucide:laptop' },
+  { key: 'home-automation', label: 'Home automation', icon: 'lucide:house' },
+  { key: 'hardware', label: 'Hardware', icon: 'lucide:cpu' },
+  { key: 'library', label: 'Library', icon: 'lucide:package' },
+  { key: '3d-printing', label: '3D printing', icon: 'lucide:box' },
+  { key: 'utility', label: 'Utility', icon: 'lucide:wrench' },
 ]
 
 const toolbox = [
@@ -324,6 +325,7 @@ const timeline = [
                   class:list={['proof__filter', { 'is-active': f.key === 'all' }]}
                   data-filter={f.key}
                 >
+                  <Icon name={f.icon} />
                   {f.label}
                 </button>
               ))
@@ -488,7 +490,7 @@ const timeline = [
             class="proof-card proof-card--dashboard"
             href="https://github.com/moifort/home-dashboard"
             rel="noopener"
-            data-category="home-automation"
+            data-category="home-automation hardware"
           >
             <span class="proof-card__date">Feb 2026</span>
             <div class="proof-card__body">
@@ -623,21 +625,51 @@ const timeline = [
 </Base>
 
 <script>
-  // Project card filtering by category
+  // Project card filtering by category. Multiple filters can be active at once
+  // (a card shows if it matches any of them); with none active the "All" button
+  // lights up. The selection is mirrored to a shareable ?filter=a,b URL param.
   const buttons = document.querySelectorAll<HTMLButtonElement>('.proof__filter')
   const cards = document.querySelectorAll<HTMLElement>('.proof-card[data-category]')
+  const knownKeys = new Set(
+    [...buttons].map((b) => b.dataset['filter']).filter((k): k is string => !!k && k !== 'all'),
+  )
+  const active = new Set<string>()
+
+  const render = () => {
+    const showAll = active.size === 0
+    for (const b of buttons) {
+      const key = b.dataset['filter'] ?? ''
+      b.classList.toggle('is-active', key === 'all' ? showAll : active.has(key))
+    }
+    for (const card of cards) {
+      const wrapper = (card.parentElement ?? card) as HTMLElement
+      const categories = (card.dataset['category'] ?? '').split(' ')
+      const match = showAll || categories.some((c) => active.has(c))
+      wrapper.style.display = match ? '' : 'none'
+    }
+    const url = new URL(window.location.href)
+    if (active.size === 0) url.searchParams.delete('filter')
+    else url.searchParams.set('filter', [...active].join(','))
+    // keep the comma literal so shared links read ?filter=hardware,ios
+    window.history.replaceState(null, '', url.href.replace(/%2C/g, ','))
+  }
 
   for (const button of buttons) {
     button.addEventListener('click', () => {
-      const filter = button.dataset['filter']
-      for (const b of buttons) b.classList.toggle('is-active', b === button)
-      for (const card of cards) {
-        const wrapper = (card.parentElement ?? card) as HTMLElement
-        wrapper.style.display =
-          filter === 'all' || card.dataset['category'] === filter ? '' : 'none'
-      }
+      const key = button.dataset['filter'] ?? 'all'
+      if (key === 'all') active.clear()
+      else if (active.has(key)) active.delete(key)
+      else active.add(key)
+      render()
     })
   }
+
+  // Activate the filters requested in the URL (e.g. ?filter=hardware,ios) on load
+  const requested = new URLSearchParams(window.location.search).get('filter')
+  if (requested) {
+    for (const key of requested.split(',')) if (knownKeys.has(key)) active.add(key)
+  }
+  render()
 </script>
 
 <style>
@@ -1290,6 +1322,9 @@ const timeline = [
   }
 
   .proof__filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     padding: 0.35rem 0.9rem;
     border-radius: 999px;
     border: 1px solid var(--border);
@@ -1299,6 +1334,16 @@ const timeline = [
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  .proof__filter :global(svg) {
+    width: 0.95rem;
+    height: 0.95rem;
+    opacity: 0.75;
+  }
+
+  .proof__filter.is-active :global(svg) {
+    opacity: 1;
   }
 
   .proof__filter:hover {
