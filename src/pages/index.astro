@@ -25,6 +25,11 @@ import ModelViewer from '../components/ModelViewer.astro'
 import Reveal from '../components/Reveal.astro'
 import StatCounter from '../components/StatCounter.astro'
 import bazarIcon from '../assets/bazar/app-icon.png'
+import carnetIcon from '../assets/carnet/app-icon.png'
+import carnetHome from '../assets/carnet/home.png'
+import carnetRecipe from '../assets/carnet/recipe.png'
+import carnetProposal from '../assets/carnet/proposal.png'
+import lerobotIcon from '../assets/lerobot/app-icon.png'
 import bloomin8Logo from '../assets/bloomin8/logo.png'
 import bloomin8Screen from '../assets/bloomin8/app-screen.png'
 import cryptoIcon from '../assets/crypto-bot/app-icon.png'
@@ -52,6 +57,7 @@ const filters = [
   { key: 'macos', label: 'macOS', icon: 'lucide:laptop' },
   { key: 'home-automation', label: 'Home automation', icon: 'lucide:house' },
   { key: 'hardware', label: 'Hardware', icon: 'lucide:cpu' },
+  { key: 'robotics', label: 'Robotics', icon: 'lucide:bot' },
   { key: 'library', label: 'Library', icon: 'lucide:package' },
   { key: '3d-printing', label: '3D printing', icon: 'lucide:box' },
   { key: 'utility', label: 'Utility', icon: 'lucide:wrench' },
@@ -372,7 +378,7 @@ const timeline = [
                 width={200}
                 height={200}
               />
-              <p class="proof-card__eyebrow">Vinarium · iOS</p>
+              <p class="proof-card__eyebrow">Vinarium · iOS <span class="proof-card__appstore" aria-label="Available on the App Store"><Icon name="simple-icons:appstore" /></span></p>
               <p class="proof-card__title">Manage your wine cellar.</p>
               <p class="proof-card__caption">AI, location, price, sharing and more.</p>
               <span class="proof-card__cta">See more →</span>
@@ -389,6 +395,37 @@ const timeline = [
               </IPhoneFrame>
             </div>
           </a>
+        </Reveal>
+        <Reveal delay={0.15}>
+          <div class="proof-card proof-card--carnet proof-card--soon" data-category="ios">
+            <span class="proof-card__ribbon">Coming soon</span>
+            <span class="proof-card__date">Jul 2026</span>
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={carnetIcon}
+                alt="Carnet app icon"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Carnet · iOS</p>
+              <p class="proof-card__title">Your culinary lab notebook.</p>
+              <p class="proof-card__caption">
+                Coffee, cocktails, dishes and Thermomix, tuned by AI.
+              </p>
+            </div>
+            <div class="proof-card__phone" aria-hidden="true">
+              <IPhoneFrame>
+                <PhoneCarousel
+                  images={[
+                    { src: carnetHome, alt: 'Carnet home, recipes being improved' },
+                    { src: carnetRecipe, alt: 'Espresso recipe with the version to test' },
+                    { src: carnetProposal, alt: 'AI proposing the next iteration' },
+                  ]}
+                />
+              </IPhoneFrame>
+            </div>
+          </div>
         </Reveal>
         <Reveal delay={0.15}>
           <a
@@ -561,6 +598,73 @@ const timeline = [
         </Reveal>
         <Reveal delay={0.45}>
           <a
+            class="proof-card proof-card--watermeter"
+            href="https://github.com/moifort/water-consuption"
+            rel="noopener"
+            data-category="home-automation hardware"
+          >
+            <span class="proof-card__date">Jun 2026</span>
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={homeIcon}
+                alt="Apple Home app icon"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">
+                Water Meter · ESP32-S3
+              </p>
+              <p class="proof-card__title">Follow your water consumption.</p>
+              <p class="proof-card__caption">
+                Reads the meter over 868 MHz radio.
+              </p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+            <div class="proof-card__model" aria-hidden="true">
+              <ModelViewer
+                src="/models/water-meter.v1.glb"
+                alt=""
+                cameraOrbit="20deg 66deg auto"
+              />
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.5}>
+          <a
+            class="proof-card proof-card--lerobot"
+            href="https://github.com/huggingface/lerobot"
+            rel="noopener"
+            data-category="robotics hardware"
+          >
+            <span class="proof-card__ribbon">Coming soon</span>
+            <span class="proof-card__date">May 2026</span>
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={lerobotIcon}
+                alt="LeRobot logo"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">LeRobot · SO-ARM100</p>
+              <p class="proof-card__title">AI robot arm.</p>
+              <p class="proof-card__caption">
+                Models, datasets and tools for real-world robotics.
+              </p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+            <div class="proof-card__model" aria-hidden="true">
+              <ModelViewer
+                src="/models/lerobot.v2.glb"
+                alt=""
+                cameraOrbit="85deg 76deg auto"
+              />
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.55}>
+          <a
             class="proof-card proof-card--bazar"
             href="https://github.com/moifort/bazar"
             rel="noopener"
@@ -583,7 +687,7 @@ const timeline = [
             </div>
           </a>
         </Reveal>
-        <Reveal delay={0.5}>
+        <Reveal delay={0.55}>
           <a
             class="proof-card proof-card--airprint"
             href="https://github.com/moifort/airprint"
@@ -600,7 +704,7 @@ const timeline = [
             </div>
           </a>
         </Reveal>
-        <Reveal delay={0.55}>
+        <Reveal delay={0.6}>
           <a
             class="proof-card proof-card--audible"
             href="https://moifort.github.io/audible-api-ts/"
@@ -1530,6 +1634,40 @@ const timeline = [
     justify-content: center;
   }
 
+  /* warm-paper dark tones, echoing the Carnet maquette (#171511 / #211E19) */
+  .proof-card--carnet {
+    background: radial-gradient(120% 120% at 20% 0%, #2a2521 0%, #16130f 62%);
+    color: #efe9e1;
+    justify-content: center;
+  }
+
+  /* placeholder card: nothing to click yet, so no pointer affordance */
+  .proof-card--soon {
+    cursor: default;
+  }
+
+  /* small App Store badge next to "iOS" in the eyebrow */
+  .proof-card__appstore {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.05em;
+    height: 1.05em;
+    margin-left: 0.15em;
+    padding: 0.16em;
+    border-radius: 0.24em;
+    background: linear-gradient(180deg, #2ad0ff 0%, #0a84ff 55%, #0060ff 100%);
+    vertical-align: middle;
+    position: relative;
+    top: -0.06em;
+  }
+
+  .proof-card__appstore svg {
+    width: 100%;
+    height: 100%;
+    color: #fff;
+  }
+
   .proof-card--stats {
     background: radial-gradient(120% 120% at 80% 0%, #23253a 0%, #101018 55%);
     color: #eef0f8;
@@ -1605,6 +1743,45 @@ const timeline = [
     padding-left: 2rem;
   }
 
+  .proof-card--watermeter {
+    background: radial-gradient(120% 120% at 82% 0%, #2c1c40 0%, #0c0a14 58%);
+    color: #efe9f6;
+    justify-content: center;
+  }
+
+  /* the board and its coil antenna fill the right of the card; small top/bottom
+     insets keep the assembly large (model-viewer fits it to the shorter side) */
+  .proof-card--watermeter .proof-card__model {
+    right: -1rem;
+    top: 1rem;
+    bottom: 1rem;
+    padding-left: 1.25rem;
+  }
+
+  /* the eyebrow (MCU) is a touch smaller so it holds one line */
+  .proof-card--watermeter .proof-card__eyebrow {
+    font-size: 0.75rem;
+  }
+
+  /* cool neutral dark so the traffic-cone orange arm pops */
+  .proof-card--lerobot {
+    background: radial-gradient(120% 120% at 82% 0%, #232830 0%, #0b0d11 58%);
+    color: #eef1f6;
+    justify-content: center;
+  }
+
+  /* the arm fills the right of the card; keep the copy in a left column */
+  .proof-card--lerobot .proof-card__body {
+    max-width: 52%;
+  }
+
+  .proof-card--lerobot .proof-card__model {
+    right: -0.5rem;
+    top: 1rem;
+    bottom: 1rem;
+    padding-left: 1rem;
+  }
+
   /* The e-paper device sits on the right at a pronounced angle, shifted right so
      its left edge stays clear of the copy (never clipped by the text column). */
   .proof-card__model--dashboard {
@@ -1672,7 +1849,8 @@ const timeline = [
     font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.04em;
-    opacity: 0.6;
+    /* dim the text via color alpha (not opacity) so inline badges stay full-strength */
+    color: color-mix(in srgb, currentColor 60%, transparent);
   }
 
   .proof-card__title {
