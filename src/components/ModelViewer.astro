@@ -4,27 +4,42 @@
 // The GLB is generated with the ring-stack axis at x=0/z=0 so the fixed
 // camera-target makes both the turntable and the camera pivot on that axis.
 interface Props {
-  src: string
+  src?: string
+  // when set, the viewer cycles through these GLBs one by one (see cycleSeconds)
+  sources?: string[]
+  cycleSeconds?: number
   alt: string
   cameraOrbit?: string
   fieldOfView?: string
   autoRotate?: boolean
   interactive?: boolean
+  // 'legacy' gives a directional key light that shades flat white prints far
+  // better than the default neutral environment
+  environmentImage?: string
+  exposure?: string
 }
 
 const {
   src,
+  sources,
+  cycleSeconds = 3.5,
   alt,
   cameraOrbit = '30deg 78deg auto',
   fieldOfView = '28deg',
   autoRotate = true,
   interactive = true,
+  environmentImage,
+  exposure = '1.1',
 } = Astro.props
+
+const initialSrc = sources?.[0] ?? src
 ---
 
 <model-viewer
-  src={src}
+  src={initialSrc}
   alt={alt}
+  data-cycle={sources ? JSON.stringify(sources) : undefined}
+  data-cycle-seconds={sources ? String(cycleSeconds) : undefined}
   data-static={interactive ? undefined : ''}
   auto-rotate={autoRotate ? '' : undefined}
   auto-rotate-delay="0"
@@ -37,7 +52,8 @@ const {
   camera-orbit={cameraOrbit}
   field-of-view={fieldOfView}
   shadow-intensity="0.6"
-  exposure="1.1"
+  environment-image={environmentImage}
+  exposure={exposure}
   loading="lazy"
 ></model-viewer>
 
@@ -71,6 +87,59 @@ const {
     })
   }
 
+  // A carousel viewer steps through its data-cycle list one model at a time.
+  // Cycling pauses while the pointer is over the card so the visitor can freely
+  // rotate the current model (followPointer drives it), then resumes on leave.
+  // Static under prefers-reduced-motion: only the first model is ever shown.
+  const cycleSources = (viewer: Element) => {
+    let list: string[] = []
+    try {
+      list = JSON.parse(viewer.getAttribute('data-cycle') ?? '[]')
+    } catch {
+      list = []
+    }
+    if (list.length < 2) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const seconds = Number(viewer.getAttribute('data-cycle-seconds')) || 3.5
+    const card = viewer.closest('.proof-card') ?? viewer
+    const el = viewer as HTMLElement
+    const slide = 'opacity 0.35s ease, transform 0.35s ease-in'
+    const slideIn = 'opacity 0.35s ease, transform 0.35s ease-out'
+    el.style.transition = slide
+    let index = 0
+    let paused = false
+    card.addEventListener('pointerenter', () => (paused = true))
+    card.addEventListener('pointerleave', () => (paused = false))
+    setInterval(() => {
+      if (paused) return
+      index = (index + 1) % list.length
+      const next = list[index]
+      if (!next) return
+      // carousel slide: the current bin exits to the left, the GLB is swapped,
+      // then the next bin enters from the right once model-viewer reports it
+      // loaded (with a safety timeout in case the load event never fires).
+      let revealed = false
+      const reveal = () => {
+        if (revealed) return
+        revealed = true
+        el.style.transition = 'none'
+        el.style.transform = 'translateX(55%)'
+        void el.offsetWidth // flush so the jump to the right side is instant
+        el.style.transition = slideIn
+        el.style.opacity = '1'
+        el.style.transform = 'translateX(0)'
+      }
+      el.style.transition = slide
+      el.style.opacity = '0'
+      el.style.transform = 'translateX(-55%)'
+      window.setTimeout(() => {
+        viewer.addEventListener('load', reveal, { once: true })
+        viewer.setAttribute('src', next)
+        window.setTimeout(reveal, 1200)
+      }, 350)
+    }, seconds * 1000)
+  }
+
   const lazyLoad = () => {
     const viewers = document.querySelectorAll('model-viewer')
     if (viewers.length === 0) return
@@ -92,6 +161,7 @@ const {
       io.observe(viewer)
       // static viewers keep their fixed pose: no pointer-driven rotation
       if (!viewer.hasAttribute('data-static')) followPointer(viewer)
+      if (viewer.hasAttribute('data-cycle')) cycleSources(viewer)
     }
   }
   lazyLoad()

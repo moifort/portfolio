@@ -29,6 +29,7 @@ import carnetIcon from '../assets/carnet/app-icon.png'
 import carnetHome from '../assets/carnet/home.png'
 import carnetRecipe from '../assets/carnet/recipe.png'
 import carnetProposal from '../assets/carnet/proposal.png'
+import gridfinityIcon from '../assets/gridfinity/app-icon.png'
 import lerobotIcon from '../assets/lerobot/app-icon.png'
 import orbIcon from '../assets/orb/app-icon.png'
 import orbMachine from '../assets/orb/machine.png'
@@ -459,7 +460,13 @@ const timeline = [
           <div class="proof-card proof-card--shield" data-category="3d-printing">
             <span class="proof-card__date">Jul 2026</span>
             <div class="proof-card__body">
-              <span class="proof-card__icon proof-card__icon--emoji" aria-hidden="true">🌦️</span>
+              <Image
+                class="proof-card__icon"
+                src={gridfinityIcon}
+                alt="MakerWorld logo"
+                width={200}
+                height={200}
+              />
               <p class="proof-card__eyebrow">3D print</p>
               <p class="proof-card__title">Shield any temperature sensor.</p>
               <p class="proof-card__caption">
@@ -473,6 +480,44 @@ const timeline = [
           </div>
         </Reveal>
         <Reveal delay={0.25}>
+          <a
+            class="proof-card proof-card--gridfinity"
+            href="https://makerworld.com/en/@moifort"
+            rel="noopener"
+            data-category="3d-printing"
+          >
+            <span class="proof-card__date">Jul 2026</span>
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={gridfinityIcon}
+                alt="MakerWorld logo"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Gridfinity · MakerWorld</p>
+              <p class="proof-card__title">Organization, leveled up.</p>
+              <p class="proof-card__caption">Custom Gridfinity stuff.</p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+            <div class="proof-card__model proof-card__model--gridfinity" aria-hidden="true">
+              <ModelViewer
+                sources={[
+                  '/models/gridfinity-caliper.v1.glb',
+                  '/models/gridfinity-civivi.v1.glb',
+                  '/models/gridfinity-multimeter.v1.glb',
+                  '/models/gridfinity-zanflare.v1.glb',
+                ]}
+                alt=""
+                cameraOrbit="-32deg 52deg auto"
+                autoRotate={false}
+                environmentImage="legacy"
+                exposure="0.75"
+              />
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.3}>
           <a
             class="proof-card proof-card--bloomin8"
             href="https://github.com/moifort/bloomin8"
@@ -1766,6 +1811,21 @@ const timeline = [
     background: radial-gradient(120% 120% at 80% 0%, #1c2733 0%, #0a0e14 58%);
     color: #ecf2f8;
     justify-content: center;
+  }
+
+  /* warm amber glow nodding to the MakerWorld orange */
+  .proof-card--gridfinity {
+    background: radial-gradient(120% 120% at 82% 0%, #3a2410 0%, #120b06 58%);
+    color: #f6ece0;
+    justify-content: center;
+  }
+
+  /* the bins vary in size; model-viewer fits each to the shorter side, small
+     insets keep them large and the pose consistent as they cycle */
+  .proof-card--gridfinity .proof-card__model {
+    right: -0.6rem;
+    top: 1.5rem;
+    bottom: 1.5rem;
   }
 
   .proof-card--dashboard {
