@@ -37,6 +37,11 @@ import bloomin8Logo from '../assets/bloomin8/logo.png'
 import bloomin8Screen from '../assets/bloomin8/app-screen.png'
 import cryptoIcon from '../assets/crypto-bot/app-icon.png'
 import homeIcon from '../assets/homebridge-fan/apple-home-icon.jpg'
+import alantayaLogo from '../assets/logos/alantaya.png'
+import decathlonLogo from '../assets/logos/decathlon.png'
+import pupscanLogo from '../assets/logos/pupscan.png'
+import societeGeneraleLogo from '../assets/logos/societegenerale.png'
+import sundayLogo from '../assets/logos/sunday.png'
 import homeFanScreen from '../assets/homebridge-fan/app-screen.png'
 import statsIcon from '../assets/stats/app-icon.png'
 import statsPopover from '../assets/stats/popover.png'
@@ -161,7 +166,13 @@ const influences: Influence[] = [
   },
 ]
 
-const timeline = [
+const timeline: {
+  period: string
+  role: string
+  note: string
+  current?: boolean
+  logo?: ImageMetadata
+}[] = [
   {
     period: 'Since Jan. 2026',
     role: 'Paternity leave',
@@ -172,16 +183,22 @@ const timeline = [
     period: 'Jul. 2025 → Jan. 2026',
     role: 'Senior developer',
     note: 'Sunday',
+    logo: sundayLogo,
   },
   {
     period: '2020 → 2025',
     role: 'Freelance full-stack developer & tech lead',
     note: 'remote, abroad',
   },
-  { period: '2018 → 2020', role: 'Tech lead', note: 'Decathlon' },
-  { period: '2017 → 2018', role: 'CTO', note: 'pupscan.com' },
-  { period: '2016 → 2017', role: 'Web developer', note: 'Société Générale' },
-  { period: '2014 → 2016', role: 'CTO', note: 'alantaya.com' },
+  { period: '2018 → 2020', role: 'Tech lead', note: 'Decathlon', logo: decathlonLogo },
+  { period: '2017 → 2018', role: 'CTO', note: 'pupscan.com', logo: pupscanLogo },
+  {
+    period: '2016 → 2017',
+    role: 'Web developer',
+    note: 'Société Générale',
+    logo: societeGeneraleLogo,
+  },
+  { period: '2014 → 2016', role: 'CTO', note: 'alantaya.com', logo: alantayaLogo },
 ]
 ---
 
@@ -233,7 +250,10 @@ const timeline = [
                 <li class:list={['tl-entry', { 'is-current': t.current }]}>
                   <span class="profile-card__period">{t.period}</span>
                   <strong>{t.role}</strong>
-                  <span class="profile-card__note">{t.note}</span>
+                  <span class="profile-card__note">
+                    {t.logo && <Image src={t.logo} alt="" width={36} height={36} class="tl-logo" />}
+                    {t.note}
+                  </span>
                 </li>
               ))
             }
@@ -1360,6 +1380,17 @@ const timeline = [
   .profile-card__note {
     font-size: 0.8125rem;
     color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .tl-logo {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    object-fit: cover;
+    flex-shrink: 0;
   }
 
   /* price + CTA, like a product card */
