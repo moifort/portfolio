@@ -25,10 +25,10 @@ import ModelViewer from '../components/ModelViewer.astro'
 import Reveal from '../components/Reveal.astro'
 import StatCounter from '../components/StatCounter.astro'
 import bazarIcon from '../assets/bazar/app-icon.png'
-import carnetIcon from '../assets/carnet/app-icon.png'
-import carnetHome from '../assets/carnet/home.png'
-import carnetRecipe from '../assets/carnet/recipe.png'
-import carnetProposal from '../assets/carnet/proposal.png'
+import shuhariIcon from '../assets/shuhari/app-icon.png'
+import shuhariLibrary from '../assets/shuhari/library.png'
+import shuhariRecipe from '../assets/shuhari/recipe.png'
+import shuhariProposal from '../assets/shuhari/proposal.png'
 import gridfinityIcon from '../assets/gridfinity/app-icon.png'
 import lerobotIcon from '../assets/lerobot/app-icon.png'
 import orbIcon from '../assets/orb/app-icon.png'
@@ -421,30 +421,30 @@ const timeline: {
           </a>
         </Reveal>
         <Reveal delay={0.15}>
-          <div class="proof-card proof-card--carnet proof-card--soon" data-category="ios">
+          <div class="proof-card proof-card--shuhari proof-card--soon" data-category="ios">
             <span class="proof-card__ribbon">Coming soon</span>
             <span class="proof-card__date">Jul 2026</span>
             <div class="proof-card__body">
               <Image
                 class="proof-card__icon"
-                src={carnetIcon}
-                alt="Carnet app icon"
+                src={shuhariIcon}
+                alt="Shuhari app icon"
                 width={200}
                 height={200}
               />
-              <p class="proof-card__eyebrow">Carnet · iOS</p>
+              <p class="proof-card__eyebrow">Shuhari · iOS <span class="proof-card__appstore" aria-label="Available on the App Store"><Icon name="simple-icons:appstore" /></span></p>
               <p class="proof-card__title">Your culinary lab notebook.</p>
               <p class="proof-card__caption">
-                Coffee, cocktails, dishes and Thermomix, tuned by AI.
+                Photograph a recipe, rate the attempt, the AI writes the next version.
               </p>
             </div>
             <div class="proof-card__phone" aria-hidden="true">
               <IPhoneFrame>
                 <PhoneCarousel
                   images={[
-                    { src: carnetHome, alt: 'Carnet home, recipes being improved' },
-                    { src: carnetRecipe, alt: 'Espresso recipe with the version to test' },
-                    { src: carnetProposal, alt: 'AI proposing the next iteration' },
+                    { src: shuhariLibrary, alt: 'Recipe library, sorted by month' },
+                    { src: shuhariRecipe, alt: 'Thermomix risotto, version 2' },
+                    { src: shuhariProposal, alt: 'AI proposing the next version' },
                   ]}
                 />
               </IPhoneFrame>
@@ -731,35 +731,6 @@ const timeline: {
             </div>
           </a>
         </Reveal>
-        <Reveal delay={0.55}>
-          <a
-            class="proof-card proof-card--orb"
-            href="https://github.com/moifort/orb"
-            rel="noopener"
-            data-category="hardware"
-          >
-            <span class="proof-card__ribbon proof-card__ribbon--archived">Archived</span>
-            <span class="proof-card__date">Mar 2026</span>
-            <div class="proof-card__body">
-              <Image
-                class="proof-card__icon"
-                src={orbIcon}
-                alt="Orb icon"
-                width={200}
-                height={200}
-              />
-              <p class="proof-card__eyebrow">Orb · Espresso machine</p>
-              <p class="proof-card__title">Reinvent your espresso.</p>
-              <p class="proof-card__caption">
-                A round-touchscreen mod for a Gaggia machine.
-              </p>
-              <span class="proof-card__cta">See more →</span>
-            </div>
-            <div class="proof-card__photo" aria-hidden="true">
-              <Image src={orbMachine} alt="" widths={[257, 514]} sizes="220px" />
-            </div>
-          </a>
-        </Reveal>
         <Reveal delay={0.6}>
           <a
             class="proof-card proof-card--bazar"
@@ -815,6 +786,35 @@ const timeline: {
               <p class="proof-card__title">Typed Audible API client.</p>
               <p class="proof-card__caption">Auth, library, wishlist and catalog search, fully typed.</p>
               <span class="proof-card__cta">Read the docs →</span>
+            </div>
+          </a>
+        </Reveal>
+        <Reveal delay={0.65}>
+          <a
+            class="proof-card proof-card--orb"
+            href="https://github.com/moifort/orb"
+            rel="noopener"
+            data-category="hardware"
+          >
+            <span class="proof-card__ribbon proof-card__ribbon--archived">Archived</span>
+            <span class="proof-card__date">Mar 2026</span>
+            <div class="proof-card__body">
+              <Image
+                class="proof-card__icon"
+                src={orbIcon}
+                alt="Orb icon"
+                width={200}
+                height={200}
+              />
+              <p class="proof-card__eyebrow">Orb · Espresso machine</p>
+              <p class="proof-card__title">Reinvent your espresso.</p>
+              <p class="proof-card__caption">
+                A round-touchscreen mod for a Gaggia machine.
+              </p>
+              <span class="proof-card__cta">See more →</span>
+            </div>
+            <div class="proof-card__photo" aria-hidden="true">
+              <Image src={orbMachine} alt="" widths={[257, 514]} sizes="220px" />
             </div>
           </a>
         </Reveal>
@@ -1064,8 +1064,9 @@ const timeline: {
        de base .profile-card (0,1,0) définie plus bas dans la feuille. */
     .hero .profile-card {
       order: 2;
-      width: min(26rem, 100%);
-      margin-inline: auto;
+      /* pleine largeur : sous 900px la timeline occupe tout le conteneur */
+      width: 100%;
+      margin-inline: 0;
       border: none;
       box-shadow: none;
       background: transparent;
@@ -1761,10 +1762,10 @@ const timeline: {
     justify-content: center;
   }
 
-  /* warm-paper dark tones, echoing the Carnet maquette (#171511 / #211E19) */
-  .proof-card--carnet {
-    background: radial-gradient(120% 120% at 20% 0%, #2a2521 0%, #16130f 62%);
-    color: #efe9e1;
+  /* warm ember tones, echoing the Shuhari app icon (amber flask on coral) */
+  .proof-card--shuhari {
+    background: radial-gradient(120% 120% at 20% 0%, #35211a 0%, #17100c 62%);
+    color: #f2e8e1;
     justify-content: center;
   }
 
