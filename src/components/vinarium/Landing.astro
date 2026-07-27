@@ -4,8 +4,6 @@ import { Icon } from 'astro-icon/components'
 import appIcon from '../../assets/vinarium/app-icon.png'
 import heroArt from '../../assets/vinarium/art/hero.jpg'
 import storyArt from '../../assets/vinarium/art/story.jpg'
-import cellarShot from '../../assets/vinarium/cellar.png'
-import dashboardShot from '../../assets/vinarium/dashboard.png'
 import journalShot from '../../assets/vinarium/journal.png'
 import scanReviewShot from '../../assets/vinarium/scan-review.png'
 import scanShot from '../../assets/vinarium/scan.png'
@@ -17,7 +15,6 @@ import wineDetailShot from '../../assets/vinarium/wine-detail.png'
 import wineListShot from '../../assets/vinarium/wine-list.png'
 import { appStoreUrl, copy } from '../../data/vinarium-copy'
 import IPhoneFrame from '../IPhoneFrame.astro'
-import PhoneCarousel from '../PhoneCarousel.astro'
 import Reveal from '../Reveal.astro'
 import SiteFooter from '../SiteFooter.astro'
 import StatCounter from '../StatCounter.astro'
@@ -84,15 +81,15 @@ const widgets = [
     </div>
     <Reveal delay={0.15} class="vn-hero__phone">
       <IPhoneFrame>
-        <PhoneCarousel
-          priority
-          images={[
-            { src: dashboardShot, alt: c.alts.dashboard },
-            { src: cellarShot, alt: c.alts.cellar },
-            { src: scanReviewShot, alt: c.alts.scanResult },
-            { src: wineListShot, alt: c.alts.wineList },
-          ]}
-        />
+        <video
+          class="vn-hero__video"
+          src="/vinarium/demo.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          aria-label={c.alts.dashboard}></video>
       </IPhoneFrame>
     </Reveal>
   </div>
@@ -304,6 +301,14 @@ const widgets = [
 
   .vn-btn-gold:hover {
     box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  /* ---------- Hero demo video ---------- */
+  .vn-hero__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   /* ---------- Signature connector lines ---------- */
@@ -800,6 +805,13 @@ const widgets = [
 
 <script>
   import { gsap, prefersReducedMotion } from '../../scripts/motion'
+
+  if (prefersReducedMotion()) {
+    for (const video of document.querySelectorAll<HTMLVideoElement>('.vn-hero__video')) {
+      video.removeAttribute('autoplay')
+      video.pause()
+    }
+  }
 
   for (const path of document.querySelectorAll<SVGPathElement>('.vn-line path')) {
     const length = path.getTotalLength()
