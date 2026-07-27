@@ -311,6 +311,13 @@ const widgets = [
     object-fit: cover;
   }
 
+  /* The demo is a real iPhone 15 Pro screen recording: it already carries the
+     status bar laid out around the physical island, so the frame's fake island
+     would double it. */
+  :global(.vn-hero__phone) :global(.iphone__island) {
+    display: none;
+  }
+
   /* ---------- Signature connector lines ---------- */
   .vn-line {
     display: block;
