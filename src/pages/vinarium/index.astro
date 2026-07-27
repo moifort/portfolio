@@ -1,0 +1,21 @@
+---
+import Landing from '../../components/vinarium/Landing.astro'
+import { site } from '../../data/site'
+import Base from '../../layouts/Base.astro'
+
+const alternates = [
+  { hreflang: 'en', href: `${site.domain}/vinarium` },
+  { hreflang: 'fr', href: `${site.domain}/vinarium/fr` },
+  { hreflang: 'x-default', href: `${site.domain}/vinarium` },
+]
+---
+
+<Base
+  title="Vinarium · Your cellar, understood."
+  description="A native iOS wine cellar app. Photograph a label, the AI fills everything and estimates the price. Physical cellar map, live value, drink windows, household sharing."
+  theme="vinarium"
+  lang="en"
+  alternates={alternates}
+>
+  <Landing lang="en" />
+</Base>

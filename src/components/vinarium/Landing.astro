@@ -1,0 +1,756 @@
+---
+import { Image } from 'astro:assets'
+import { Icon } from 'astro-icon/components'
+import appIcon from '../../assets/vinarium/app-icon.png'
+import heroArt from '../../assets/vinarium/art/hero.jpg'
+import storyArt from '../../assets/vinarium/art/story.jpg'
+import cellarShot from '../../assets/vinarium/cellar.png'
+import dashboardShot from '../../assets/vinarium/dashboard.png'
+import journalShot from '../../assets/vinarium/journal.png'
+import scanReviewShot from '../../assets/vinarium/scan-review.png'
+import scanShot from '../../assets/vinarium/scan.png'
+import widgetCave from '../../assets/vinarium/widget-en-cave.png'
+import widgetJournal from '../../assets/vinarium/widget-journal.png'
+import widgetReady from '../../assets/vinarium/widget-pret-a-deguster.png'
+import widgetValue from '../../assets/vinarium/widget-valeur.png'
+import wineDetailShot from '../../assets/vinarium/wine-detail.png'
+import wineListShot from '../../assets/vinarium/wine-list.png'
+import { appStoreUrl, copy } from '../../data/vinarium-copy'
+import IPhoneFrame from '../IPhoneFrame.astro'
+import PhoneCarousel from '../PhoneCarousel.astro'
+import Reveal from '../Reveal.astro'
+import SiteFooter from '../SiteFooter.astro'
+import StatCounter from '../StatCounter.astro'
+
+interface Props {
+  lang: 'en' | 'fr'
+}
+
+const { lang } = Astro.props
+const c = copy[lang]
+
+const widgets = [
+  { src: widgetValue, alt: lang === 'fr' ? 'Widget valeur de la cave' : 'Cellar value widget' },
+  { src: widgetCave, alt: lang === 'fr' ? 'Widget bouteilles en cave' : 'Bottles in cellar widget' },
+  { src: widgetReady, alt: lang === 'fr' ? 'Widget prêt à déguster' : 'Ready to drink widget' },
+  { src: widgetJournal, alt: lang === 'fr' ? 'Widget journal' : 'Journal widget' },
+]
+---
+
+<!-- Pill nav -->
+<nav class="vn-nav" aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
+  <a class="vn-nav__brand" href="#top" aria-label="Vinarium">
+    <Image src={appIcon} alt="" width={72} height={72} />
+  </a>
+  <div class="vn-nav__links">
+    <a href="#scan">{c.nav.scan}</a>
+    <a href="#cellar">{c.nav.cellar}</a>
+    <a href="#pricing">{c.nav.pricing}</a>
+  </div>
+  <a class="vn-nav__lang" href={c.nav.langHref}>{c.nav.langLabel}</a>
+  <a class="vn-nav__cta" href={appStoreUrl} rel="noopener">
+    <Icon name="simple-icons:appstore" />
+    {c.nav.appStore}
+  </a>
+</nav>
+
+<!-- Hero -->
+<header class="vn-hero" id="top">
+  <Image
+    class="vn-hero__bg"
+    src={heroArt}
+    alt=""
+    widths={[768, 1280, 1920, 3168]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+    aria-hidden="true"
+  />
+  <div class="container vn-hero__inner">
+    <div class="vn-hero__text">
+      <Reveal><p class="vn-eyebrow">{c.hero.eyebrow}</p></Reveal>
+      <Reveal delay={0.05}>
+        <h1 class="vn-display">
+          {c.hero.title.split('\n').map((line, i) => (i === 0 ? line : [<br />, line]))}
+        </h1>
+      </Reveal>
+      <Reveal delay={0.1}><p class="lede vn-hero__lede">{c.hero.lede}</p></Reveal>
+      <Reveal delay={0.15}>
+        <p class="vn-hero__actions">
+          <a class="btn vn-btn-gold" href={appStoreUrl} rel="noopener">{c.hero.cta}</a>
+          <span class="vn-hero__sub">{c.hero.sub}</span>
+        </p>
+      </Reveal>
+    </div>
+    <Reveal delay={0.15} class="vn-hero__phone">
+      <IPhoneFrame>
+        <PhoneCarousel
+          priority
+          images={[
+            { src: dashboardShot, alt: 'Vinarium dashboard' },
+            { src: cellarShot, alt: 'Cellar grid' },
+            { src: scanReviewShot, alt: 'AI scan result' },
+            { src: wineListShot, alt: 'Wine list' },
+          ]}
+        />
+      </IPhoneFrame>
+    </Reveal>
+  </div>
+</header>
+
+<!-- Benefits -->
+<section class="section" id="cellar">
+  <div class="container">
+    <Reveal><h2 class="vn-headline">
+      {c.benefits.title.split('\n').map((line, i) => (i === 0 ? line : [<br />, line]))}
+    </h2></Reveal>
+    <Reveal group class="vn-cards">
+      {
+        c.benefits.cards.map((card) => (
+          <article class="vn-card">
+            {card.stat && (
+              <p class="vn-card__stat">
+                <StatCounter value={Number(card.stat)} />
+                <span class="vn-card__stat-label">{card.statLabel}</span>
+              </p>
+            )}
+            <h3 class="vn-card__title">{card.title}</h3>
+            <p class="vn-card__body">{card.body}</p>
+          </article>
+        ))
+      }
+    </Reveal>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="section vn-how" id="scan">
+  <div class="container">
+    <Reveal><h2 class="vn-headline">{c.how.title}</h2></Reveal>
+    <Reveal group class="vn-steps">
+      {
+        c.how.steps.map((step) => (
+          <article class="vn-step">
+            <p class="vn-step__n">{step.n}</p>
+            <h3 class="vn-card__title">{step.title}</h3>
+            <p class="vn-card__body">{step.body}</p>
+          </article>
+        ))
+      }
+    </Reveal>
+    <div class="vn-duo">
+      <Reveal class="vn-duo__phone">
+        <IPhoneFrame src={scanShot} alt={c.how.steps[0]?.title ?? 'Scan'} />
+      </Reveal>
+      <Reveal delay={0.1} class="vn-duo__arrow"><span aria-hidden="true">→</span></Reveal>
+      <Reveal delay={0.2} class="vn-duo__phone">
+        <IPhoneFrame src={scanReviewShot} alt={c.how.steps[1]?.title ?? 'Scan result'} />
+      </Reveal>
+    </div>
+    <Reveal><p class="vn-caption">{c.how.caption}</p></Reveal>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="vn-story">
+  <Image
+    class="vn-story__bg"
+    src={storyArt}
+    alt=""
+    widths={[768, 1280, 1920, 2752]}
+    sizes="100vw"
+    aria-hidden="true"
+  />
+  <div class="container vn-story__inner">
+    <div class="vn-story__text">
+      <Reveal><p class="vn-eyebrow">{c.story.eyebrow}</p></Reveal>
+      <Reveal delay={0.05}><h2 class="vn-headline">{c.story.title}</h2></Reveal>
+      <Reveal delay={0.1}><p class="vn-story__body">{c.story.body}</p></Reveal>
+      <Reveal delay={0.15}><p class="vn-story__body">{c.story.sharing}</p></Reveal>
+    </div>
+    <Reveal delay={0.1} class="vn-story__badge-wrap">
+      <a class="vn-price-badge" href={appStoreUrl} rel="noopener">
+        <span class="vn-price-badge__label">{c.story.badgeLabel}</span>
+        <span class="vn-price-badge__value">{c.story.badge}</span>
+      </a>
+    </Reveal>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section" id="features">
+  <div class="container">
+    <Reveal><h2 class="vn-headline">{c.features.title}</h2></Reveal>
+    <Reveal delay={0.05}><p class="lede vn-features__lede">{c.features.lede}</p></Reveal>
+    <div class="vn-features">
+      <Reveal group class="vn-features__grid">
+        {
+          c.features.items.map((item) => (
+            <article class="vn-card">
+              <h3 class="vn-card__title">{item.title}</h3>
+              <p class="vn-card__body">{item.body}</p>
+            </article>
+          ))
+        }
+      </Reveal>
+      <Reveal group class="vn-features__phones">
+        <IPhoneFrame src={wineListShot} alt="Wine list" class="vn-features__phone" />
+        <IPhoneFrame src={journalShot} alt="Journal" class="vn-features__phone" />
+        <IPhoneFrame src={wineDetailShot} alt="Wine detail" class="vn-features__phone" />
+      </Reveal>
+    </div>
+    <Reveal><p class="vn-caption">{c.features.widgetsLabel}</p></Reveal>
+    <Reveal group class="vn-widgets">
+      {
+        widgets.map((w) => (
+          <figure class="vn-widgets__item">
+            <Image src={w.src} alt={w.alt} widths={[320, 480, 640]} sizes="(max-width: 768px) 44vw, 280px" />
+          </figure>
+        ))
+      }
+    </Reveal>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section vn-pricing" id="pricing">
+  <div class="container--narrow">
+    <Reveal><p class="vn-eyebrow">{c.pricing.eyebrow}</p></Reveal>
+    <Reveal delay={0.05}><h2 class="vn-headline">{c.pricing.title}</h2></Reveal>
+    <Reveal group class="vn-pricing__cards">
+      <article class="vn-card vn-pricing__card">
+        <h3 class="vn-card__title">{c.pricing.free.name}</h3>
+        <p class="vn-pricing__price">{c.pricing.free.price}</p>
+        <ul>
+          {c.pricing.free.lines.map((line) => <li>{line}</li>)}
+        </ul>
+      </article>
+      <article class="vn-card vn-pricing__card vn-pricing__card--premium">
+        <h3 class="vn-card__title">{c.pricing.premium.name}</h3>
+        <p class="vn-pricing__price">{c.pricing.premium.price}</p>
+        <ul>
+          {c.pricing.premium.lines.map((line) => <li>{line}</li>)}
+        </ul>
+        <p class="vn-pricing__note">{c.pricing.premium.note}</p>
+      </article>
+    </Reveal>
+    <Reveal class="vn-pricing__cta-wrap">
+      <a class="btn vn-btn-gold" href={appStoreUrl} rel="noopener">
+        <Icon name="simple-icons:appstore" />
+        {c.pricing.cta}
+      </a>
+    </Reveal>
+  </div>
+</section>
+
+<div class="container vn-tagline">
+  <p>{c.footer.tagline} <a href="/">{c.footer.backLink} →</a></p>
+</div>
+
+<SiteFooter backLink />
+
+<style>
+  /* ---------- rigakvest-flavoured type ---------- */
+  .vn-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .vn-display {
+    font-size: clamp(2.6rem, 6.5vw, 4.6rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin-top: 1rem;
+  }
+
+  .vn-headline {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .vn-caption {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .vn-btn-gold {
+    background: var(--accent);
+    color: #181114;
+  }
+
+  .vn-btn-gold:hover {
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  /* ---------- Pill nav ---------- */
+  .vn-nav {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    translate: -50% 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 0.5rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--card) 78%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .vn-nav__brand img {
+    display: block;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.6rem;
+  }
+
+  .vn-nav__links {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .vn-nav__links a,
+  .vn-nav__lang {
+    font-size: 0.875rem;
+    font-weight: 550;
+    text-decoration: none;
+    color: var(--text);
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+
+  .vn-nav__links a:hover,
+  .vn-nav__lang:hover {
+    opacity: 1;
+  }
+
+  .vn-nav__lang {
+    padding: 0.35rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+
+  .vn-nav__cta {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    gap: 0.45rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #181114;
+    font-size: 0.875rem;
+    font-weight: 650;
+    text-decoration: none;
+    transition: transform 0.25s var(--ease-out);
+  }
+
+  .vn-nav__cta:hover {
+    transform: translateY(-1px);
+  }
+
+  .vn-nav__cta svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  /* ---------- Hero ---------- */
+  .vn-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-top: clamp(7rem, 16vh, 10rem);
+    padding-bottom: clamp(3rem, 8vh, 6rem);
+    min-height: 92svh;
+    display: flex;
+    align-items: center;
+  }
+
+  .vn-hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+
+  .vn-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--bg) 30%, transparent),
+      color-mix(in srgb, var(--bg) 55%, transparent) 55%,
+      var(--bg)
+    );
+  }
+
+  .vn-hero__inner {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .vn-hero__lede {
+    color: color-mix(in srgb, var(--text) 82%, transparent);
+    margin-top: 1.25rem;
+    max-width: 30rem;
+  }
+
+  .vn-hero__actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 2.25rem;
+    flex-wrap: wrap;
+  }
+
+  .vn-hero__sub {
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  :global(.vn-hero__phone) {
+    justify-self: center;
+  }
+
+  /* ---------- Benefit cards ---------- */
+  :global(.vn-cards) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 3rem;
+  }
+
+  .vn-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 2rem;
+  }
+
+  .vn-card__stat {
+    color: var(--accent);
+    font-size: clamp(2.6rem, 4.5vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vn-card__stat-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .vn-card__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+
+  .vn-card__body {
+    color: var(--muted);
+    font-size: 0.9875rem;
+    line-height: 1.6;
+  }
+
+  /* ---------- How it works ---------- */
+  :global(.vn-steps) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 3rem;
+  }
+
+  .vn-step {
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+  }
+
+  .vn-step__n {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.9375rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  .vn-duo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1rem, 4vw, 3rem);
+    margin-top: 4rem;
+  }
+
+  :global(.vn-duo__arrow) span {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    color: var(--accent);
+  }
+
+  /* ---------- Story ---------- */
+  .vn-story {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(7rem, 20vh, 13rem);
+  }
+
+  .vn-story__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+  }
+
+  .vn-story::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      to bottom,
+      var(--bg),
+      color-mix(in srgb, var(--bg) 35%, transparent) 30%,
+      color-mix(in srgb, var(--bg) 35%, transparent) 70%,
+      var(--bg)
+    );
+  }
+
+  .vn-story__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .vn-story__text {
+    max-width: 36rem;
+  }
+
+  .vn-story__body {
+    color: color-mix(in srgb, var(--text) 85%, transparent);
+    margin-top: 1.25rem;
+    line-height: 1.65;
+  }
+
+  .vn-price-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    width: clamp(8rem, 14vw, 10.5rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    rotate: 8deg;
+    transition: rotate 0.35s var(--ease-out), scale 0.35s var(--ease-out);
+    background: color-mix(in srgb, var(--bg) 45%, transparent);
+    backdrop-filter: blur(4px);
+  }
+
+  .vn-price-badge:hover {
+    rotate: 0deg;
+    scale: 1.04;
+  }
+
+  .vn-price-badge__label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .vn-price-badge__value {
+    font-size: 1.6rem;
+    font-weight: 650;
+  }
+
+  /* ---------- Features ---------- */
+  .vn-features__lede {
+    margin-top: 1rem;
+    max-width: 34rem;
+  }
+
+  .vn-features {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  :global(.vn-features__grid) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  :global(.vn-features__phones) {
+    display: flex;
+    gap: 1rem;
+  }
+
+  :global(.vn-features__phones) :global(.vn-features__phone) {
+    --iphone-w: clamp(150px, 16vw, 200px);
+  }
+
+  :global(.vn-features__phones) :global(.vn-features__phone:nth-child(2)) {
+    translate: 0 2.5rem;
+  }
+
+  :global(.vn-widgets) {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  .vn-widgets__item img {
+    width: 100%;
+    height: auto;
+    border-radius: 1.4rem;
+    border: 1px solid var(--border);
+  }
+
+  /* ---------- Pricing ---------- */
+  :global(.vn-pricing__cards) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-top: 3rem;
+  }
+
+  .vn-pricing__card ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.25rem;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .vn-pricing__card li {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    padding-left: 1.4rem;
+    position: relative;
+  }
+
+  .vn-pricing__card li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .vn-pricing__card--premium {
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background: color-mix(in srgb, var(--accent) 6%, var(--card));
+  }
+
+  .vn-pricing__price {
+    color: var(--accent);
+    font-weight: 650;
+    font-size: 1.1rem;
+  }
+
+  .vn-pricing__note {
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  :global(.vn-pricing__cta-wrap) {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
+  :global(.vn-pricing__cta-wrap) svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  /* ---------- Tagline ---------- */
+  .vn-tagline p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    text-align: center;
+  }
+
+  .vn-tagline a {
+    color: var(--text);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .vn-nav__links {
+      display: none;
+    }
+
+    .vn-hero__inner,
+    .vn-features {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.vn-hero__phone) {
+      margin-top: 1rem;
+    }
+
+    :global(.vn-cards),
+    :global(.vn-steps) {
+      grid-template-columns: 1fr;
+    }
+
+    .vn-story__inner {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.vn-story__badge-wrap) {
+      justify-self: center;
+    }
+
+    :global(.vn-features__phones) {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    :global(.vn-widgets) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    :global(.vn-pricing__cards) {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

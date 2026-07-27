@@ -1,0 +1,21 @@
+---
+import Landing from '../../components/vinarium/Landing.astro'
+import { site } from '../../data/site'
+import Base from '../../layouts/Base.astro'
+
+const alternates = [
+  { hreflang: 'en', href: `${site.domain}/vinarium` },
+  { hreflang: 'fr', href: `${site.domain}/vinarium/fr` },
+  { hreflang: 'x-default', href: `${site.domain}/vinarium` },
+]
+---
+
+<Base
+  title="Vinarium · Votre cave, comprise."
+  description="Une app iOS native de gestion de cave à vin. Photographiez une étiquette, l'IA remplit tout et estime le prix. Plan physique de la cave, valeur en direct, fenêtres de garde, partage en foyer."
+  theme="vinarium"
+  lang="fr"
+  alternates={alternates}
+>
+  <Landing lang="fr" />
+</Base>
