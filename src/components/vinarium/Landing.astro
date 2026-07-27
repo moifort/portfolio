@@ -87,10 +87,10 @@ const widgets = [
         <PhoneCarousel
           priority
           images={[
-            { src: dashboardShot, alt: 'Vinarium dashboard' },
-            { src: cellarShot, alt: 'Cellar grid' },
-            { src: scanReviewShot, alt: 'AI scan result' },
-            { src: wineListShot, alt: 'Wine list' },
+            { src: dashboardShot, alt: c.alts.dashboard },
+            { src: cellarShot, alt: c.alts.cellar },
+            { src: scanReviewShot, alt: c.alts.scanResult },
+            { src: wineListShot, alt: c.alts.wineList },
           ]}
         />
       </IPhoneFrame>
@@ -147,11 +147,11 @@ const widgets = [
     </Reveal>
     <div class="vn-duo">
       <Reveal class="vn-duo__phone">
-        <IPhoneFrame src={scanShot} alt={c.how.steps[0]?.title ?? 'Scan'} />
+        <IPhoneFrame src={scanShot} alt={c.alts.scanCamera} />
       </Reveal>
       <Reveal delay={0.1} class="vn-duo__arrow"><span aria-hidden="true">→</span></Reveal>
       <Reveal delay={0.2} class="vn-duo__phone">
-        <IPhoneFrame src={scanReviewShot} alt={c.how.steps[1]?.title ?? 'Scan result'} />
+        <IPhoneFrame src={scanReviewShot} alt={c.alts.scanResult} />
       </Reveal>
     </div>
     <Reveal><p class="vn-caption">{c.how.caption}</p></Reveal>
@@ -186,7 +186,7 @@ const widgets = [
 
 <!-- Features -->
 <section class="section" id="features">
-  <svg class="vn-line vn-line--flip" viewBox="0 0 640 220" fill="none" aria-hidden="true">
+  <svg class="vn-line" viewBox="0 0 640 220" fill="none" aria-hidden="true">
     <path
       d="M628 14 C 460 140, 300 -20, 240 100 C 210 160, 320 200, 270 158 C 220 116, 120 180, 14 204"
       stroke="currentColor"
@@ -208,9 +208,9 @@ const widgets = [
         }
       </Reveal>
       <Reveal group class="vn-features__phones">
-        <IPhoneFrame src={wineListShot} alt="Wine list" class="vn-features__phone" />
-        <IPhoneFrame src={journalShot} alt="Journal" class="vn-features__phone" />
-        <IPhoneFrame src={wineDetailShot} alt="Wine detail" class="vn-features__phone" />
+        <IPhoneFrame src={wineListShot} alt={c.alts.wineList} class="vn-features__phone" />
+        <IPhoneFrame src={journalShot} alt={c.alts.journal} class="vn-features__phone" />
+        <IPhoneFrame src={wineDetailShot} alt={c.alts.wineDetail} class="vn-features__phone" />
       </Reveal>
     </div>
     <Reveal><p class="vn-caption">{c.features.widgetsLabel}</p></Reveal>
@@ -745,6 +745,14 @@ const widgets = [
       display: none;
     }
 
+    .vn-duo {
+      gap: clamp(0.5rem, 2.5vw, 1.5rem);
+    }
+
+    .vn-duo :global(.iphone) {
+      --iphone-w: clamp(120px, 36vw, 240px);
+    }
+
     .vn-hero__inner,
     .vn-features {
       grid-template-columns: 1fr;
@@ -767,9 +775,17 @@ const widgets = [
       justify-self: center;
     }
 
+    :global(.vn-features__grid) {
+      grid-template-columns: 1fr;
+    }
+
     :global(.vn-features__phones) {
       justify-content: center;
       flex-wrap: wrap;
+    }
+
+    :global(.vn-features__phones .vn-features__phone) {
+      --iphone-w: clamp(96px, 26vw, 200px);
     }
 
     :global(.vn-widgets) {

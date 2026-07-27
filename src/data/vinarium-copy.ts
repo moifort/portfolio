@@ -16,6 +16,15 @@ export type VinariumCopy = {
     cta: string
   }
   footer: { tagline: string; backLink: string }
+  alts: {
+    dashboard: string
+    cellar: string
+    scanResult: string
+    wineList: string
+    journal: string
+    wineDetail: string
+    scanCamera: string
+  }
 }
 
 export const appStoreUrl = 'https://apps.apple.com/app/vinarium/id6789688303'
@@ -53,8 +62,6 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
         {
           title: 'Value and drink windows',
           body: 'The dashboard totals what your cellar is worth and flags what is ready to drink, before it fades.',
-          stat: '7',
-          statLabel: 'languages shipped',
         },
       ],
     },
@@ -77,7 +84,7 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
           body: 'Pick a row and a slot. The bottle now has a place, a value and a drink window.',
         },
       ],
-      caption: 'The scan on the right is real: a Grange des Peres 2016, read from one photo.',
+      caption: 'The scan on the right is real: a Grange des Pères 2016, read from one photo.',
     },
     story: {
       eyebrow: 'Why I built it',
@@ -140,6 +147,15 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       tagline: 'Vinarium, a native iOS app built by supervising Claude.',
       backLink: 'See how it was built',
     },
+    alts: {
+      dashboard: 'Vinarium dashboard: bottles in cellar, total value, ready-to-drink list',
+      cellar: 'Physical cellar map, bottle by bottle',
+      scanResult: 'AI-filled wine record after a scan',
+      wineList: 'Wine list with vintages and prices',
+      journal: 'Journal of cellar entries and exits',
+      wineDetail: 'Wine detail record',
+      scanCamera: 'Scanning a wine label with the camera',
+    },
   },
   fr: {
     nav: {
@@ -173,8 +189,6 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
         {
           title: 'Valeur et fenêtres de garde',
           body: "Le tableau de bord totalise la valeur de votre cave et signale ce qui est prêt à boire, avant que ça ne passe.",
-          stat: '7',
-          statLabel: 'langues disponibles',
         },
       ],
     },
@@ -259,6 +273,15 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
     footer: {
       tagline: 'Vinarium, une app iOS native construite en supervisant Claude.',
       backLink: 'Voir comment elle a été construite',
+    },
+    alts: {
+      dashboard: 'Tableau de bord Vinarium : bouteilles en cave, valeur totale, liste prêt à boire',
+      cellar: 'Plan physique de la cave, bouteille par bouteille',
+      scanResult: 'Fiche vin remplie par l\'IA après un scan',
+      wineList: 'Liste des vins avec millésimes et prix',
+      journal: 'Journal des entrées et sorties de cave',
+      wineDetail: 'Fiche détaillée d\'un vin',
+      scanCamera: 'Scan d\'une étiquette de vin avec l\'appareil photo',
     },
   },
 }
