@@ -100,6 +100,13 @@ const widgets = [
 
 <!-- Benefits -->
 <section class="section" id="cellar">
+  <svg class="vn-line" viewBox="0 0 640 220" fill="none" aria-hidden="true">
+    <path
+      d="M12 14 C 180 150, 380 -30, 420 90 C 445 165, 330 190, 372 150 C 420 105, 560 170, 628 206"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"></path>
+  </svg>
   <div class="container">
     <Reveal><h2 class="vn-headline">
       {c.benefits.title.split('\n').map((line, i) => (i === 0 ? line : [<br />, line]))}
@@ -179,6 +186,13 @@ const widgets = [
 
 <!-- Features -->
 <section class="section" id="features">
+  <svg class="vn-line vn-line--flip" viewBox="0 0 640 220" fill="none" aria-hidden="true">
+    <path
+      d="M628 14 C 460 140, 300 -20, 240 100 C 210 160, 320 200, 270 158 C 220 116, 120 180, 14 204"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"></path>
+  </svg>
   <div class="container">
     <Reveal><h2 class="vn-headline">{c.features.title}</h2></Reveal>
     <Reveal delay={0.05}><p class="lede vn-features__lede">{c.features.lede}</p></Reveal>
@@ -290,6 +304,19 @@ const widgets = [
 
   .vn-btn-gold:hover {
     box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  /* ---------- Signature connector lines ---------- */
+  .vn-line {
+    display: block;
+    width: min(40rem, 86vw);
+    height: auto;
+    margin-inline: auto;
+    margin-bottom: clamp(2rem, 6vh, 4rem);
+    margin-top: calc(var(--section-gap) * -0.55);
+    color: var(--accent);
+    opacity: 0.75;
+    pointer-events: none;
   }
 
   /* ---------- Pill nav ---------- */
@@ -754,3 +781,24 @@ const widgets = [
     }
   }
 </style>
+
+<script>
+  import { gsap, prefersReducedMotion } from '../../scripts/motion'
+
+  for (const path of document.querySelectorAll<SVGPathElement>('.vn-line path')) {
+    const length = path.getTotalLength()
+    if (prefersReducedMotion()) continue
+    path.style.strokeDasharray = `${length}`
+    path.style.strokeDashoffset = `${length}`
+    gsap.to(path, {
+      strokeDashoffset: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: path.closest('svg'),
+        start: 'top 92%',
+        end: 'bottom 45%',
+        scrub: true,
+      },
+    })
+  }
+</script>
