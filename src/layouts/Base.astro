@@ -7,20 +7,23 @@ interface Props {
   title: string
   description: string
   theme: 'home' | 'crypto' | 'vinarium'
+  lang?: 'en' | 'fr'
+  alternates?: { hreflang: string; href: string }[]
 }
 
-const { title, description, theme } = Astro.props
+const { title, description, theme, lang = 'en', alternates = [] } = Astro.props
 const canonical = new URL(Astro.url.pathname, Astro.site)
 ---
 
 <!doctype html>
-<html lang="en" data-theme={theme}>
+<html lang={lang} data-theme={theme}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:type" content="website" />
