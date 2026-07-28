@@ -510,17 +510,6 @@ const HEAD_TILES = new Set(['detail', 'search'])
 <!-- Pricing -->
 <section class="section vn-pricing" id="pricing">
   <div class="container">
-    <Reveal>
-      <h2 class="vn-headline vn-headline--icon">
-        {/* SF Symbols "tag", redrawn to match the cabinet and the magnifier that
-            head the other sections. */}
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M11.6 3H5a2 2 0 0 0-2 2v6.6a2 2 0 0 0 .59 1.41l7.4 7.4a2 2 0 0 0 2.83 0l6.6-6.6a2 2 0 0 0 0-2.83l-7.4-7.4A2 2 0 0 0 11.6 3Z"></path>
-          <path d="M7.5 7.5h.01"></path>
-        </svg>
-        {c.pricing.title}
-      </h2>
-    </Reveal>
     <Reveal delay={0.05}>
       <table class="vn-plans">
         <thead>
@@ -575,13 +564,9 @@ const HEAD_TILES = new Set(['detail', 'search'])
           column is too narrow to hold it. aria-hidden either way: the header
           already says it to a screen reader. */}
       <p class="vn-pricing__options-mobile" aria-hidden="true">{c.pricing.premium.trial}</p>
-      <p class="vn-pricing__note">{c.pricing.note}</p>
     </Reveal>
     <Reveal class="vn-pricing__cta-wrap">
-      <a class="btn vn-btn-gold" href={appStoreUrl} rel="noopener">
-        <span class="vn-appstore" aria-hidden="true"><Icon name="simple-icons:appstore" /></span>
-        {c.pricing.cta}
-      </a>
+      <AppStoreBadge href={appStoreUrl} lang={lang} />
     </Reveal>
   </div>
 </section>
@@ -617,15 +602,6 @@ const HEAD_TILES = new Set(['detail', 'search'])
     height: 0.85em;
     color: var(--accent);
     stroke-width: 1.5;
-  }
-
-  .vn-btn-gold {
-    background: var(--accent);
-    color: #181114;
-  }
-
-  .vn-btn-gold:hover {
-    box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 35%, transparent);
   }
 
   /* ---------- Hero demo video ---------- */
@@ -1616,22 +1592,10 @@ const HEAD_TILES = new Set(['detail', 'search'])
     color: var(--muted);
   }
 
-  .vn-pricing__note {
-    margin-top: 1.25rem;
-    font-size: 0.875rem;
-    color: var(--muted);
-    font-style: italic;
-  }
-
   :global(.vn-pricing__cta-wrap) {
     display: flex;
     justify-content: center;
     margin-top: 3rem;
-  }
-
-  :global(.vn-pricing__cta-wrap) svg {
-    width: 1.1rem;
-    height: 1.1rem;
   }
 
   /* ---------- Responsive ---------- */

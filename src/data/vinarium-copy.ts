@@ -41,7 +41,6 @@ export type VinariumCopy = {
     empty: string
   }
   pricing: {
-    title: string
     free: { name: string; price: string }
     /* Both plans, priced in the currency of the store this language sells in. */
     premium: { name: string; monthly: string; yearly: string; trial: string }
@@ -49,8 +48,6 @@ export type VinariumCopy = {
        which is how the one differing row reads. */
     rows: { label: string; free: string | true; premium: string | true }[]
     included: string
-    note: string
-    cta: string
   }
   alts: {
     dashboard: string
@@ -70,7 +67,7 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       cellars: 'Cellars',
       features: 'Features',
       search: 'Search',
-      pricing: 'Plans',
+      pricing: 'Pricing',
       appStore: 'App Store',
     },
     hero: {
@@ -127,7 +124,6 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       empty: 'Nothing matches. Build it yourself below, it takes two numbers.',
     },
     pricing: {
-      title: '2 plans',
       free: { name: 'Free', price: '$0' },
       premium: {
         name: 'Premium',
@@ -149,8 +145,6 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
         { label: 'AI scans', free: '5 a month', premium: 'Unlimited' },
       ],
       included: 'Included',
-      note: 'Everything else stays free. Premium only lifts the scan meter, and exists only to pay for the infrastructure and the AI it runs on.',
-      cta: 'Get Vinarium',
     },
     alts: {
       dashboard: 'Vinarium dashboard: bottles in cellar, total value, ready-to-drink list',
@@ -166,7 +160,7 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       cellars: 'Caves',
       features: 'Fonctionnalités',
       search: 'Recherche',
-      pricing: 'Offres',
+      pricing: 'Tarifs',
       appStore: 'App Store',
     },
     hero: {
@@ -223,7 +217,6 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       empty: 'Aucun résultat. Construisez la vôtre ci-dessous, il suffit de deux nombres.',
     },
     pricing: {
-      title: '2 offres',
       free: { name: 'Gratuit', price: '0 €' },
       premium: {
         name: 'Premium',
@@ -245,8 +238,6 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
         { label: 'Scans IA', free: '5 par mois', premium: 'Illimités' },
       ],
       included: 'Inclus',
-      note: "Tout le reste reste gratuit. Premium ne lève que le compteur de scans, et sert uniquement à autofinancer les coûts d'infrastructure et d'IA.",
-      cta: 'Télécharger Vinarium',
     },
     alts: {
       dashboard: 'Tableau de bord Vinarium : bouteilles en cave, valeur totale, liste prêt à boire',
