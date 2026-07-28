@@ -1,28 +1,27 @@
 ---
+import type { ImageMetadata } from 'astro'
 import { Image } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
 import homeIcon from '../../assets/vinarium/home-icon.png'
 import wineDetailDark from '../../assets/vinarium/wine-detail-dark.png'
 import locationMap from '../../assets/vinarium/location-map.png'
+import decanter from '../../assets/vinarium/decanter.png'
+import sakeShot from '../../assets/vinarium/sake.png'
+import searchShot from '../../assets/vinarium/search-dark.png'
+import memoji1 from '../../assets/vinarium/memoji/memoji-1.png'
+import memoji2 from '../../assets/vinarium/memoji/memoji-2.png'
+import memoji3 from '../../assets/vinarium/memoji/memoji-3.png'
+import memoji4 from '../../assets/vinarium/memoji/memoji-4.png'
 import siriIcon from '../../assets/vinarium/siri-icon.png'
 import appIcon from '../../assets/vinarium/app-icon.png'
 import cellarShot from '../../assets/vinarium/cellar-dark.png'
 import heroArt from '../../assets/vinarium/art/hero.jpg'
-import storyArt from '../../assets/vinarium/art/story.jpg'
 import journalDarkShot from '../../assets/vinarium/journal-dark.png'
-import journalShot from '../../assets/vinarium/journal.png'
-import widgetCave from '../../assets/vinarium/widget-en-cave.png'
-import widgetJournal from '../../assets/vinarium/widget-journal.png'
-import widgetReady from '../../assets/vinarium/widget-pret-a-deguster.png'
-import widgetValue from '../../assets/vinarium/widget-valeur.png'
-import wineDetailShot from '../../assets/vinarium/wine-detail.png'
-import wineListShot from '../../assets/vinarium/wine-list.png'
 import { cellarBrandCount, cellarPresets } from '../../data/vinarium-cellars'
 import { appStoreUrl, copy } from '../../data/vinarium-copy'
 import AppStoreBadge from '../AppStoreBadge.astro'
 import IPhoneFrame from '../IPhoneFrame.astro'
 import Reveal from '../Reveal.astro'
-import SiteFooter from '../SiteFooter.astro'
 
 interface Props {
   lang: 'en' | 'fr'
@@ -41,104 +40,109 @@ const cellarsLede = c.cellars.lede
 /* The bento geometry is traced from the iOS keynote slide: 15 columns by 12
    rows, each tile given as [column, span, row, span]. Read left to right, top
    to bottom, the sixteen tiles tile the rectangle exactly. */
-/* The six beverage types the app recognises, in its own declaration order.
-   Each glyph redraws the SF Symbol the app uses, since Apple licenses that set
-   for Apple platforms only. Tones follow the app's displayColor, lightened
-   where the original would sink into the dark tile.
 
-   One deliberate departure: the app marks cider with "applelogo". Showing
-   Apple's mark as a cider icon on a public page is not ours to do, so this is
-   an apple, the fruit. */
-const beverageTypes = [
-  {
-    key: 'wine' as const,
-    tone: '#c0424a',
-    paths: [
-      'M7.6 3.2h8.8c.3 0 .5.2.5.5 0 4.4-1.9 7.3-4.9 7.3s-4.9-2.9-4.9-7.3c0-.3.2-.5.5-.5Z',
-      'M12 11v9.2',
-      'M8.7 20.2h6.6',
-    ],
-  },
-  {
-    key: 'spirit' as const,
-    tone: '#d08a45',
-    paths: [
-      'M12 2.8c3.2 3 5.6 5.6 5.6 9.3a5.6 5.6 0 0 1-11.2 0c0-1.7.5-3.1 1.5-4.4.3 1.4 1 2.3 2 2.6-.2-3 .8-5.2 2.1-7.5Z',
-    ],
-  },
-  {
-    key: 'beer' as const,
-    tone: '#edb83b',
-    paths: [
-      'M4.8 6.4h11v11a2.6 2.6 0 0 1-2.6 2.6H7.4a2.6 2.6 0 0 1-2.6-2.6Z',
-      'M15.8 9.2h1.8a2.6 2.6 0 0 1 0 5.2h-1.8',
-    ],
-  },
-  {
-    key: 'sake' as const,
-    tone: '#d9d9c7',
-    paths: [
-      'M5.6 5.6h9.2v6.1a4.6 4.6 0 0 1-9.2 0Z',
-      'M14.8 7.3h1.5a2.3 2.3 0 0 1 0 4.6h-1.5',
-      'M3.5 17.6h14.4',
-    ],
-  },
-  {
-    key: 'cider' as const,
-    tone: '#9ebf38',
-    paths: [
-      'M12 8.4c1.4-1.2 3.1-1.4 4.4-.5 1.6 1.1 2 3.6 1 6.1-.9 2.3-2.5 4-3.9 3.9-.7 0-1-.3-1.5-.3s-.8.3-1.5.3c-1.4.1-3-1.6-3.9-3.9-1-2.5-.6-5 1-6.1 1.3-.9 3-.7 4.4.5Z',
-      'M12 8.4V5.6',
-      'M12 5.6c1.6-.4 2.6-1.3 2.9-2.6-1.5 0-2.6.9-2.9 2.6Z',
-    ],
-  },
-  {
-    key: 'other' as const,
-    tone: '#9a9aa0',
-    paths: [
-      'M12 3.3a8.7 8.7 0 1 1 0 17.4 8.7 8.7 0 0 1 0-17.4Z',
-      'M9.9 9.5a2.2 2.2 0 0 1 4.3.5c0 1.5-2.1 1.7-2.1 3.2',
-      'M12 16.6h.01',
-    ],
-  },
+
+
+/* Laid out on an invisible circle rather than in a row: each bubble sits at a
+   fixed angle and radius, sized unevenly so the cluster reads as a household.
+   The radius is chosen so neighbours never touch. */
+const householdBubbles: { src: ImageMetadata; size: number; x: number; y: number; tone: string }[] = [
+  { src: memoji2, size: 2.94, x: -1.76, y: -1.02, tone: '#b32a3c' },
+  { src: memoji3, size: 2.45, x: 1.02, y: -1.76, tone: '#e0453f' },
+  { src: memoji1, size: 2.66, x: 1.76, y: 1.01, tone: '#8e3fd4' },
+  { src: memoji4, size: 2.17, x: -1.01, y: 1.76, tone: '#f0a01e' },
+]
+/* The dashboard's ready-to-drink list, redrawn rather than screenshotted: at
+   tile size the capture would be unreadable, and the rows have to reflow when
+   the tile does. Dots reuse the wine-colour palette of the search filters.
+   Deliberately longer than the tile is tall: the last row is cut by the bottom
+   edge, which is what says the list carries on. */
+const readyWines: { name: string; tone: string; year: number }[] = [
+  { name: 'Tapada das Gamas', tone: '#c0424a', year: 2026 },
+  { name: 'La Gioiosa Valdobbiadene', tone: '#d9e08c', year: 2026 },
+  { name: 'Tavel Différent', tone: '#ff6b8c', year: 2026 },
+  { name: 'Bailly Lapierre Crémant', tone: '#d9e08c', year: 2027 },
+  { name: "Quinta Seara d'Ordens Porto", tone: '#c0424a', year: 2027 },
+  { name: 'Domaine Ott Clos Mireille', tone: '#ff6b8c', year: 2028 },
+  { name: 'Château Musar Rouge', tone: '#c0424a', year: 2028 },
 ]
 
+/* An excerpt of the account export, shaped like the app's own JSON file. Short
+   lines on purpose: the tile is two columns wide, so anything longer would be
+   cut mid-key. The tile clips whatever runs past its edges. */
+const exportJson = `{
+  "cellar": "Maison",
+  "bottles": 214,
+  "wines": [
+    {
+      "name": "Tavel",
+      "vintage": 2021,
+      "type": "rose",
+      "slot": "A5",
+      "price": 18.50
+    },
+    {
+      "name": "Musar",
+      "vintage": 2016,
+      "type": "red",
+      "slot": "B2",
+      "price": 42.00
+    },
+    {
+      "name": "Bucu",`
 
-const bentoShare = 0
-const bentoDetail = 7
-const bentoTypes = 5
-const bentoPrice = 15
-const bentoMap = 2
-const bentoFav = 3
-const bentoContact = 12
-const bentoStars = 11
-const bentoHero = 8
-const bentoSiri = 9
-const bentoTiles: [number, number, number, number][] = [
-  [1, 3, 1, 4],
-  [4, 2, 1, 4],
-  [6, 3, 1, 4],
-  [9, 2, 1, 4],
-  [11, 2, 1, 4],
-  [13, 3, 1, 7],
-  [1, 2, 5, 3],
-  [3, 3, 5, 8],
-  [6, 5, 5, 4],
-  [11, 2, 5, 4],
-  [1, 2, 8, 2],
-  [13, 3, 8, 2],
-  [6, 3, 9, 4],
-  [9, 4, 9, 4],
-  [1, 2, 10, 3],
-  [13, 3, 10, 3],
+/* The bento geometry is traced from the iOS keynote slide: 15 columns by 12
+   rows. Naming each cell keeps the content tied to a tile rather than to its
+   position in the array, so cells can be merged without renumbering. */
+const bentoTiles = [
+  { key: 'share', col: 1, colSpan: 3, row: 1, rowSpan: 4 },
+  { key: 'export', col: 4, colSpan: 2, row: 1, rowSpan: 4 },
+  { key: 'map', col: 6, colSpan: 3, row: 1, rowSpan: 4 },
+  { key: 'fav', col: 9, colSpan: 2, row: 1, rowSpan: 4 },
+  { key: 'decanter', col: 11, colSpan: 2, row: 1, rowSpan: 4 },
+  { key: 'search', col: 13, colSpan: 3, row: 1, rowSpan: 7 },
+  { key: 'comments', col: 1, colSpan: 2, row: 5, rowSpan: 3 },
+  { key: 'detail', col: 3, colSpan: 3, row: 5, rowSpan: 8 },
+  { key: 'hero', col: 6, colSpan: 5, row: 5, rowSpan: 4 },
+  { key: 'siri', col: 11, colSpan: 2, row: 5, rowSpan: 4 },
+  { key: 'sake', col: 1, colSpan: 2, row: 8, rowSpan: 5 },
+  { key: 'stars', col: 13, colSpan: 3, row: 8, rowSpan: 2 },
+  { key: 'contact', col: 6, colSpan: 3, row: 9, rowSpan: 4 },
+  { key: 'ready', col: 9, colSpan: 4, row: 9, rowSpan: 4 },
+  { key: 'price', col: 13, colSpan: 3, row: 10, rowSpan: 3 },
+] as const
+
+/* Which layout each tile uses: artwork centred with a caption under it, artwork
+   bled to the edges with the caption over it, or caption on top. */
+/* One glyph per searchable field, in the order the copy lists them. */
+const searchIcons = [
+  'lucide:wine',
+  'lucide:building-2',
+  'lucide:tag',
+  'lucide:award',
+  'lucide:map',
+  'lucide:calendar',
+  'lucide:gift',
+  'lucide:gift',
+  'lucide:user-round-check',
+  'lucide:users',
 ]
 
-const widgets = [
-  { src: widgetValue, alt: lang === 'fr' ? 'Widget valeur de la cave' : 'Cellar value widget' },
-  { src: widgetCave, alt: lang === 'fr' ? 'Widget bouteilles en cave' : 'Bottles in cellar widget' },
-  { src: widgetReady, alt: lang === 'fr' ? 'Widget prêt à déguster' : 'Ready to drink widget' },
-  { src: widgetJournal, alt: lang === 'fr' ? 'Widget journal' : 'Journal widget' },
+/* Filter chips: the three wine colours show a coloured dot, as in the app; the
+   rest carry a glyph. Same order as the copy. */
+const searchFilters: ({ dot: string } | { icon: string })[] = [
+  { dot: '#c0424a' },
+  { dot: '#d9e08c' },
+  { dot: '#ff6b8c' },
+  { icon: 'lucide:heart' },
+  { icon: 'lucide:grid-3x3' },
+  { icon: 'lucide:check' },
+  { icon: 'lucide:gift' },
 ]
+
+const ART_TILES = new Set(['share', 'export', 'fav', 'comments', 'siri', 'stars', 'contact', 'price', 'ready'])
+const FILL_TILES = new Set(['map', 'decanter', 'sake'])
+const HEAD_TILES = new Set(['detail', 'search'])
 ---
 
 <!-- Pill nav -->
@@ -147,9 +151,11 @@ const widgets = [
     <Image src={appIcon} alt="" width={72} height={72} />
     <span>Vinarium</span>
   </a>
+  {/* Same order as the page, so the pill reads as a map of the scroll. */}
   <div class="vn-nav__links">
-    <a href="#scan">{c.nav.scan}</a>
     <a href="#cellars">{c.nav.cellars}</a>
+    <a href="#features">{c.nav.features}</a>
+    <a href="#search">{c.nav.search}</a>
     <a href="#pricing">{c.nav.pricing}</a>
   </div>
   <a class="vn-nav__cta" href={appStoreUrl} rel="noopener">
@@ -268,41 +274,48 @@ const widgets = [
 </section>
 
 <!-- How it works -->
-<section class="section vn-how" id="scan">
+<section class="section vn-how" id="features">
   <div class="container">
+    <Reveal>
+      <h2 class="vn-headline vn-headline--icon vn-bento__title">
+        {/* SF Symbols "square.grid.2x2", redrawn: the mosaic below in glyph
+            form, since this section has no single screen to stand for it. */}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="7.5" height="7.5" rx="2"></rect>
+          <rect x="13.5" y="3" width="7.5" height="7.5" rx="2"></rect>
+          <rect x="3" y="13.5" width="7.5" height="7.5" rx="2"></rect>
+          <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"></rect>
+        </svg>
+        {c.bento.title}
+      </h2>
+    </Reveal>
     <div class="vn-bento" data-bento>
       {
-        bentoTiles.map(([col, colSpan, row, rowSpan], i) => (
+        bentoTiles.map(({ key, col, colSpan, row, rowSpan }) => (
           <article
             class:list={[
               'vn-bento__tile',
-              i === bentoHero && 'vn-bento__tile--hero',
-              (i === bentoTypes ||
-                i === bentoPrice ||
-                i === bentoSiri ||
-                i === bentoFav ||
-                i === bentoContact ||
-                i === bentoStars ||
-                i === bentoShare) &&
-                'vn-bento__tile--art',
-              i === bentoMap && 'vn-bento__tile--fill',
-              i === bentoDetail && 'vn-bento__tile--head',
+              key === 'hero' && 'vn-bento__tile--hero',
+              ART_TILES.has(key) && 'vn-bento__tile--art',
+              key === 'ready' && 'vn-bento__tile--rows',
+              FILL_TILES.has(key) && 'vn-bento__tile--fill',
+              HEAD_TILES.has(key) && 'vn-bento__tile--head',
             ]}
             style={`grid-area: ${row} / ${col} / span ${rowSpan} / span ${colSpan}`}
           >
-            {i === bentoHero && (
+            {key === 'hero' && (
               <>
                 <Image src={appIcon} alt="" width={192} height={192} />
                 <p>Vinarium</p>
               </>
             )}
-            {i === bentoMap && (
+            {key === 'map' && (
               <>
                 <Image class="vn-map" src={locationMap} alt="" width={1092} height={607} />
                 <p class="vn-bento__label">{c.bento.location}</p>
               </>
             )}
-            {i === bentoFav && (
+            {key === 'fav' && (
               <>
                 {/* SF Symbols "heart.fill", redrawn: Apple licenses that set for
                     Apple platforms only. */}
@@ -312,59 +325,86 @@ const widgets = [
                 <p class="vn-bento__label">{c.bento.favorites}</p>
               </>
             )}
-            {i === bentoContact && (
+            {key === 'contact' && (
               <>
                 <span class="vn-people" aria-hidden="true">
-                  {[
-                    ['\u{1F9D4}', '#8c2f3a'],
-                    ['\u{1F469}', '#c0424a'],
-                    ['\u{1F9D2}', '#d99a2b'],
-                  ].map(([face, tone]) => (
-                    <span class="vn-avatar" style={`--tone: ${tone}`}>{face}</span>
+                  {householdBubbles.map((b) => (
+                    <span class="vn-bubble" style={`--size: ${b.size}rem; --x: ${b.x}rem; --y: ${b.y}rem; --tone: ${b.tone}`}>
+                      <Image src={b.src} alt="" width={240} height={240} />
+                    </span>
                   ))}
-                  <span class="vn-avatar vn-avatar--more">+2</span>
                 </span>
                 <p class="vn-bento__label">{c.bento.contacts}</p>
               </>
             )}
-            {i === bentoDetail && (
+            {key === 'detail' && (
               <>
                 <p class="vn-bento__label">{c.bento.detail}</p>
                 <IPhoneFrame src={wineDetailDark} alt="" class="vn-bento__phone" />
               </>
             )}
-            {i === bentoPrice && (
+            {key === 'comments' && (
               <>
-                <span class="vn-price" aria-hidden="true">
-                  <span class="vn-price__value">142 €</span>
-                  <span class="vn-price__note">{c.bento.priceNote}</span>
-                </span>
+                {/* SF Symbols "text.quote", redrawn: the quote mark alone, since
+                    the tile is too small for its text lines to read. */}
+                <svg class="vn-quote" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9.4 5.6c-3.4 1.9-5.6 5-5.6 8.6 0 2.6 1.7 4.4 4 4.4 2.1 0 3.6-1.5 3.6-3.5 0-1.9-1.4-3.3-3.3-3.3-.3 0-.7 0-1 .1.5-1.9 1.8-3.4 3.6-4.4Zm10.8 0c-3.4 1.9-5.6 5-5.6 8.6 0 2.6 1.7 4.4 4 4.4 2.1 0 3.6-1.5 3.6-3.5 0-1.9-1.4-3.3-3.3-3.3-.3 0-.7 0-1 .1.5-1.9 1.8-3.4 3.6-4.4Z" />
+                </svg>
+                <p class="vn-bento__label">{c.bento.comments}</p>
+              </>
+            )}
+            {key === 'export' && (
+              <>
+                <pre class="vn-json" aria-hidden="true">{exportJson}</pre>
+                <p class="vn-bento__label">{c.bento.dataExport}</p>
+              </>
+            )}
+            {key === 'sake' && (
+              <>
+                <Image class="vn-map vn-map--sake" src={sakeShot} alt="" widths={[160, 248]} sizes="(max-width: 900px) 45vw, 200px" />
+                <p class="vn-bento__label">{c.bento.sake}</p>
+              </>
+            )}
+            {key === 'decanter' && (
+              <>
+                <Image class="vn-map vn-map--decanter" src={decanter} alt="" widths={[160, 254]} sizes="(max-width: 900px) 45vw, 200px" />
+                <p class="vn-bento__label">{c.bento.decanter}</p>
+              </>
+            )}
+            {key === 'price' && (
+              <>
+                {/* Three identical periods stacked 12 units apart: scrolling by
+                    exactly one period lands period 2 where period 1 was, so the
+                    loop never seams. */}
+                <svg class="vn-trend" viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true" data-trend>
+                  <g data-trend-scroll>
+                    <path
+                      class="vn-trend__area"
+                      d="M0 54C3.33 54 6.67 47.67 10 48C13.33 48.33 16.67 56.67 20 56C23.33 55.33 26.67 45.33 30 44C33.33 42.67 36.67 49 40 48C43.33 47 46.67 38.33 50 38C53.33 37.67 56.67 46.67 60 46C63.33 45.33 66.67 35 70 34C73.33 33 76.67 39.67 80 40C83.33 40.33 86.67 35.67 90 36C93.33 36.33 96.67 42 100 42C103.33 42 106.67 35.67 110 36C113.33 36.33 116.67 44.67 120 44C123.33 43.33 126.67 33.33 130 32C133.33 30.67 136.67 37 140 36C143.33 35 146.67 26.33 150 26C153.33 25.67 156.67 34.67 160 34C163.33 33.33 166.67 23 170 22C173.33 21 176.67 27.67 180 28C183.33 28.33 186.67 23.67 190 24C193.33 24.33 196.67 30 200 30C203.33 30 206.67 23.67 210 24C213.33 24.33 216.67 32.67 220 32C223.33 31.33 226.67 21.33 230 20C233.33 18.67 236.67 25 240 24C243.33 23 246.67 14.33 250 14C253.33 13.67 256.67 22.67 260 22C263.33 21.33 266.67 11 270 10C273.33 9 276.67 15.67 280 16C283.33 16.33 286.67 11.67 290 12C293.33 12.33 296.67 18 300 18L300 100L0 100Z"
+                    />
+                    <path
+                      class="vn-trend__line"
+                      d="M0 54C3.33 54 6.67 47.67 10 48C13.33 48.33 16.67 56.67 20 56C23.33 55.33 26.67 45.33 30 44C33.33 42.67 36.67 49 40 48C43.33 47 46.67 38.33 50 38C53.33 37.67 56.67 46.67 60 46C63.33 45.33 66.67 35 70 34C73.33 33 76.67 39.67 80 40C83.33 40.33 86.67 35.67 90 36C93.33 36.33 96.67 42 100 42C103.33 42 106.67 35.67 110 36C113.33 36.33 116.67 44.67 120 44C123.33 43.33 126.67 33.33 130 32C133.33 30.67 136.67 37 140 36C143.33 35 146.67 26.33 150 26C153.33 25.67 156.67 34.67 160 34C163.33 33.33 166.67 23 170 22C173.33 21 176.67 27.67 180 28C183.33 28.33 186.67 23.67 190 24C193.33 24.33 196.67 30 200 30C203.33 30 206.67 23.67 210 24C213.33 24.33 216.67 32.67 220 32C223.33 31.33 226.67 21.33 230 20C233.33 18.67 236.67 25 240 24C243.33 23 246.67 14.33 250 14C253.33 13.67 256.67 22.67 260 22C263.33 21.33 266.67 11 270 10C273.33 9 276.67 15.67 280 16C283.33 16.33 286.67 11.67 290 12C293.33 12.33 296.67 18 300 18"
+                    />
+                  </g>
+                </svg>
+                <span class="vn-price" aria-hidden="true"><span data-trend-count="142">0</span> $</span>
                 <p class="vn-bento__label">{c.bento.price}</p>
               </>
             )}
-            {i === bentoTypes && (
+            {key === 'search' && (
               <>
-                <ul class="vn-types">
-                  {beverageTypes.map((t) => (
-                    <li style={`--tone: ${t.tone}`}>
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        {t.paths.map((d) => (
-                          <path d={d} />
-                        ))}
-                      </svg>
-                      {c.bento.types[t.key]}
-                    </li>
-                  ))}
-                </ul>
+                <p class="vn-bento__label">{c.bento.search}</p>
+                <IPhoneFrame src={searchShot} alt="" class="vn-bento__phone vn-bento__phone--corner" />
               </>
             )}
-            {i === bentoShare && (
+            {key === 'share' && (
               <>
                 <Image class="vn-glyph" src={homeIcon} alt="" width={230} height={230} />
                 <p class="vn-bento__label">{c.bento.share}</p>
               </>
             )}
-            {i === bentoStars && (
+            {key === 'stars' && (
               <>
                 <span class="vn-stars" aria-hidden="true">
                   {[0, 1, 2, 3, 4].map(() => (
@@ -376,10 +416,28 @@ const widgets = [
                 <p class="vn-bento__label">{c.bento.rating}</p>
               </>
             )}
-            {i === bentoSiri && (
+            {key === 'siri' && (
               <>
                 <Image class="vn-siri" src={siriIcon} alt="" width={608} height={608} />
                 <p class="vn-bento__label">{c.bento.ai}</p>
+              </>
+            )}
+            {key === 'ready' && (
+              <>
+                <p class="vn-bento__label">{c.bento.ready}</p>
+                {/* Sample bottles, like the price curve next to it: decorative,
+                    so the caption alone carries the meaning. */}
+                <ul class="vn-ready" aria-hidden="true">
+                  {readyWines.map((wine) => (
+                    <li class="vn-ready__row">
+                      <span class="vn-ready__dot" style={`--dot: ${wine.tone}`} />
+                      <span class="vn-ready__name">{wine.name}</span>
+                      <span class="vn-ready__badge">
+                        {c.bento.readyBefore.replace('{year}', String(wine.year))}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </>
             )}
           </article>
@@ -389,95 +447,135 @@ const widgets = [
   </div>
 </section>
 
-<!-- Story -->
-<section class="vn-story">
-  <Image
-    class="vn-story__bg"
-    src={storyArt}
-    alt=""
-    widths={[768, 1280, 1920, 2752]}
-    sizes="100vw"
-    aria-hidden="true"
-  />
-  <div class="container vn-story__inner">
-    <div class="vn-story__text">
-      <Reveal><p class="vn-eyebrow">{c.story.eyebrow}</p></Reveal>
-      <Reveal delay={0.05}><h2 class="vn-headline">{c.story.title}</h2></Reveal>
-      <Reveal delay={0.1}><p class="vn-story__body">{c.story.body}</p></Reveal>
-      <Reveal delay={0.15}><p class="vn-story__body">{c.story.sharing}</p></Reveal>
-    </div>
-    <Reveal delay={0.1} class="vn-story__badge-wrap">
-      <a class="vn-price-badge" href={appStoreUrl} rel="noopener">
-        <span class="vn-price-badge__label">{c.story.badgeLabel}</span>
-        <span class="vn-price-badge__value">{c.story.badge}</span>
-      </a>
+<!-- Global search -->
+<section class="section" id="search">
+  <div class="container vn-search__inner">
+    <Reveal class="vn-search__head">
+      <h2 class="vn-headline vn-headline--icon">
+        {/* SF Symbols "magnifyingglass", the app's own search glyph. */}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="10.6" cy="10.6" r="7.1"></circle>
+          <path d="M15.8 15.8 21 21"></path>
+        </svg>
+        {c.search.title}
+      </h2>
     </Reveal>
-  </div>
-</section>
-
-<!-- Features -->
-<section class="section" id="features">
-  <svg class="vn-line" viewBox="0 0 640 220" fill="none" aria-hidden="true">
-    <path
-      d="M628 14 C 460 140, 300 -20, 240 100 C 210 160, 320 200, 270 158 C 220 116, 120 180, 14 204"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"></path>
-  </svg>
-  <div class="container">
-    <Reveal><h2 class="vn-headline">{c.features.title}</h2></Reveal>
-    <Reveal delay={0.05}><p class="lede vn-features__lede">{c.features.lede}</p></Reveal>
-    <div class="vn-features">
-      <Reveal group class="vn-features__grid">
-        {
-          c.features.items.map((item) => (
-            <article class="vn-card">
-              <h3 class="vn-card__title">{item.title}</h3>
-              <p class="vn-card__body">{item.body}</p>
-            </article>
-          ))
-        }
+    <Reveal delay={0.1} class="vn-search__phone">
+      <IPhoneFrame src={searchShot} alt={c.alts.wineList} />
+    </Reveal>
+    <div class="vn-search__text">
+      <Reveal delay={0.05}>
+        <p class="vn-searchbar" data-search-demo={JSON.stringify(c.search.examples)}>
+          <Icon name="lucide:search" aria-hidden="true" />
+          <span class="vn-searchbar__typed"><span data-search-demo-text></span></span>
+          <span class="vn-searchbar__hint">{c.search.placeholder}</span>
+        </p>
       </Reveal>
-      <Reveal group class="vn-features__phones">
-        <IPhoneFrame src={wineListShot} alt={c.alts.wineList} class="vn-features__phone" />
-        <IPhoneFrame src={journalShot} alt={c.alts.journal} class="vn-features__phone" />
-        <IPhoneFrame src={wineDetailShot} alt={c.alts.wineDetail} class="vn-features__phone" />
+      <Reveal delay={0.1}>
+        <ul class="vn-search__fields">
+          {
+            c.search.fields.map((field, i) => (
+              <li>
+                <Icon name={searchIcons[i] ?? 'lucide:tag'} aria-hidden="true" />
+                {field}
+              </li>
+            ))
+          }
+        </ul>
+      </Reveal>
+      <Reveal delay={0.15}>
+        <p class="vn-search__sub">{c.search.filtersLabel}</p>
+        <ul class="vn-search__chips">
+          {
+            c.search.filters.map((filter, i) => {
+              const mark = searchFilters[i]
+              return (
+                <li>
+                  {mark && 'dot' in mark ? (
+                    <span class="vn-chip__dot" style={`--dot: ${mark.dot}`} aria-hidden="true" />
+                  ) : (
+                    <Icon name={mark && 'icon' in mark ? mark.icon : 'lucide:tag'} aria-hidden="true" />
+                  )}
+                  {filter}
+                </li>
+              )
+            })
+          }
+        </ul>
       </Reveal>
     </div>
-    <Reveal><p class="vn-caption">{c.features.widgetsLabel}</p></Reveal>
-    <Reveal group class="vn-widgets">
-      {
-        widgets.map((w) => (
-          <figure class="vn-widgets__item">
-            <Image src={w.src} alt={w.alt} widths={[320, 480, 640]} sizes="(max-width: 768px) 44vw, 280px" />
-          </figure>
-        ))
-      }
-    </Reveal>
   </div>
 </section>
 
 <!-- Pricing -->
 <section class="section vn-pricing" id="pricing">
-  <div class="container--narrow">
-    <Reveal><p class="vn-eyebrow">{c.pricing.eyebrow}</p></Reveal>
-    <Reveal delay={0.05}><h2 class="vn-headline">{c.pricing.title}</h2></Reveal>
-    <Reveal group class="vn-pricing__cards">
-      <article class="vn-card vn-pricing__card">
-        <h3 class="vn-card__title">{c.pricing.free.name}</h3>
-        <p class="vn-pricing__price">{c.pricing.free.price}</p>
-        <ul>
-          {c.pricing.free.lines.map((line) => <li>{line}</li>)}
-        </ul>
-      </article>
-      <article class="vn-card vn-pricing__card vn-pricing__card--premium">
-        <h3 class="vn-card__title">{c.pricing.premium.name}</h3>
-        <p class="vn-pricing__price">{c.pricing.premium.price}</p>
-        <ul>
-          {c.pricing.premium.lines.map((line) => <li>{line}</li>)}
-        </ul>
-        <p class="vn-pricing__note">{c.pricing.premium.note}</p>
-      </article>
+  <div class="container">
+    <Reveal>
+      <h2 class="vn-headline vn-headline--icon">
+        {/* SF Symbols "tag", redrawn to match the cabinet and the magnifier that
+            head the other sections. */}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M11.6 3H5a2 2 0 0 0-2 2v6.6a2 2 0 0 0 .59 1.41l7.4 7.4a2 2 0 0 0 2.83 0l6.6-6.6a2 2 0 0 0 0-2.83l-7.4-7.4A2 2 0 0 0 11.6 3Z"></path>
+          <path d="M7.5 7.5h.01"></path>
+        </svg>
+        {c.pricing.title}
+      </h2>
+    </Reveal>
+    <Reveal delay={0.05}>
+      <table class="vn-plans">
+        <thead>
+          <tr>
+            {/* Empty corner: the row headings below name the feature. */}
+            <th scope="col"></th>
+            <th scope="col">
+              <span class="vn-plans__name">{c.pricing.free.name}</span>
+              <span class="vn-plans__price">{c.pricing.free.price}</span>
+            </th>
+            <th scope="col" class="vn-plans__premium">
+              <span class="vn-plans__name">{c.pricing.premium.name}</span>
+              <span class="vn-plans__price">{c.pricing.premium.monthly}</span>
+              <span class="vn-plans__alt">{c.pricing.premium.yearly}</span>
+              <span class="vn-plans__options">{c.pricing.premium.trial}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            c.pricing.rows.map((row) => (
+              <tr>
+                <th scope="row">{row.label}</th>
+                <td>
+                  {row.free === true ? (
+                    <>
+                      <span class="vn-plans__check" aria-hidden="true">✓</span>
+                      <span class="vn-plans__sr">{c.pricing.included}</span>
+                    </>
+                  ) : (
+                    row.free
+                  )}
+                </td>
+                <td class="vn-plans__premium">
+                  {row.premium === true ? (
+                    <>
+                      <span class="vn-plans__check" aria-hidden="true">✓</span>
+                      <span class="vn-plans__sr">{c.pricing.included}</span>
+                    </>
+                  ) : (
+                    row.premium
+                  )}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </Reveal>
+    <Reveal delay={0.1}>
+      {/* Same sentence as the premium column header, shown only where that
+          column is too narrow to hold it. aria-hidden either way: the header
+          already says it to a screen reader. */}
+      <p class="vn-pricing__options-mobile" aria-hidden="true">{c.pricing.premium.trial}</p>
+      <p class="vn-pricing__note">{c.pricing.note}</p>
     </Reveal>
     <Reveal class="vn-pricing__cta-wrap">
       <a class="btn vn-btn-gold" href={appStoreUrl} rel="noopener">
@@ -488,22 +586,8 @@ const widgets = [
   </div>
 </section>
 
-<div class="container vn-tagline">
-  <p>{c.footer.tagline} <a href="/">{c.footer.backLink} →</a></p>
-</div>
-
-<SiteFooter backLink />
-
 <style>
   /* ---------- rigakvest-flavoured type ---------- */
-  .vn-eyebrow {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-
   .vn-display {
     font-size: clamp(2.6rem, 6.5vw, 4.6rem);
     font-weight: 500;
@@ -535,13 +619,6 @@ const widgets = [
     stroke-width: 1.5;
   }
 
-  .vn-caption {
-    color: var(--muted);
-    font-size: 0.9375rem;
-    margin-top: 2rem;
-    text-align: center;
-  }
-
   .vn-btn-gold {
     background: var(--accent);
     color: #181114;
@@ -566,19 +643,6 @@ const widgets = [
     display: none;
   }
 
-  /* ---------- Signature connector lines ---------- */
-  .vn-line {
-    display: block;
-    width: min(40rem, 86vw);
-    height: auto;
-    margin-inline: auto;
-    margin-bottom: clamp(2rem, 6vh, 4rem);
-    margin-top: calc(var(--section-gap) * -0.55);
-    color: var(--accent);
-    opacity: 0.75;
-    pointer-events: none;
-  }
-
   /* ---------- Pill nav ---------- */
   .vn-nav {
     position: fixed;
@@ -589,6 +653,11 @@ const widgets = [
     display: flex;
     align-items: center;
     gap: 1.25rem;
+    /* left: 50% caps a fixed box's shrink-to-fit width at half the viewport,
+       which squeezed the brand under the links once there were four of them.
+       max-content sizes the pill to its contents instead. */
+    width: max-content;
+    max-width: calc(100vw - 2rem);
     padding: 0.5rem 0.6rem;
     border-radius: 999px;
     border: 1px solid var(--border);
@@ -904,28 +973,157 @@ const widgets = [
     display: none;
   }
 
-  .vn-card {
-    background: var(--card);
+  /* ---------- Global search ---------- */
+  /* The bento above already carries its own bottom gap; a second one here left
+     a hole once the story section went. */
+  #search {
+    padding-top: 0;
+  }
+
+  .vn-search__inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  /* The heading runs the full width; the mock and the list share the row under
+     it. */
+  :global(.vn-search__head) {
+    grid-column: 1 / -1;
+  }
+
+  :global(.vn-search__phone) {
+    display: block;
+  }
+
+  /* A field rather than a paragraph: the examples type themselves into it. */
+  .vn-searchbar {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.85rem 1.15rem;
     border: 1px solid var(--border);
-    border-radius: var(--radius-card);
-    padding: 2rem;
+    border-radius: 999px;
+    background: var(--card);
+    font-size: 1rem;
   }
 
-  .vn-card__title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.6rem;
-  }
-
-  .vn-card__body {
+  .vn-searchbar svg {
+    flex: none;
+    width: 1.15rem;
+    height: 1.15rem;
     color: var(--muted);
-    font-size: 0.9875rem;
-    line-height: 1.6;
   }
+
+  .vn-searchbar__typed::after {
+    content: '';
+    display: inline-block;
+    width: 1px;
+    height: 1.1em;
+    margin-left: 1px;
+    background: var(--accent);
+    translate: 0 0.18em;
+    animation: vn-caret 1s steps(1) infinite;
+  }
+
+  .vn-searchbar__hint {
+    margin-left: auto;
+    font-size: 0.8125rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  @keyframes vn-caret {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vn-searchbar__typed::after {
+      animation: none;
+    }
+  }
+
+  /* Two columns so the ten fields read as a set rather than a long scroll. */
+  .vn-search__fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 1.5rem;
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .vn-search__fields li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9375rem;
+  }
+
+  .vn-search__sub {
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    font-weight: 550;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Chips rather than a list: these are toggles in the app, not text that gets
+     searched. */
+  .vn-search__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.9rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .vn-search__chips li {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.875rem;
+    color: var(--text);
+  }
+
+  .vn-search__chips svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    color: var(--muted);
+  }
+
+  .vn-chip__dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 999px;
+    background: var(--dot);
+  }
+
+  .vn-search__fields svg {
+    flex: none;
+    width: 1.05rem;
+    height: 1.05rem;
+    color: var(--accent);
+  }
+
 
   /* ---------- Bento, iOS keynote grid ---------- */
   .vn-how {
     padding-top: 0;
+  }
+
+  .vn-bento__title {
+    margin-bottom: 2.5rem;
   }
 
   .vn-bento {
@@ -938,6 +1136,8 @@ const widgets = [
   }
 
   .vn-bento__tile {
+    position: relative;
+    overflow: hidden;
     border-radius: 0.9rem;
     background: var(--card);
   }
@@ -973,8 +1173,9 @@ const widgets = [
   }
 
   /* auto margins let the artwork claim the free space and centre in it, which
-     pins the caption to the bottom edge whatever the tile height. */
-  .vn-bento__tile--art > :first-child {
+     pins the caption to the bottom edge whatever the tile height. Absolutely
+     positioned backdrops are out of flow, so the rule skips over them. */
+  .vn-bento__tile--art > :not(.vn-bento__label) {
     margin: auto;
   }
 
@@ -1001,27 +1202,31 @@ const widgets = [
   }
 
   .vn-people {
-    display: flex;
+    position: relative;
+    width: 7rem;
+    aspect-ratio: 1;
   }
 
   /* Overlapping discs, the way the app shows a shared cellar's members. The
      ring is the tile colour so they read as a stack rather than a row. */
-  .vn-avatar {
+  .vn-bubble {
+    position: absolute;
+    top: 50%;
+    left: 50%;
     display: grid;
     place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: var(--size);
+    height: var(--size);
+    translate: calc(-50% + var(--x)) calc(-50% + var(--y));
     border-radius: 999px;
-    border: 2px solid var(--card);
-    background: var(--tone, #8c2f3a);
-    font-size: 1.1875rem;
-    line-height: 1;
-    font-weight: 650;
-    color: #fff;
+    background: var(--tone);
+    overflow: hidden;
   }
 
-  .vn-avatar + .vn-avatar {
-    margin-left: -0.85rem;
+  /* Inset so the face never touches the rim. */
+  .vn-bubble img {
+    width: 74%;
+    height: auto;
   }
 
   .vn-glyph {
@@ -1057,58 +1262,76 @@ const widgets = [
     translate: -50% 0;
   }
 
+  /* Centred, and left to run off the bottom edge. */
+  :global(.iphone.vn-bento__phone--corner) {
+    --iphone-w: 89cqw;
+    top: auto;
+    bottom: -5.4rem;
+  }
+
   /* The screenshot carries its own status bar and island. */
   :global(.vn-bento__phone) :global(.iphone__island) {
     display: none;
   }
 
-  .vn-price {
-    display: grid;
-    justify-items: center;
-    gap: 0.2rem;
+  /* A rising curve behind the glyph, bled to the tile edges. */
+  .vn-trend {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
-  .vn-price__value {
+  .vn-trend__area {
+    fill: color-mix(in srgb, var(--accent) 13%, transparent);
+  }
+
+  .vn-trend__line {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    /* preserveAspectRatio="none" stretches the stroke too; this keeps it even. */
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* The export file itself as the artwork, bled to the tile edges and faded
+     back so it reads as texture rather than as something to be read. It fades
+     out above the caption, which keeps a clean background to sit on. */
+  .vn-json {
+    position: absolute;
+    inset: 0;
+    padding: 0.75rem 0.6rem 0;
+    overflow: hidden;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.5rem;
+    line-height: 1.7;
+    white-space: pre;
     color: var(--accent);
-    font-size: 1.75rem;
+    opacity: 0.45;
+    mask-image: linear-gradient(to bottom, #000 52%, transparent 86%);
+  }
+
+  /* The code is out of flow, so nothing pushes the caption down the way the
+     artwork does on the other tiles: it claims the free space itself. */
+  .vn-json + .vn-bento__label {
+    margin-top: auto;
+  }
+
+  .vn-quote {
+    width: min(52%, 3rem);
+    height: auto;
+    fill: var(--text);
+  }
+
+  .vn-price {
+    position: relative;
+    color: var(--accent);
+    font-size: 2rem;
     font-weight: 700;
     line-height: 1;
     font-variant-numeric: tabular-nums;
-  }
-
-  .vn-price__note {
-    font-size: 0.6875rem;
-    color: var(--muted);
-  }
-
-  .vn-types {
-    display: grid;
-    gap: 0.55rem;
-    width: 100%;
-    margin: 0;
-    padding: 0 0.25rem;
-    list-style: none;
-  }
-
-  .vn-types li {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-    font-size: 0.8125rem;
-    font-weight: 550;
-  }
-
-  /* SF Symbols sit lighter than the site's other icons, hence the thinner
-     stroke and the round joins. */
-  .vn-types svg {
-    flex: none;
-    width: 1.2rem;
-    height: 1.2rem;
-    fill: none;
-    stroke: var(--tone);
-    stroke-width: 1.7;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    white-space: nowrap;
   }
 
   .vn-stars {
@@ -1126,9 +1349,68 @@ const widgets = [
     fill: currentColor;
   }
 
-  .vn-avatar--more {
-    background: rgba(246, 239, 231, 0.14);
-    font-size: 0.75rem;
+  /* The rows already carry their own inset, so the tile gives them the width
+     back: at this size every pixel counts for the wine names. No bottom padding,
+     because the list is meant to reach the edge and be cut by it. */
+  .vn-bento__tile--rows {
+    padding: 0.7rem 0.55rem 0;
+  }
+
+  .vn-ready {
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+    width: 100%;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Pinned under the title rather than centred in the free space: the overflow
+     has to fall past the bottom edge, where the tile clips it, the way the
+     keynote slide crops a phone. */
+  .vn-bento__tile--rows .vn-ready {
+    margin: 1.55rem 0 0;
+  }
+
+  .vn-ready__row {
+    display: flex;
+    align-items: center;
+    gap: 0.38rem;
+    border-radius: 0.5rem;
+    padding: 0.28rem 0.4rem;
+    background: color-mix(in srgb, var(--text) 6%, transparent);
+  }
+
+  .vn-ready__dot {
+    flex: none;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 999px;
+    background: var(--dot);
+  }
+
+  /* Long producer names get cut the way the app cuts them, rather than wrapping
+     the row onto a second line. */
+  .vn-ready__name {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.65rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* The app's amber deadline pill. Hard-coded rather than themed: it means
+     "drink it soon" in the app, and the accent gold would lose that. */
+  .vn-ready__badge {
+    flex: none;
+    border-radius: 999px;
+    padding: 0.12rem 0.4rem;
+    background: #e08b3c;
+    color: #21150a;
+    font-size: 0.5625rem;
+    font-weight: 650;
+    white-space: nowrap;
   }
 
   /* Edge to edge artwork: the image covers the tile and the caption rides on
@@ -1148,6 +1430,25 @@ const widgets = [
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  /* Anchored high so the crystal stopper stays in frame; the crop eats the
+     base instead, which carries less of the shape. */
+  /* Anchored to the top so the cork stays in frame; the base runs past the
+     bottom edge, where the tile clips it. */
+  .vn-map--sake {
+    inset: 0.25rem auto auto 50%;
+    translate: -50% 0;
+    width: 69%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .vn-map--decanter {
+    object-position: 50% 4%;
+    /* The crop cut the base off with a hard edge; this dissolves it into the
+       tile instead. */
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 96%);
   }
 
   .vn-bento__tile--fill .vn-bento__label {
@@ -1190,175 +1491,129 @@ const widgets = [
     color: var(--accent);
   }
 
-  /* ---------- Story ---------- */
-  .vn-story {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    padding-block: clamp(7rem, 20vh, 13rem);
-  }
-
-  .vn-story__bg {
-    position: absolute;
-    inset: 0;
+  /* ---------- Pricing ---------- */
+  /* A comparison table rather than two cards: with a single line differing
+     between the plans, the rows say more side by side than in two lists.
+     Separate borders, not collapsed, so the premium column can be rounded. */
+  .vn-plans {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
+    margin-top: 2.5rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
   }
 
-  .vn-story::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-      to bottom,
-      var(--bg),
-      color-mix(in srgb, var(--bg) 35%, transparent) 30%,
-      color-mix(in srgb, var(--bg) 35%, transparent) 70%,
-      var(--bg)
-    );
+  .vn-plans th,
+  .vn-plans td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
   }
 
-  .vn-story__inner {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 3rem;
+  .vn-plans thead th {
+    vertical-align: bottom;
+    border-bottom-color: color-mix(in srgb, var(--text) 22%, transparent);
+    padding-bottom: 1.1rem;
   }
 
-  .vn-story__text {
-    max-width: 36rem;
+  .vn-plans tbody tr:last-child th,
+  .vn-plans tbody tr:last-child td {
+    border-bottom: 0;
   }
 
-  .vn-story__body {
-    color: color-mix(in srgb, var(--text) 85%, transparent);
-    margin-top: 1.25rem;
-    line-height: 1.65;
+  .vn-plans tbody th {
+    font-weight: 450;
+    font-size: 0.9375rem;
+    color: var(--text);
   }
 
-  .vn-price-badge {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.2rem;
-    width: clamp(8rem, 14vw, 10.5rem);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 1.5px solid var(--accent);
+  /* The two plan columns are narrow and equal: the feature names take the rest
+     and are the only thing that wraps. */
+  .vn-plans th:not(:first-child),
+  .vn-plans td {
+    width: 22%;
+    text-align: center;
+  }
+
+  .vn-plans td {
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+
+  .vn-plans__name {
+    display: block;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  /* A price broken across two lines reads as two prices: both figures keep
+     their period glued to them, whatever the column width. */
+  .vn-plans__price,
+  .vn-plans__alt {
+    white-space: nowrap;
+  }
+
+  .vn-plans__price {
+    display: block;
+    margin-top: 0.2rem;
     color: var(--accent);
-    text-decoration: none;
-    rotate: 8deg;
-    transition: rotate 0.35s var(--ease-out), scale 0.35s var(--ease-out);
-    background: color-mix(in srgb, var(--bg) 45%, transparent);
-    backdrop-filter: blur(4px);
-  }
-
-  .vn-price-badge:hover {
-    rotate: 0deg;
-    scale: 1.04;
-  }
-
-  .vn-price-badge__label {
-    font-size: 0.6875rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-  }
-
-  .vn-price-badge__value {
-    font-size: 1.6rem;
     font-weight: 650;
   }
 
-  /* ---------- Features ---------- */
-  .vn-features__lede {
-    margin-top: 1rem;
-    max-width: 34rem;
-  }
-
-  .vn-features {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 3rem;
-    align-items: center;
-    margin-top: 3rem;
-  }
-
-  :global(.vn-features__grid) {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-  }
-
-  :global(.vn-features__phones) {
-    display: flex;
-    gap: 1rem;
-  }
-
-  :global(.vn-features__phones) :global(.vn-features__phone) {
-    --iphone-w: clamp(150px, 16vw, 200px);
-  }
-
-  :global(.vn-features__phones) :global(.vn-features__phone:nth-child(2)) {
-    translate: 0 2.5rem;
-  }
-
-  :global(.vn-widgets) {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
-    margin-top: 1.5rem;
-  }
-
-  .vn-widgets__item img {
-    width: 100%;
-    height: auto;
-    border-radius: 1.4rem;
-    border: 1px solid var(--border);
-  }
-
-  /* ---------- Pricing ---------- */
-  :global(.vn-pricing__cards) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-    margin-top: 3rem;
-  }
-
-  .vn-pricing__card ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 1.25rem;
-    display: grid;
-    gap: 0.6rem;
-  }
-
-  .vn-pricing__card li {
+  /* The yearly plan, quoted under the monthly one: the saving reads by itself
+     from the two figures, no badge needed. */
+  .vn-plans__alt {
+    display: block;
+    margin-top: 0.15rem;
     color: var(--muted);
-    font-size: 0.9375rem;
-    padding-left: 1.4rem;
-    position: relative;
+    font-size: 0.8125rem;
+    font-weight: 400;
   }
 
-  .vn-pricing__card li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
+  .vn-plans__options {
+    display: block;
+    margin-top: 0.45rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* One tinted band running the height of the table, the way the premium card
+     used to stand out from the free one. */
+  .vn-plans__premium {
+    background: color-mix(in srgb, var(--accent) 7%, transparent);
+  }
+
+  .vn-plans thead .vn-plans__premium {
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
+
+  .vn-plans tbody tr:last-child .vn-plans__premium {
+    border-radius: 0 0 var(--radius-card) var(--radius-card);
+  }
+
+  .vn-plans__check {
     color: var(--accent);
     font-weight: 700;
   }
 
-  .vn-pricing__card--premium {
-    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-    background: color-mix(in srgb, var(--accent) 6%, var(--card));
+  /* The tick is the whole cell, so screen readers get the word instead. */
+  .vn-plans__sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
-  .vn-pricing__price {
-    color: var(--accent);
-    font-weight: 650;
-    font-size: 1.1rem;
+  .vn-pricing__options-mobile {
+    display: none;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    color: var(--muted);
   }
 
   .vn-pricing__note {
@@ -1379,17 +1634,6 @@ const widgets = [
     height: 1.1rem;
   }
 
-  /* ---------- Tagline ---------- */
-  .vn-tagline p {
-    color: var(--muted);
-    font-size: 0.9375rem;
-    text-align: center;
-  }
-
-  .vn-tagline a {
-    color: var(--text);
-  }
-
   /* ---------- Responsive ---------- */
   @media (max-width: 900px) {
     .vn-nav__links {
@@ -1406,7 +1650,7 @@ const widgets = [
 
     .vn-hero__inner,
     .vn-cellars__inner,
-    .vn-features {
+    .vn-search__inner {
       grid-template-columns: 1fr;
     }
 
@@ -1416,11 +1660,21 @@ const widgets = [
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: none;
       grid-auto-rows: 7rem;
+      /* The one tile that spans both columns cannot start mid-row, so it would
+         leave a hole behind it; dense packing backfills it with the next tile. */
+      grid-auto-flow: dense;
       aspect-ratio: auto;
     }
 
     .vn-bento__tile {
       grid-area: auto !important;
+    }
+
+    /* Half a phone width leaves the wine names about seven characters, which is
+       no list at all: this tile takes the full width and two rows instead. */
+    .vn-bento__tile--rows {
+      grid-column: span 2 !important;
+      grid-row: span 2 !important;
     }
 
     :global(.vn-hero__phone) {
@@ -1431,33 +1685,41 @@ const widgets = [
       grid-template-columns: 1fr;
     }
 
-    .vn-story__inner {
-      grid-template-columns: 1fr;
+    .vn-plans th,
+    .vn-plans td {
+      padding: 0.7rem 0.5rem;
     }
 
-    :global(.vn-story__badge-wrap) {
-      justify-self: center;
+    /* A tick needs no quarter of the width: the plan columns shrink to their
+       content so the feature names stop wrapping onto three lines. */
+    .vn-plans th:not(:first-child),
+    .vn-plans td {
+      width: 4rem;
     }
 
-    :global(.vn-features__grid) {
-      grid-template-columns: 1fr;
+    .vn-plans tbody th,
+    .vn-plans td {
+      font-size: 0.8125rem;
     }
 
-    :global(.vn-features__phones) {
-      justify-content: center;
-      flex-wrap: wrap;
+    .vn-plans__name {
+      font-size: 1rem;
     }
 
-    :global(.vn-features__phones .vn-features__phone) {
-      --iphone-w: clamp(96px, 26vw, 200px);
+    /* "Abonnement" is one unbreakable word and sets the column's minimum width,
+       so it is what has to give for the feature names to fit. */
+    .vn-plans__price {
+      font-size: 0.8125rem;
     }
 
-    :global(.vn-widgets) {
-      grid-template-columns: repeat(2, 1fr);
+    /* Too narrow a column to carry a sentence: the two subscription options
+       move under the table, next to the note. */
+    .vn-plans__options {
+      display: none;
     }
 
-    :global(.vn-pricing__cards) {
-      grid-template-columns: 1fr;
+    .vn-pricing__options-mobile {
+      display: block;
     }
   }
 </style>
@@ -1465,11 +1727,15 @@ const widgets = [
 <script>
   import { initBento } from '../../scripts/bento'
   import { initCellarFinder } from '../../scripts/cellar-finder'
-  import { gsap, prefersReducedMotion } from '../../scripts/motion'
+  import { initSearchDemo } from '../../scripts/search-demo'
+  import { initPriceTrend } from '../../scripts/price-trend'
+  import { prefersReducedMotion } from '../../scripts/motion'
   import { initScreenSwap } from '../../scripts/screen-swap'
 
   initBento()
   initCellarFinder()
+  initSearchDemo()
+  initPriceTrend()
   initScreenSwap()
 
   if (prefersReducedMotion()) {
@@ -1477,22 +1743,5 @@ const widgets = [
       video.removeAttribute('autoplay')
       video.pause()
     }
-  }
-
-  for (const path of document.querySelectorAll<SVGPathElement>('.vn-line path')) {
-    const length = path.getTotalLength()
-    if (prefersReducedMotion()) continue
-    path.style.strokeDasharray = `${length}`
-    path.style.strokeDashoffset = `${length}`
-    gsap.to(path, {
-      strokeDashoffset: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: path.closest('svg'),
-        start: 'top 92%',
-        end: 'bottom 45%',
-        scrub: true,
-      },
-    })
   }
 </script>

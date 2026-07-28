@@ -1,7 +1,8 @@
 export type VinariumCopy = {
-  nav: { scan: string; cellars: string; pricing: string; appStore: string }
+  nav: { cellars: string; features: string; search: string; pricing: string; appStore: string }
   hero: { title: string; lede: string; cta: string }
   bento: {
+    title: string
     share: string
     location: string
     favorites: string
@@ -10,8 +11,23 @@ export type VinariumCopy = {
     rating: string
     contacts: string
     price: string
-    priceNote: string
-    types: { wine: string; spirit: string; beer: string; sake: string; cider: string; other: string }
+    decanter: string
+    comments: string
+    search: string
+    sake: string
+    dataExport: string
+    ready: string
+    /* Carries a {year} placeholder: the app writes the drinking window as a
+       deadline, not as a date. */
+    readyBefore: string
+  }
+  search: {
+    title: string
+    placeholder: string
+    examples: string[]
+    filtersLabel: string
+    filters: string[]
+    fields: string[]
   }
   cellars: {
     title: string
@@ -24,23 +40,24 @@ export type VinariumCopy = {
     zones: string
     empty: string
   }
-  story: { eyebrow: string; title: string; body: string; sharing: string; badge: string; badgeLabel: string }
-  features: { title: string; lede: string; items: { title: string; body: string }[]; widgetsLabel: string }
   pricing: {
-    eyebrow: string
     title: string
-    free: { name: string; price: string; lines: string[] }
-    premium: { name: string; price: string; lines: string[]; note: string }
+    free: { name: string; price: string }
+    /* Both plans, priced in the currency of the store this language sells in. */
+    premium: { name: string; monthly: string; yearly: string; trial: string }
+    /* true means "included as is"; a string spells out what the plan gives,
+       which is how the one differing row reads. */
+    rows: { label: string; free: string | true; premium: string | true }[]
+    included: string
+    note: string
     cta: string
   }
-  footer: { tagline: string; backLink: string }
   alts: {
     dashboard: string
     cellar: string
     scanResult: string
     wineList: string
     journal: string
-    wineDetail: string
     scanCamera: string
   }
 }
@@ -50,9 +67,10 @@ export const appStoreUrl = 'https://apps.apple.com/app/vinarium/id6789688303'
 export const copy: Record<'en' | 'fr', VinariumCopy> = {
   en: {
     nav: {
-      scan: 'Scan',
       cellars: 'Cellars',
-      pricing: 'Pricing',
+      features: 'Features',
+      search: 'Search',
+      pricing: 'Plans',
       appStore: 'App Store',
     },
     hero: {
@@ -61,23 +79,41 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       cta: 'Try it free on the App Store',
     },
     bento: {
+      title: 'More than a cellar manager',
       share: 'Household sharing',
       location: 'Location',
       favorites: 'Favorites',
-      detail: 'Wine details',
+      detail: 'Detailed record',
       ai: 'AI analysis',
       rating: 'Tasting notes',
       contacts: 'Contacts',
       price: 'Price estimate',
-      priceNote: 'estimated live',
-      types: {
-        wine: 'Wine',
-        spirit: 'Spirit',
-        beer: 'Beer',
-        sake: 'Sake',
-        cider: 'Cider',
-        other: 'Other',
-      },
+      decanter: 'Fine spirits',
+      comments: 'Tasting comments',
+      search: 'Advanced search',
+      sake: 'Sake and more',
+      dataExport: 'Data export',
+      ready: 'Ready to drink',
+      readyBefore: 'Before {year}',
+    },
+    search: {
+      title: 'Advanced search',
+      placeholder: 'Search your cellar',
+      examples: ['cotes du rhone', 'Grange des Pères', '2016', 'Porto', 'Marie', 'Roussillon'],
+      filtersLabel: 'And filters, on top',
+      filters: ['Red', 'White', 'Rosé', 'Favorites', 'In cellar', 'Drunk', 'Gifts'],
+      fields: [
+        'Wine name',
+        'Producer',
+        'Subtype',
+        'Appellation',
+        'Region',
+        'Vintage',
+        'Gifted by',
+        'Gifted to',
+        'Recommended by',
+        'Tasted with',
+      ],
     },
     cellars: {
       title: 'Your cellar, to the slot',
@@ -90,66 +126,31 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       zones: 'zones',
       empty: 'Nothing matches. Build it yourself below, it takes two numbers.',
     },
-    story: {
-      eyebrow: 'Why I built it',
-      title: 'I kept finding bottles too late.',
-      body: 'Past their peak, forgotten behind a case. Vinarium is the app I wanted: it tells me what to open tonight, and what can wait another winter.',
-      sharing:
-        'And since a cellar is rarely one person’s, the whole household can share the same grid with an invite code: anyone can place, move, drink or gift a bottle, and every move is signed in the journal.',
-      badge: 'Free',
-      badgeLabel: 'Price:',
-    },
-    features: {
-      title: 'Everything a cellar needs',
-      lede: 'The cellar, the journal, the sharing and the manual entry stay unlimited, forever.',
-      items: [
-        {
-          title: 'Journal and tastings',
-          body: 'Every entry and exit, with tasting notes, ratings, and the member behind each move.',
-        },
-        {
-          title: 'Global search',
-          body: 'Names, producers, regions, vintages, even people you gifted bottles to, ranked by relevance.',
-        },
-        {
-          title: 'Home screen widgets',
-          body: 'Cellar value, bottle count, ready-to-drink alerts and the latest journal moves, at a glance.',
-        },
-        {
-          title: 'Your data is yours',
-          body: 'Export the whole account to a JSON file, restore it anywhere, or erase every trace in one action.',
-        },
-      ],
-      widgetsLabel: 'The four iOS widgets',
-    },
     pricing: {
-      eyebrow: 'Pricing',
-      title: 'Free where it counts',
-      free: {
-        name: 'Free',
-        price: '0 €',
-        lines: [
-          'Unlimited cellar, journal and sharing',
-          'Unlimited manual entry',
-          '5 AI scans a month',
-          '7 languages, prices in your currency',
-        ],
-      },
+      title: '2 plans',
+      free: { name: 'Free', price: '$0' },
       premium: {
         name: 'Premium',
-        price: 'Subscription',
-        lines: [
-          'Unlimited AI scans',
-          'Monthly, or yearly with a discount',
-          '7-day free trial on the yearly plan',
-        ],
-        note: 'Everything else stays free. Premium only lifts the scan meter.',
+        monthly: '$2.99/month',
+        yearly: 'or $22.99/year',
+        trial: '7-day free trial on the yearly plan',
       },
+      rows: [
+        { label: 'Cellar, bottle by bottle', free: true, premium: true },
+        { label: 'Location', free: true, premium: true },
+        { label: 'Journal and tastings', free: true, premium: true },
+        { label: 'Household sharing', free: true, premium: true },
+        { label: 'Link to a contact', free: true, premium: true },
+        { label: 'Manual entry', free: true, premium: true },
+        { label: 'Advanced search and filters', free: true, premium: true },
+        { label: 'Home screen widgets', free: true, premium: true },
+        { label: 'Price estimate', free: true, premium: true },
+        { label: 'Data export', free: true, premium: true },
+        { label: 'AI scans', free: '5 a month', premium: 'Unlimited' },
+      ],
+      included: 'Included',
+      note: 'Everything else stays free. Premium only lifts the scan meter, and exists only to pay for the infrastructure and the AI it runs on.',
       cta: 'Get Vinarium',
-    },
-    footer: {
-      tagline: 'Vinarium, a native iOS app built by supervising Claude.',
-      backLink: 'See how it was built',
     },
     alts: {
       dashboard: 'Vinarium dashboard: bottles in cellar, total value, ready-to-drink list',
@@ -157,15 +158,15 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       scanResult: 'AI-filled wine record after a scan',
       wineList: 'Wine list with vintages and prices',
       journal: 'Journal of cellar entries and exits',
-      wineDetail: 'Wine detail record',
       scanCamera: 'Scanning a wine label with the camera',
     },
   },
   fr: {
     nav: {
-      scan: 'Scan',
       cellars: 'Caves',
-      pricing: 'Prix',
+      features: 'Fonctionnalités',
+      search: 'Recherche',
+      pricing: 'Offres',
       appStore: 'App Store',
     },
     hero: {
@@ -174,23 +175,41 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       cta: "Tester gratuitement sur l'App Store",
     },
     bento: {
+      title: "Plus qu'un gestionnaire de cave",
       share: 'Partage du foyer',
       location: 'Localisation',
       favorites: 'Favoris',
-      detail: 'Vin détaillé',
+      detail: 'Fiche détaillée',
       ai: 'Analyse IA',
       rating: 'Notes de dégustation',
       contacts: 'Contacts',
       price: 'Estimation du prix',
-      priceNote: "estimé à l'instant",
-      types: {
-        wine: 'Vin',
-        spirit: 'Spiritueux',
-        beer: 'Bière',
-        sake: 'Saké',
-        cider: 'Cidre',
-        other: 'Autre',
-      },
+      decanter: 'Grands spiritueux',
+      comments: 'Commentaires',
+      search: 'Recherche avancée',
+      sake: 'Saké et plus',
+      dataExport: 'Export des données',
+      ready: 'Prêt à boire',
+      readyBefore: 'Avant {year}',
+    },
+    search: {
+      title: 'Une recherche avancée',
+      placeholder: 'Chercher dans votre cave',
+      examples: ['cotes du rhone', 'Grange des Pères', '2016', 'Porto', 'Marie', 'Roussillon'],
+      filtersLabel: 'Et des filtres, en plus',
+      filters: ['Rouge', 'Blanc', 'Rosé', "J'aime", 'En cave', 'Bu', 'Cadeaux'],
+      fields: [
+        'Nom du vin',
+        'Producteur',
+        'Sous-type',
+        'Appellation',
+        'Région',
+        'Millésime',
+        'Offert par',
+        'Offert à',
+        'Conseillé par',
+        'Dégusté avec',
+      ],
     },
     cellars: {
       title: 'Votre cave sur mesure',
@@ -203,66 +222,31 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       zones: 'zones',
       empty: 'Aucun résultat. Construisez la vôtre ci-dessous, il suffit de deux nombres.',
     },
-    story: {
-      eyebrow: "Pourquoi je l'ai faite",
-      title: 'Je trouvais mes bouteilles trop tard.',
-      body: "Passées leur apogée, oubliées derrière un carton. Vinarium est l'app que je voulais : elle me dit quoi ouvrir ce soir, et ce qui peut attendre un hiver de plus.",
-      sharing:
-        "Et comme une cave est rarement à une seule personne, tout le foyer peut partager la même grille avec un code d'invitation : chacun peut placer, déplacer, boire ou offrir une bouteille, et chaque mouvement est signé dans le journal.",
-      badge: 'Gratuit',
-      badgeLabel: 'Prix :',
-    },
-    features: {
-      title: "Tout ce qu'une cave demande",
-      lede: "La cave, le journal, le partage et la saisie manuelle restent illimités, pour toujours.",
-      items: [
-        {
-          title: 'Journal et dégustations',
-          body: 'Chaque entrée et sortie, avec notes de dégustation, évaluations, et le membre derrière chaque mouvement.',
-        },
-        {
-          title: 'Recherche globale',
-          body: 'Noms, producteurs, régions, millésimes, même les personnes à qui vous avez offert des bouteilles.',
-        },
-        {
-          title: "Widgets d'écran d'accueil",
-          body: "Valeur de la cave, nombre de bouteilles, alertes prêt-à-boire et derniers mouvements, d'un coup d'œil.",
-        },
-        {
-          title: 'Vos données sont à vous',
-          body: "Exportez tout le compte en JSON, restaurez-le où vous voulez, ou effacez toute trace en une action.",
-        },
-      ],
-      widgetsLabel: 'Les quatre widgets iOS',
-    },
     pricing: {
-      eyebrow: 'Prix',
-      title: 'Gratuit là où ça compte',
-      free: {
-        name: 'Gratuit',
-        price: '0 €',
-        lines: [
-          'Cave, journal et partage illimités',
-          'Saisie manuelle illimitée',
-          '5 scans IA par mois',
-          '7 langues, prix dans votre devise',
-        ],
-      },
+      title: '2 offres',
+      free: { name: 'Gratuit', price: '0 €' },
       premium: {
         name: 'Premium',
-        price: 'Abonnement',
-        lines: [
-          'Scans IA illimités',
-          'Mensuel, ou annuel avec réduction',
-          "7 jours d'essai gratuit sur l'annuel",
-        ],
-        note: 'Tout le reste reste gratuit. Premium ne lève que le compteur de scans.',
+        monthly: '2,99 €/mois',
+        yearly: 'ou 24,99 €/an',
+        trial: "7 jours d'essai gratuit sur l'annuel",
       },
+      rows: [
+        { label: 'Cave, bouteille par bouteille', free: true, premium: true },
+        { label: 'Localisation', free: true, premium: true },
+        { label: 'Journal et dégustations', free: true, premium: true },
+        { label: 'Partage du foyer', free: true, premium: true },
+        { label: 'Lien avec un contact', free: true, premium: true },
+        { label: 'Saisie manuelle', free: true, premium: true },
+        { label: 'Recherche avancée et filtres', free: true, premium: true },
+        { label: "Widgets d'écran d'accueil", free: true, premium: true },
+        { label: 'Estimation du prix', free: true, premium: true },
+        { label: 'Export des données', free: true, premium: true },
+        { label: 'Scans IA', free: '5 par mois', premium: 'Illimités' },
+      ],
+      included: 'Inclus',
+      note: "Tout le reste reste gratuit. Premium ne lève que le compteur de scans, et sert uniquement à autofinancer les coûts d'infrastructure et d'IA.",
       cta: 'Télécharger Vinarium',
-    },
-    footer: {
-      tagline: 'Vinarium, une app iOS native construite en supervisant Claude.',
-      backLink: 'Voir comment elle a été construite',
     },
     alts: {
       dashboard: 'Tableau de bord Vinarium : bouteilles en cave, valeur totale, liste prêt à boire',
@@ -270,7 +254,6 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       scanResult: 'Fiche vin remplie par l\'IA après un scan',
       wineList: 'Liste des vins avec millésimes et prix',
       journal: 'Journal des entrées et sorties de cave',
-      wineDetail: 'Fiche détaillée d\'un vin',
       scanCamera: 'Scan d\'une étiquette de vin avec l\'appareil photo',
     },
   },
