@@ -1,0 +1,74 @@
+---
+import { Icon } from 'astro-icon/components'
+
+/**
+ * Apple's "Download on the App Store" badge, rebuilt in markup rather than
+ * shipped as an image: it stays sharp at any size, follows the page's own font
+ * stack on Apple platforms, and localises without a second asset.
+ */
+interface Props {
+  href: string
+  lang: 'en' | 'fr'
+  class?: string
+}
+
+const { href, lang, class: className } = Astro.props
+
+const label = lang === 'fr' ? "Télécharger dans l'App Store" : 'Download on the App Store'
+const small = lang === 'fr' ? 'Télécharger dans' : 'Download on the'
+const big = lang === 'fr' ? "l'App Store" : 'App Store'
+---
+
+<a class:list={['appstore-badge', className]} href={href} rel="noopener" aria-label={label}>
+  <Icon name="simple-icons:apple" aria-hidden="true" />
+  <span class="appstore-badge__text">
+    <span class="appstore-badge__small">{small}</span>
+    <span class="appstore-badge__big">{big}</span>
+  </span>
+</a>
+
+<style>
+  .appstore-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 0.65rem;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    transition: transform 0.2s;
+  }
+
+  .appstore-badge:hover {
+    transform: translateY(-1px);
+  }
+
+  .appstore-badge svg {
+    flex: none;
+    width: 1.65rem;
+    height: 1.65rem;
+    /* Apple's own lockup sits the logo slightly above the text baseline. */
+    margin-top: -0.15em;
+  }
+
+  .appstore-badge__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .appstore-badge__small {
+    font-size: 0.625rem;
+    letter-spacing: 0.005em;
+  }
+
+  .appstore-badge__big {
+    font-size: 1.1875rem;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+</style>

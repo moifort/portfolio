@@ -1,11 +1,29 @@
 export type VinariumCopy = {
-  nav: { scan: string; cellar: string; pricing: string; appStore: string; langLabel: string; langHref: string }
-  hero: { eyebrow: string; title: string; lede: string; cta: string; sub: string }
-  benefits: {
-    title: string
-    cards: { title: string; body: string; stat?: string; statLabel?: string }[]
+  nav: { scan: string; cellars: string; pricing: string; appStore: string }
+  hero: { title: string; lede: string; cta: string }
+  bento: {
+    share: string
+    location: string
+    favorites: string
+    detail: string
+    ai: string
+    rating: string
+    contacts: string
+    price: string
+    priceNote: string
+    types: { wine: string; spirit: string; beer: string; sake: string; cider: string; other: string }
   }
-  how: { title: string; steps: { n: string; title: string; body: string }[]; caption: string }
+  cellars: {
+    title: string
+    lede: string
+    placeholder: string
+    searchLabel: string
+    countLabel: string
+    bottles: string
+    zone: string
+    zones: string
+    empty: string
+  }
   story: { eyebrow: string; title: string; body: string; sharing: string; badge: string; badgeLabel: string }
   features: { title: string; lede: string; items: { title: string; body: string }[]; widgetsLabel: string }
   pricing: {
@@ -33,58 +51,44 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
   en: {
     nav: {
       scan: 'Scan',
-      cellar: 'Cellar',
+      cellars: 'Cellars',
       pricing: 'Pricing',
       appStore: 'App Store',
-      langLabel: 'FR',
-      langHref: '/vinarium/fr',
     },
     hero: {
-      eyebrow: 'Native iOS app',
-      title: 'Your cellar,\nunderstood.',
+      title: 'Manage your cellar,\nshare it, and more',
       lede: 'Every bottle scanned, located, valued, and opened at the right moment.',
-      cta: "Let's go!",
-      sub: 'Free on the App Store',
+      cta: 'Try it free on the App Store',
     },
-    benefits: {
-      title: 'A cellar you open\nat the right moment',
-      cards: [
-        {
-          title: 'One photo per bottle',
-          body: 'You photograph the label. The AI fills the producer, the appellation, the vintage, the grapes, and estimates the price. You correct one field maybe, you save.',
-          stat: '10',
-          statLabel: 'seconds per bottle',
-        },
-        {
-          title: 'A real map of your cellar',
-          body: 'Row A, slot 3: every bottle has a physical place in the grid. You find it without moving ten cases around.',
-        },
-        {
-          title: 'Value and drink windows',
-          body: 'The dashboard totals what your cellar is worth and flags what is ready to drink, before it fades.',
-        },
-      ],
+    bento: {
+      share: 'Household sharing',
+      location: 'Location',
+      favorites: 'Favorites',
+      detail: 'Wine details',
+      ai: 'AI analysis',
+      rating: 'Tasting notes',
+      contacts: 'Contacts',
+      price: 'Price estimate',
+      priceNote: 'estimated live',
+      types: {
+        wine: 'Wine',
+        spirit: 'Spirit',
+        beer: 'Beer',
+        sake: 'Sake',
+        cider: 'Cider',
+        other: 'Other',
+      },
     },
-    how: {
-      title: 'How it works',
-      steps: [
-        {
-          n: '01',
-          title: 'Photograph the label',
-          body: 'Open the scanner, point at the bottle. One photo is enough.',
-        },
-        {
-          n: '02',
-          title: 'The AI fills everything',
-          body: 'Producer, appellation, vintage, grapes, and a price estimate grounded in a live web search.',
-        },
-        {
-          n: '03',
-          title: 'Shelve it in the grid',
-          body: 'Pick a row and a slot. The bottle now has a place, a value and a drink window.',
-        },
-      ],
-      caption: 'The scan on the right is real: a Grange des Pères 2016, read from one photo.',
+    cellars: {
+      title: 'Your cellar, to the slot',
+      lede: '{models} cellar models across {brands} brands. Yours is not on the list? No trouble, you can build a custom one.',
+      placeholder: 'Liebherr, Climadiff, Haier...',
+      searchLabel: 'Search a wine cooler model',
+      countLabel: 'models supported',
+      bottles: 'bottles',
+      zone: 'zone',
+      zones: 'zones',
+      empty: 'Nothing matches. Build it yourself below, it takes two numbers.',
     },
     story: {
       eyebrow: 'Why I built it',
@@ -160,58 +164,44 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
   fr: {
     nav: {
       scan: 'Scan',
-      cellar: 'Cave',
+      cellars: 'Caves',
       pricing: 'Prix',
       appStore: 'App Store',
-      langLabel: 'EN',
-      langHref: '/vinarium',
     },
     hero: {
-      eyebrow: 'App iOS native',
-      title: 'Votre cave,\ncomprise.',
+      title: 'Gérer votre cave,\npartager, et plus',
       lede: 'Chaque bouteille scannée, localisée, valorisée, et ouverte au bon moment.',
-      cta: "C'est parti !",
-      sub: "Gratuit sur l'App Store",
+      cta: "Tester gratuitement sur l'App Store",
     },
-    benefits: {
-      title: 'Une cave que vous ouvrez\nau bon moment',
-      cards: [
-        {
-          title: 'Une photo par bouteille',
-          body: "Vous photographiez l'étiquette. L'IA remplit le producteur, l'appellation, le millésime, les cépages, et estime le prix. Vous corrigez un champ peut-être, vous enregistrez.",
-          stat: '10',
-          statLabel: 'secondes par bouteille',
-        },
-        {
-          title: 'Un vrai plan de votre cave',
-          body: 'Rangée A, case 3 : chaque bouteille a une place physique dans la grille. Vous la retrouvez sans déplacer dix cartons.',
-        },
-        {
-          title: 'Valeur et fenêtres de garde',
-          body: "Le tableau de bord totalise la valeur de votre cave et signale ce qui est prêt à boire, avant que ça ne passe.",
-        },
-      ],
+    bento: {
+      share: 'Partage du foyer',
+      location: 'Localisation',
+      favorites: 'Favoris',
+      detail: 'Vin détaillé',
+      ai: 'Analyse IA',
+      rating: 'Notes de dégustation',
+      contacts: 'Contacts',
+      price: 'Estimation du prix',
+      priceNote: "estimé à l'instant",
+      types: {
+        wine: 'Vin',
+        spirit: 'Spiritueux',
+        beer: 'Bière',
+        sake: 'Saké',
+        cider: 'Cidre',
+        other: 'Autre',
+      },
     },
-    how: {
-      title: 'Comment ça marche',
-      steps: [
-        {
-          n: '01',
-          title: "Photographiez l'étiquette",
-          body: 'Ouvrez le scanner, visez la bouteille. Une photo suffit.',
-        },
-        {
-          n: '02',
-          title: "L'IA remplit tout",
-          body: 'Producteur, appellation, millésime, cépages, et une estimation de prix appuyée sur une recherche web en direct.',
-        },
-        {
-          n: '03',
-          title: 'Rangez-la dans la grille',
-          body: 'Choisissez une rangée et une case. La bouteille a désormais une place, une valeur et une fenêtre de garde.',
-        },
-      ],
-      caption: 'Le scan de droite est réel : une Grange des Pères 2016, lue depuis une photo.',
+    cellars: {
+      title: 'Votre cave sur mesure',
+      lede: '{models} modèles de cave parmi {brands} marques. Votre cave n\'est pas dans la liste ? Pas de souci, vous pouvez en créer une sur mesure.',
+      placeholder: 'Liebherr, Climadiff, Haier...',
+      searchLabel: 'Chercher un modèle de cave',
+      countLabel: 'modèles compatibles',
+      bottles: 'bouteilles',
+      zone: 'zone',
+      zones: 'zones',
+      empty: 'Aucun résultat. Construisez la vôtre ci-dessous, il suffit de deux nombres.',
     },
     story: {
       eyebrow: "Pourquoi je l'ai faite",

@@ -1,23 +1,28 @@
 ---
 import { Image } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
+import homeIcon from '../../assets/vinarium/home-icon.png'
+import wineDetailDark from '../../assets/vinarium/wine-detail-dark.png'
+import locationMap from '../../assets/vinarium/location-map.png'
+import siriIcon from '../../assets/vinarium/siri-icon.png'
 import appIcon from '../../assets/vinarium/app-icon.png'
+import cellarShot from '../../assets/vinarium/cellar-dark.png'
 import heroArt from '../../assets/vinarium/art/hero.jpg'
 import storyArt from '../../assets/vinarium/art/story.jpg'
+import journalDarkShot from '../../assets/vinarium/journal-dark.png'
 import journalShot from '../../assets/vinarium/journal.png'
-import scanReviewShot from '../../assets/vinarium/scan-review.png'
-import scanShot from '../../assets/vinarium/scan.png'
 import widgetCave from '../../assets/vinarium/widget-en-cave.png'
 import widgetJournal from '../../assets/vinarium/widget-journal.png'
 import widgetReady from '../../assets/vinarium/widget-pret-a-deguster.png'
 import widgetValue from '../../assets/vinarium/widget-valeur.png'
 import wineDetailShot from '../../assets/vinarium/wine-detail.png'
 import wineListShot from '../../assets/vinarium/wine-list.png'
+import { cellarBrandCount, cellarPresets } from '../../data/vinarium-cellars'
 import { appStoreUrl, copy } from '../../data/vinarium-copy'
+import AppStoreBadge from '../AppStoreBadge.astro'
 import IPhoneFrame from '../IPhoneFrame.astro'
 import Reveal from '../Reveal.astro'
 import SiteFooter from '../SiteFooter.astro'
-import StatCounter from '../StatCounter.astro'
 
 interface Props {
   lang: 'en' | 'fr'
@@ -25,6 +30,108 @@ interface Props {
 
 const { lang } = Astro.props
 const c = copy[lang]
+
+/* Counts come from the catalogue itself: the copy must not go stale when the
+   app adds a model. */
+const cellarsLede = c.cellars.lede
+  .replace('{models}', String(cellarPresets.length))
+  .replace('{brands}', String(cellarBrandCount))
+
+
+/* The bento geometry is traced from the iOS keynote slide: 15 columns by 12
+   rows, each tile given as [column, span, row, span]. Read left to right, top
+   to bottom, the sixteen tiles tile the rectangle exactly. */
+/* The six beverage types the app recognises, in its own declaration order.
+   Each glyph redraws the SF Symbol the app uses, since Apple licenses that set
+   for Apple platforms only. Tones follow the app's displayColor, lightened
+   where the original would sink into the dark tile.
+
+   One deliberate departure: the app marks cider with "applelogo". Showing
+   Apple's mark as a cider icon on a public page is not ours to do, so this is
+   an apple, the fruit. */
+const beverageTypes = [
+  {
+    key: 'wine' as const,
+    tone: '#c0424a',
+    paths: [
+      'M7.6 3.2h8.8c.3 0 .5.2.5.5 0 4.4-1.9 7.3-4.9 7.3s-4.9-2.9-4.9-7.3c0-.3.2-.5.5-.5Z',
+      'M12 11v9.2',
+      'M8.7 20.2h6.6',
+    ],
+  },
+  {
+    key: 'spirit' as const,
+    tone: '#d08a45',
+    paths: [
+      'M12 2.8c3.2 3 5.6 5.6 5.6 9.3a5.6 5.6 0 0 1-11.2 0c0-1.7.5-3.1 1.5-4.4.3 1.4 1 2.3 2 2.6-.2-3 .8-5.2 2.1-7.5Z',
+    ],
+  },
+  {
+    key: 'beer' as const,
+    tone: '#edb83b',
+    paths: [
+      'M4.8 6.4h11v11a2.6 2.6 0 0 1-2.6 2.6H7.4a2.6 2.6 0 0 1-2.6-2.6Z',
+      'M15.8 9.2h1.8a2.6 2.6 0 0 1 0 5.2h-1.8',
+    ],
+  },
+  {
+    key: 'sake' as const,
+    tone: '#d9d9c7',
+    paths: [
+      'M5.6 5.6h9.2v6.1a4.6 4.6 0 0 1-9.2 0Z',
+      'M14.8 7.3h1.5a2.3 2.3 0 0 1 0 4.6h-1.5',
+      'M3.5 17.6h14.4',
+    ],
+  },
+  {
+    key: 'cider' as const,
+    tone: '#9ebf38',
+    paths: [
+      'M12 8.4c1.4-1.2 3.1-1.4 4.4-.5 1.6 1.1 2 3.6 1 6.1-.9 2.3-2.5 4-3.9 3.9-.7 0-1-.3-1.5-.3s-.8.3-1.5.3c-1.4.1-3-1.6-3.9-3.9-1-2.5-.6-5 1-6.1 1.3-.9 3-.7 4.4.5Z',
+      'M12 8.4V5.6',
+      'M12 5.6c1.6-.4 2.6-1.3 2.9-2.6-1.5 0-2.6.9-2.9 2.6Z',
+    ],
+  },
+  {
+    key: 'other' as const,
+    tone: '#9a9aa0',
+    paths: [
+      'M12 3.3a8.7 8.7 0 1 1 0 17.4 8.7 8.7 0 0 1 0-17.4Z',
+      'M9.9 9.5a2.2 2.2 0 0 1 4.3.5c0 1.5-2.1 1.7-2.1 3.2',
+      'M12 16.6h.01',
+    ],
+  },
+]
+
+
+const bentoShare = 0
+const bentoDetail = 7
+const bentoTypes = 5
+const bentoPrice = 15
+const bentoMap = 2
+const bentoFav = 3
+const bentoContact = 12
+const bentoStars = 11
+const bentoHero = 8
+const bentoSiri = 9
+const bentoTiles: [number, number, number, number][] = [
+  [1, 3, 1, 4],
+  [4, 2, 1, 4],
+  [6, 3, 1, 4],
+  [9, 2, 1, 4],
+  [11, 2, 1, 4],
+  [13, 3, 1, 7],
+  [1, 2, 5, 3],
+  [3, 3, 5, 8],
+  [6, 5, 5, 4],
+  [11, 2, 5, 4],
+  [1, 2, 8, 2],
+  [13, 3, 8, 2],
+  [6, 3, 9, 4],
+  [9, 4, 9, 4],
+  [1, 2, 10, 3],
+  [13, 3, 10, 3],
+]
 
 const widgets = [
   { src: widgetValue, alt: lang === 'fr' ? 'Widget valeur de la cave' : 'Cellar value widget' },
@@ -36,17 +143,17 @@ const widgets = [
 
 <!-- Pill nav -->
 <nav class="vn-nav" aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
-  <a class="vn-nav__brand" href="#top" aria-label="Vinarium">
+  <a class="vn-nav__brand" href="#top">
     <Image src={appIcon} alt="" width={72} height={72} />
+    <span>Vinarium</span>
   </a>
   <div class="vn-nav__links">
     <a href="#scan">{c.nav.scan}</a>
-    <a href="#cellar">{c.nav.cellar}</a>
+    <a href="#cellars">{c.nav.cellars}</a>
     <a href="#pricing">{c.nav.pricing}</a>
   </div>
-  <a class="vn-nav__lang" href={c.nav.langHref}>{c.nav.langLabel}</a>
   <a class="vn-nav__cta" href={appStoreUrl} rel="noopener">
-    <Icon name="simple-icons:appstore" />
+    <span class="vn-appstore" aria-hidden="true"><Icon name="simple-icons:appstore" /></span>
     {c.nav.appStore}
   </a>
 </nav>
@@ -65,7 +172,6 @@ const widgets = [
   />
   <div class="container vn-hero__inner">
     <div class="vn-hero__text">
-      <Reveal><p class="vn-eyebrow">{c.hero.eyebrow}</p></Reveal>
       <Reveal delay={0.05}>
         <h1 class="vn-display">
           {c.hero.title.split('\n').map((line, i) => (i === 0 ? line : [<br />, line]))}
@@ -74,8 +180,7 @@ const widgets = [
       <Reveal delay={0.1}><p class="lede vn-hero__lede">{c.hero.lede}</p></Reveal>
       <Reveal delay={0.15}>
         <p class="vn-hero__actions">
-          <a class="btn vn-btn-gold" href={appStoreUrl} rel="noopener">{c.hero.cta}</a>
-          <span class="vn-hero__sub">{c.hero.sub}</span>
+          <AppStoreBadge href={appStoreUrl} lang={lang} />
         </p>
       </Reveal>
     </div>
@@ -83,46 +188,81 @@ const widgets = [
       <IPhoneFrame>
         <video
           class="vn-hero__video"
-          src="/vinarium/demo.mp4"
+          poster="/vinarium/demo-poster.jpg"
           autoplay
           muted
           loop
           playsinline
           preload="auto"
-          aria-label={c.alts.dashboard}></video>
+          aria-label={c.alts.dashboard}
+        >
+          <source src="/vinarium/demo.webm" type="video/webm" />
+          <source src="/vinarium/demo.mp4" type="video/mp4" />
+        </video>
       </IPhoneFrame>
     </Reveal>
   </div>
 </header>
 
-<!-- Benefits -->
-<section class="section" id="cellar">
-  <svg class="vn-line" viewBox="0 0 640 220" fill="none" aria-hidden="true">
-    <path
-      d="M12 14 C 180 150, 380 -30, 420 90 C 445 165, 330 190, 372 150 C 420 105, 560 170, 628 206"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"></path>
-  </svg>
-  <div class="container">
-    <Reveal><h2 class="vn-headline">
-      {c.benefits.title.split('\n').map((line, i) => (i === 0 ? line : [<br />, line]))}
-    </h2></Reveal>
-    <Reveal group class="vn-cards">
-      {
-        c.benefits.cards.map((card) => (
-          <article class="vn-card">
-            {card.stat && (
-              <p class="vn-card__stat">
-                <StatCounter value={Number(card.stat)} />
-                <span class="vn-card__stat-label">{card.statLabel}</span>
-              </p>
-            )}
-            <h3 class="vn-card__title">{card.title}</h3>
-            <p class="vn-card__body">{card.body}</p>
-          </article>
-        ))
-      }
+<!-- Compatible cellars -->
+<section class="section" id="cellars">
+  <div class="container vn-cellars__inner">
+    <div class="vn-cellars__text">
+      <Reveal>
+        <h2 class="vn-headline vn-headline--icon">
+          {/* The app marks each cellar row with SF Symbols "cabinet". Apple only
+              licenses that artwork for Apple platforms, so this redraws the same
+              two-door cabinet in the stroke style of the site's other icons. */}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+            <path d="M12 3v18M9.5 9.5v3M14.5 9.5v3"></path>
+          </svg>
+          {c.cellars.title}
+        </h2>
+      </Reveal>
+      <Reveal delay={0.05}><p class="lede vn-finder__lede">{cellarsLede}</p></Reveal>
+      <Reveal delay={0.1} class="vn-finder">
+      <div class="vn-finder__panel">
+        <label class="vn-finder__field">
+          <Icon name="lucide:search" aria-hidden="true" />
+          <input
+            type="search"
+            data-cellar-search
+            placeholder={c.cellars.placeholder}
+            aria-label={c.cellars.searchLabel}
+            aria-controls="vn-cellar-list"
+          />
+        </label>
+        <p class="vn-finder__count">
+          <span data-cellar-count>{cellarPresets.length}</span>{' '}{c.cellars.countLabel}
+        </p>
+        <div class="vn-finder__results">
+          <ul class="vn-finder__list" id="vn-cellar-list" data-cellar-list>
+          {
+            cellarPresets.map((preset) => (
+              <li class="vn-finder__item" data-cellar-item data-haystack={`${preset.brand} ${preset.model}`.toLowerCase()}>
+                <span class="vn-finder__brand">{preset.brand}</span>
+                <span class="vn-finder__model">{preset.model}</span>
+                <span class="vn-finder__spec">
+                  {preset.bottles} {c.cellars.bottles} · {preset.zones}{' '}
+                  {preset.zones > 1 ? c.cellars.zones : c.cellars.zone}
+                </span>
+              </li>
+            ))
+          }
+          </ul>
+          <p class="vn-finder__empty" data-cellar-empty hidden>{c.cellars.empty}</p>
+        </div>
+        </div>
+      </Reveal>
+    </div>
+    <Reveal delay={0.15} class="vn-cellars__phone">
+      <IPhoneFrame>
+        <div class="vn-swap" data-swap>
+          <Image class="vn-swap__shot" src={cellarShot} alt={c.alts.cellar} widths={[320, 480, 720]} sizes="(max-width: 900px) 76vw, 340px" data-swap-shot />
+          <Image class="vn-swap__shot" src={journalDarkShot} alt={c.alts.journal} widths={[320, 480, 720]} sizes="(max-width: 900px) 76vw, 340px" data-swap-shot />
+        </div>
+      </IPhoneFrame>
     </Reveal>
   </div>
 </section>
@@ -130,28 +270,122 @@ const widgets = [
 <!-- How it works -->
 <section class="section vn-how" id="scan">
   <div class="container">
-    <Reveal><h2 class="vn-headline">{c.how.title}</h2></Reveal>
-    <Reveal group class="vn-steps">
+    <div class="vn-bento" data-bento>
       {
-        c.how.steps.map((step) => (
-          <article class="vn-step">
-            <p class="vn-step__n">{step.n}</p>
-            <h3 class="vn-card__title">{step.title}</h3>
-            <p class="vn-card__body">{step.body}</p>
+        bentoTiles.map(([col, colSpan, row, rowSpan], i) => (
+          <article
+            class:list={[
+              'vn-bento__tile',
+              i === bentoHero && 'vn-bento__tile--hero',
+              (i === bentoTypes ||
+                i === bentoPrice ||
+                i === bentoSiri ||
+                i === bentoFav ||
+                i === bentoContact ||
+                i === bentoStars ||
+                i === bentoShare) &&
+                'vn-bento__tile--art',
+              i === bentoMap && 'vn-bento__tile--fill',
+              i === bentoDetail && 'vn-bento__tile--head',
+            ]}
+            style={`grid-area: ${row} / ${col} / span ${rowSpan} / span ${colSpan}`}
+          >
+            {i === bentoHero && (
+              <>
+                <Image src={appIcon} alt="" width={192} height={192} />
+                <p>Vinarium</p>
+              </>
+            )}
+            {i === bentoMap && (
+              <>
+                <Image class="vn-map" src={locationMap} alt="" width={1092} height={607} />
+                <p class="vn-bento__label">{c.bento.location}</p>
+              </>
+            )}
+            {i === bentoFav && (
+              <>
+                {/* SF Symbols "heart.fill", redrawn: Apple licenses that set for
+                    Apple platforms only. */}
+                <svg class="vn-heart" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z" />
+                </svg>
+                <p class="vn-bento__label">{c.bento.favorites}</p>
+              </>
+            )}
+            {i === bentoContact && (
+              <>
+                <span class="vn-people" aria-hidden="true">
+                  {[
+                    ['\u{1F9D4}', '#8c2f3a'],
+                    ['\u{1F469}', '#c0424a'],
+                    ['\u{1F9D2}', '#d99a2b'],
+                  ].map(([face, tone]) => (
+                    <span class="vn-avatar" style={`--tone: ${tone}`}>{face}</span>
+                  ))}
+                  <span class="vn-avatar vn-avatar--more">+2</span>
+                </span>
+                <p class="vn-bento__label">{c.bento.contacts}</p>
+              </>
+            )}
+            {i === bentoDetail && (
+              <>
+                <p class="vn-bento__label">{c.bento.detail}</p>
+                <IPhoneFrame src={wineDetailDark} alt="" class="vn-bento__phone" />
+              </>
+            )}
+            {i === bentoPrice && (
+              <>
+                <span class="vn-price" aria-hidden="true">
+                  <span class="vn-price__value">142 €</span>
+                  <span class="vn-price__note">{c.bento.priceNote}</span>
+                </span>
+                <p class="vn-bento__label">{c.bento.price}</p>
+              </>
+            )}
+            {i === bentoTypes && (
+              <>
+                <ul class="vn-types">
+                  {beverageTypes.map((t) => (
+                    <li style={`--tone: ${t.tone}`}>
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        {t.paths.map((d) => (
+                          <path d={d} />
+                        ))}
+                      </svg>
+                      {c.bento.types[t.key]}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+            {i === bentoShare && (
+              <>
+                <Image class="vn-glyph" src={homeIcon} alt="" width={230} height={230} />
+                <p class="vn-bento__label">{c.bento.share}</p>
+              </>
+            )}
+            {i === bentoStars && (
+              <>
+                <span class="vn-stars" aria-hidden="true">
+                  {[0, 1, 2, 3, 4].map(() => (
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                    </svg>
+                  ))}
+                </span>
+                <p class="vn-bento__label">{c.bento.rating}</p>
+              </>
+            )}
+            {i === bentoSiri && (
+              <>
+                <Image class="vn-siri" src={siriIcon} alt="" width={608} height={608} />
+                <p class="vn-bento__label">{c.bento.ai}</p>
+              </>
+            )}
           </article>
         ))
       }
-    </Reveal>
-    <div class="vn-duo">
-      <Reveal class="vn-duo__phone">
-        <IPhoneFrame src={scanShot} alt={c.alts.scanCamera} />
-      </Reveal>
-      <Reveal delay={0.1} class="vn-duo__arrow"><span aria-hidden="true">→</span></Reveal>
-      <Reveal delay={0.2} class="vn-duo__phone">
-        <IPhoneFrame src={scanReviewShot} alt={c.alts.scanResult} />
-      </Reveal>
     </div>
-    <Reveal><p class="vn-caption">{c.how.caption}</p></Reveal>
   </div>
 </section>
 
@@ -247,7 +481,7 @@ const widgets = [
     </Reveal>
     <Reveal class="vn-pricing__cta-wrap">
       <a class="btn vn-btn-gold" href={appStoreUrl} rel="noopener">
-        <Icon name="simple-icons:appstore" />
+        <span class="vn-appstore" aria-hidden="true"><Icon name="simple-icons:appstore" /></span>
         {c.pricing.cta}
       </a>
     </Reveal>
@@ -285,6 +519,20 @@ const widgets = [
     line-height: 1.1;
     letter-spacing: -0.02em;
     text-wrap: balance;
+  }
+
+  .vn-headline--icon {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .vn-headline--icon svg {
+    flex: none;
+    width: 0.85em;
+    height: 0.85em;
+    color: var(--accent);
+    stroke-width: 1.5;
   }
 
   .vn-caption {
@@ -349,6 +597,16 @@ const widgets = [
     -webkit-backdrop-filter: blur(14px);
   }
 
+  .vn-nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.9375rem;
+    font-weight: 650;
+    text-decoration: none;
+    color: var(--text);
+  }
+
   .vn-nav__brand img {
     display: block;
     width: 2.25rem;
@@ -361,8 +619,7 @@ const widgets = [
     gap: 1.25rem;
   }
 
-  .vn-nav__links a,
-  .vn-nav__lang {
+  .vn-nav__links a {
     font-size: 0.875rem;
     font-weight: 550;
     text-decoration: none;
@@ -371,15 +628,8 @@ const widgets = [
     transition: opacity 0.2s;
   }
 
-  .vn-nav__links a:hover,
-  .vn-nav__lang:hover {
+  .vn-nav__links a:hover {
     opacity: 1;
-  }
-
-  .vn-nav__lang {
-    padding: 0.35rem 0.7rem;
-    border: 1px solid var(--border);
-    border-radius: 999px;
   }
 
   .vn-nav__cta {
@@ -401,9 +651,24 @@ const widgets = [
     transform: translateY(-1px);
   }
 
-  .vn-nav__cta svg {
-    width: 1rem;
-    height: 1rem;
+  /* Official App Store mark: the monochrome glyph on Apple's blue tile. */
+  .vn-appstore {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 1.15em;
+    height: 1.15em;
+    padding: 0.16em;
+    border-radius: 0.26em;
+    background: linear-gradient(180deg, #2ad0ff 0%, #0a84ff 55%, #0060ff 100%);
+    vertical-align: middle;
+  }
+
+  .vn-appstore svg {
+    width: 100%;
+    height: 100%;
+    color: #fff;
   }
 
   /* ---------- Hero ---------- */
@@ -457,25 +722,186 @@ const widgets = [
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    margin-top: 2.25rem;
+    margin-top: 1.25rem;
     flex-wrap: wrap;
-  }
-
-  .vn-hero__sub {
-    color: var(--muted);
-    font-size: 0.9375rem;
   }
 
   :global(.vn-hero__phone) {
     justify-self: center;
   }
 
-  /* ---------- Benefit cards ---------- */
-  :global(.vn-cards) {
+  /* ---------- Compatible cellar finder ---------- */
+  :global(.vn-finder__lede) {
+    margin-top: 1rem;
+  }
+
+  #cellars {
+    padding-bottom: calc(var(--section-gap) * 0.35);
+  }
+
+  .vn-cellars__inner {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-    margin-top: 3rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  :global(.vn-cellars__phone) {
+    justify-self: center;
+  }
+
+  :global(.vn-finder) {
+    margin-top: 2rem;
+  }
+
+  /* Screens stack on top of one another so the frame keeps one size while the
+     images cross-fade. */
+  .vn-swap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .vn-swap__shot {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .vn-finder__panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 1.5rem;
+  }
+
+  .vn-finder__field {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+  }
+
+  .vn-finder__field:focus-within {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .vn-finder__field svg {
+    flex: none;
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  .vn-finder__field input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    background: none;
+    color: var(--text);
+    font: inherit;
+    font-size: 0.9375rem;
+  }
+
+  .vn-finder__field input:focus {
+    outline: none;
+  }
+
+  .vn-finder__field input::-webkit-search-cancel-button {
+    filter: invert(1);
+    opacity: 0.5;
+  }
+
+  .vn-finder__count {
+    margin: 1rem 0 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 550;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .vn-finder__count span {
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Fixed height, so filtering down to one result does not collapse the panel
+     and shove the rest of the section around. */
+  .vn-finder__results {
+    position: relative;
+    height: 22rem;
+  }
+
+  /* The whole catalogue ships in the HTML, so the list scrolls rather than
+     stretching the page to 148 rows. */
+  .vn-finder__list {
+    height: 100%;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overscroll-behavior: contain;
+  }
+
+  .vn-finder__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.4rem 0.75rem;
+    padding: 0.6rem 0.2rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+  }
+
+  .vn-finder__item[hidden] {
+    display: none;
+  }
+
+  /* No rule under the last row. The DOM last covers the unfiltered list; the
+     script tags the last *visible* row once a search hides part of it. */
+  .vn-finder__item:last-child,
+  .vn-finder__item[data-last] {
+    border-bottom: 0;
+  }
+
+  .vn-finder__brand {
+    grid-column: 1;
+    font-weight: 650;
+  }
+
+  .vn-finder__model {
+    grid-column: 1;
+    grid-row: 2;
+    color: var(--muted);
+  }
+
+  .vn-finder__spec {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .vn-finder__empty {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 0 1.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .vn-finder__empty[hidden] {
+    display: none;
   }
 
   .vn-card {
@@ -483,26 +909,6 @@ const widgets = [
     border: 1px solid var(--border);
     border-radius: var(--radius-card);
     padding: 2rem;
-  }
-
-  .vn-card__stat {
-    color: var(--accent);
-    font-size: clamp(2.6rem, 4.5vw, 3.6rem);
-    font-weight: 700;
-    line-height: 1;
-    display: flex;
-    align-items: baseline;
-    gap: 0.6rem;
-    margin-bottom: 1.25rem;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .vn-card__stat-label {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--muted);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
   }
 
   .vn-card__title {
@@ -515,6 +921,239 @@ const widgets = [
     color: var(--muted);
     font-size: 0.9875rem;
     line-height: 1.6;
+  }
+
+  /* ---------- Bento, iOS keynote grid ---------- */
+  .vn-how {
+    padding-top: 0;
+  }
+
+  .vn-bento {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    /* Locks the row-to-column ratio of the original slide at any width. */
+    aspect-ratio: 930 / 517;
+    gap: 0.5rem;
+  }
+
+  .vn-bento__tile {
+    border-radius: 0.9rem;
+    background: var(--card);
+  }
+
+  /* The centre tile plays the part the iOS wordmark plays on the slide. */
+  .vn-bento__tile--hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
+    background: radial-gradient(120% 120% at 30% 10%, #3a1f2b 0%, var(--card) 70%);
+  }
+
+  .vn-bento__tile--hero img {
+    width: clamp(3.5rem, 7vw, 5.5rem);
+    height: auto;
+    border-radius: 22%;
+  }
+
+  .vn-bento__tile--hero p {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  /* Artwork centred in the free space, caption underneath: the caption keeps
+     the same size on every tile, as on the slide. */
+  .vn-bento__tile--art {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  /* auto margins let the artwork claim the free space and centre in it, which
+     pins the caption to the bottom edge whatever the tile height. */
+  .vn-bento__tile--art > :first-child {
+    margin: auto;
+  }
+
+  .vn-bento__label {
+    text-align: center;
+    font-size: 0.8125rem;
+    font-weight: 550;
+    color: var(--text);
+  }
+
+  .vn-siri {
+    width: min(88%, 5.5rem);
+    height: auto;
+  }
+
+  .vn-heart {
+    width: min(60%, 3.4rem);
+    height: auto;
+    color: #ff3b30;
+  }
+
+  .vn-heart path {
+    fill: currentColor;
+  }
+
+  .vn-people {
+    display: flex;
+  }
+
+  /* Overlapping discs, the way the app shows a shared cellar's members. The
+     ring is the tile colour so they read as a stack rather than a row. */
+  .vn-avatar {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    border: 2px solid var(--card);
+    background: var(--tone, #8c2f3a);
+    font-size: 1.1875rem;
+    line-height: 1;
+    font-weight: 650;
+    color: #fff;
+  }
+
+  .vn-avatar + .vn-avatar {
+    margin-left: -0.85rem;
+  }
+
+  .vn-glyph {
+    width: min(52%, 4rem);
+    height: auto;
+  }
+
+  /* Caption on top, device below and deliberately taller than the space left,
+     so it runs off the bottom edge the way the keynote slide crops a phone. */
+  .vn-bento__tile--head {
+    position: relative;
+    overflow: hidden;
+    /* No padding on the tile itself: the caption and the device each carry
+       their own inset, so the device can be positioned freely. */
+    padding: 0;
+    /* Makes the tile a query container so the frame can size itself against it
+       in a real length. */
+    container-type: inline-size;
+  }
+
+  .vn-bento__tile--head .vn-bento__label {
+    padding: 1rem 0.75rem 0;
+  }
+
+  /* --iphone-w feeds calc() for the bezel and the corner radii, so it has to be
+     a length: a percentage would resolve against the parent and warp the frame.
+     Doubled class so it outranks .iphone's own width. */
+  :global(.iphone.vn-bento__phone) {
+    --iphone-w: 87cqw;
+    position: absolute;
+    top: 5rem;
+    left: 50%;
+    translate: -50% 0;
+  }
+
+  /* The screenshot carries its own status bar and island. */
+  :global(.vn-bento__phone) :global(.iphone__island) {
+    display: none;
+  }
+
+  .vn-price {
+    display: grid;
+    justify-items: center;
+    gap: 0.2rem;
+  }
+
+  .vn-price__value {
+    color: var(--accent);
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vn-price__note {
+    font-size: 0.6875rem;
+    color: var(--muted);
+  }
+
+  .vn-types {
+    display: grid;
+    gap: 0.55rem;
+    width: 100%;
+    margin: 0;
+    padding: 0 0.25rem;
+    list-style: none;
+  }
+
+  .vn-types li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.8125rem;
+    font-weight: 550;
+  }
+
+  /* SF Symbols sit lighter than the site's other icons, hence the thinner
+     stroke and the round joins. */
+  .vn-types svg {
+    flex: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: none;
+    stroke: var(--tone);
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .vn-stars {
+    display: flex;
+    gap: 0.15rem;
+  }
+
+  .vn-stars svg {
+    width: 1.4rem;
+    height: 1.4rem;
+    color: var(--accent);
+  }
+
+  .vn-stars svg path {
+    fill: currentColor;
+  }
+
+  .vn-avatar--more {
+    background: rgba(246, 239, 231, 0.14);
+    font-size: 0.75rem;
+  }
+
+  /* Edge to edge artwork: the image covers the tile and the caption rides on
+     top of it, over a scrim so it stays readable whatever the image shows. */
+  .vn-bento__tile--fill {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .vn-map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .vn-bento__tile--fill .vn-bento__label {
+    position: relative;
+    padding: 2.5rem 0.75rem 0.9rem;
+    background: linear-gradient(to top, rgba(10, 6, 8, 0.85) 35%, transparent);
   }
 
   /* ---------- How it works ---------- */
@@ -766,15 +1405,28 @@ const widgets = [
     }
 
     .vn-hero__inner,
+    .vn-cellars__inner,
     .vn-features {
       grid-template-columns: 1fr;
+    }
+
+    /* The 15-column mosaic is unreadable on a phone: fall back to a plain
+       two-column grid and let the tiles take their natural order. */
+    .vn-bento {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: none;
+      grid-auto-rows: 7rem;
+      aspect-ratio: auto;
+    }
+
+    .vn-bento__tile {
+      grid-area: auto !important;
     }
 
     :global(.vn-hero__phone) {
       margin-top: 1rem;
     }
 
-    :global(.vn-cards),
     :global(.vn-steps) {
       grid-template-columns: 1fr;
     }
@@ -811,7 +1463,14 @@ const widgets = [
 </style>
 
 <script>
+  import { initBento } from '../../scripts/bento'
+  import { initCellarFinder } from '../../scripts/cellar-finder'
   import { gsap, prefersReducedMotion } from '../../scripts/motion'
+  import { initScreenSwap } from '../../scripts/screen-swap'
+
+  initBento()
+  initCellarFinder()
+  initScreenSwap()
 
   if (prefersReducedMotion()) {
     for (const video of document.querySelectorAll<HTMLVideoElement>('.vn-hero__video')) {

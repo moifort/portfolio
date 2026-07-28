@@ -17,5 +17,16 @@ const alternates = [
   lang="en"
   alternates={alternates}
 >
+  <script slot="head" is:inline>
+    // The landing has no language switcher: English is the default and browsers
+    // that ask for French get the French page. Runs before paint so there is no
+    // flash of the wrong language, and replaces the entry so Back still works.
+    ;(function () {
+      var preferred = (navigator.languages && navigator.languages[0]) || navigator.language || ''
+      if (/^fr\b/i.test(preferred)) {
+        location.replace('/vinarium/fr' + location.search + location.hash)
+      }
+    })()
+  </script>
   <Landing lang="en" />
 </Base>
