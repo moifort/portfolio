@@ -308,6 +308,7 @@ const HEAD_TILES = new Set(['detail', 'search'])
               HEAD_TILES.has(key) && 'vn-bento__tile--head',
             ]}
             style={`grid-area: ${row} / ${col} / span ${rowSpan} / span ${colSpan}`}
+            data-tile={key}
           >
             {key === 'hero' && (
               <>
@@ -1854,6 +1855,30 @@ const HEAD_TILES = new Set(['detail', 'search'])
        rectangle. Four columns bring the tiles back to a mosaic's scale. */
     .vn-bento {
       grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* The app name anchors the mosaic on the slide, so it is pinned to the two
+       middle columns rather than left to land wherever the flow puts it. The
+       eight tiles before it fill the first two rows exactly, so row 3 is where
+       it falls anyway; dense packing backfills the two cells beside it. */
+    .vn-bento__tile--hero {
+      grid-column: 2 / span 2 !important;
+      grid-row: 3 !important;
+    }
+
+    /* Three tall tiles, one per band, so the grid is not four identical rows of
+       squares: the decanter and the bottle are portrait artwork that a square
+       crops, and the detail tile shows more of its screen. */
+    [data-tile='decanter'],
+    [data-tile='detail'],
+    [data-tile='sake'] {
+      grid-row: span 2 !important;
+    }
+
+    /* The three tall tiles push the last row one cell short; the price tile is
+       the one that reads best wide, its curve just runs longer. */
+    [data-tile='price'] {
+      grid-column: span 2 !important;
     }
 
     .vn-plans th:not(:first-child),
