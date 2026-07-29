@@ -1610,6 +1610,28 @@ const HEAD_TILES = new Set(['detail', 'search'])
       display: none;
     }
 
+    /* Balancing buys even line lengths at the cost of width, which on a phone
+       leaves a third of the column empty and pushes a two-line title onto
+       three. Narrow enough here that filling the measure reads better. */
+    .vn-display,
+    .vn-headline {
+      text-wrap: pretty;
+    }
+
+    /* Flex sizes the title's text to its longest word, so "Plus qu'un
+       gestionnaire de cave" sat in a 182px column inside a 327px one. Block
+       layout lets the text fill the measure, the glyph riding inline on the
+       first line and the rest starting at the left edge. */
+    .vn-headline--icon {
+      display: block;
+    }
+
+    .vn-headline--icon svg {
+      display: inline-block;
+      vertical-align: -0.06em;
+      margin-right: 0.45rem;
+    }
+
     .vn-duo {
       gap: clamp(0.5rem, 2.5vw, 1.5rem);
     }
