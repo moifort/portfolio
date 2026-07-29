@@ -303,6 +303,7 @@ const HEAD_TILES = new Set(['detail', 'search'])
               key === 'hero' && 'vn-bento__tile--hero',
               ART_TILES.has(key) && 'vn-bento__tile--art',
               key === 'ready' && 'vn-bento__tile--rows',
+              key === 'contact' && 'vn-bento__tile--people',
               FILL_TILES.has(key) && 'vn-bento__tile--fill',
               HEAD_TILES.has(key) && 'vn-bento__tile--head',
             ]}
@@ -1218,26 +1219,35 @@ const HEAD_TILES = new Set(['detail', 'search'])
     fill: currentColor;
   }
 
-  /* The one length the cluster is built from: every disc and every offset is a
-     fraction of it, and it is itself a share of the tile. */
-  .vn-people {
-    --unit: 62cqw;
+  /* No inset of its own: the cluster claims the whole tile bar the label, which
+     is the space the flex row leaves it. Square, and since the tile is always
+     taller than the space left is high, the height is what limits it. */
+  .vn-bento__tile--people {
+    padding: 0;
+  }
+
+  .vn-bento__tile--people .vn-people {
     position: relative;
-    width: var(--unit);
+    flex: 1;
+    min-height: 0;
     aspect-ratio: 1;
+    margin: 0;
   }
 
   /* Overlapping discs, the way the app shows a shared cellar's members. The
-     ring is the tile colour so they read as a stack rather than a row. */
+     ring is the tile colour so they read as a stack rather than a row.
+     Sizes and offsets are fractions of the cluster, so the whole thing scales
+     with it: percentages here resolve against the cluster, which is square, and
+     the translate then centres each disc on its own point. */
   .vn-bubble {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: calc(50% + var(--y) * 100%);
+    left: calc(50% + var(--x) * 100%);
     display: grid;
     place-items: center;
-    width: calc(var(--size) * var(--unit));
-    height: calc(var(--size) * var(--unit));
-    translate: calc(-50% + var(--x) * var(--unit)) calc(-50% + var(--y) * var(--unit));
+    width: calc(var(--size) * 100%);
+    height: calc(var(--size) * 100%);
+    translate: -50% -50%;
     border-radius: 999px;
     background: var(--tone);
     overflow: hidden;
