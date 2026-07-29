@@ -1714,7 +1714,6 @@ const HEAD_TILES = new Set(['detail', 'search'])
       padding: 1rem;
     }
 
-
     .vn-bento__title {
       margin-bottom: 1.5rem;
     }
@@ -1740,7 +1739,8 @@ const HEAD_TILES = new Set(['detail', 'search'])
     .vn-bento {
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: none;
-      grid-auto-rows: 7rem;
+      /* 180px at the default text size, in rem so the tiles grow with it. */
+      grid-auto-rows: 11.25rem;
       /* The one tile that spans both columns cannot start mid-row, so it would
          leave a hole behind it; dense packing backfills it with the next tile. */
       grid-auto-flow: dense;
@@ -1752,10 +1752,24 @@ const HEAD_TILES = new Set(['detail', 'search'])
     }
 
     /* Half a phone width leaves the wine names about seven characters, which is
-       no list at all: this tile takes the full width and two rows instead. */
+       no list at all: this tile takes the full width instead. One row is enough
+       now that a row is taller, and the list is meant to run off the bottom
+       edge rather than float in an oversized tile. */
     .vn-bento__tile--rows {
       grid-column: span 2 !important;
-      grid-row: span 2 !important;
+    }
+
+    /* The icon and the wordmark sit side by side, and half a phone width is not
+       enough for them: the mark ran past the tile edge. */
+    .vn-bento__tile--hero {
+      grid-column: span 2 !important;
+    }
+
+    /* One column wide, there is no second column to align against: the devices
+       centre under their text rather than hanging off a gutter. */
+    :global(.vn-hero__phone),
+    :global(.vn-search__phone) {
+      justify-self: center;
     }
 
     :global(.vn-hero__phone) {
