@@ -270,8 +270,8 @@ const HEAD_TILES = new Set(['detail', 'search'])
     <Reveal delay={0.15} class="vn-cellars__phone">
       <IPhoneFrame>
         <div class="vn-swap" data-swap>
-          <Image class="vn-swap__shot" src={cellarShot} alt={c.alts.cellar} widths={[320, 480, 720]} sizes="(max-width: 900px) 76vw, 340px" data-swap-shot />
-          <Image class="vn-swap__shot" src={journalDarkShot} alt={c.alts.journal} widths={[320, 480, 720]} sizes="(max-width: 900px) 76vw, 340px" data-swap-shot />
+          <Image class="vn-swap__shot" src={cellarShot} alt={c.alts.cellar} widths={[320, 480, 720]} sizes="(max-width: 1100px) 32vw, 340px" data-swap-shot />
+          <Image class="vn-swap__shot" src={journalDarkShot} alt={c.alts.journal} widths={[320, 480, 720]} sizes="(max-width: 1100px) 32vw, 340px" data-swap-shot />
         </div>
       </IPhoneFrame>
     </Reveal>
@@ -1699,16 +1699,13 @@ const HEAD_TILES = new Set(['detail', 'search'])
     }
 
     .vn-hero__inner,
-    .vn-cellars__inner,
     .vn-search__inner {
       grid-template-columns: 1fr;
     }
 
-    /* Stacked rather than side by side, these two screenshots only pushed the
-       rest of the page down: the cellar section is about the catalogue under
-       it, the search section about the fields it lists, and the bento already
-       carries a search screen of its own. The hero video shows the app. */
-    :global(.vn-cellars__phone),
+    /* Stacked rather than side by side, this screenshot only pushed the rest of
+       the page down: the search section is about the fields it lists, and the
+       bento already carries a search screen of its own. */
     :global(.vn-search__phone) {
       display: none;
     }
@@ -1817,6 +1814,19 @@ const HEAD_TILES = new Set(['detail', 'search'])
 
     /* Too narrow a column to carry a sentence. */
     .vn-plans__options {
+      display: none;
+    }
+  }
+
+  /* A tablet still has room for the cellar section's two columns: the finder
+     panel keeps a usable measure next to the device, so the screenshot only
+     drops out once the page is down to a phone's single column. */
+  @media (max-width: 700px) {
+    .vn-cellars__inner {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.vn-cellars__phone) {
       display: none;
     }
   }
