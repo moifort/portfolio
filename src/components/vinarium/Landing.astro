@@ -1226,6 +1226,12 @@ const HEAD_TILES = new Set(['detail', 'search'])
     padding: 0;
   }
 
+  /* Dropping the tile's padding took the label's inset with it: given back
+     here, so the caption sits on the same line as the tiles next to it. */
+  .vn-bento__tile--people .vn-bento__label {
+    padding: 0 1rem 1rem;
+  }
+
   .vn-bento__tile--people .vn-people {
     position: relative;
     flex: 1;
