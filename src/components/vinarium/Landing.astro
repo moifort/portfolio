@@ -1851,9 +1851,9 @@ const HEAD_TILES = new Set(['detail', 'search'])
   @media (min-width: 701px) and (max-width: 900px) {
     /* Two columns is the phone fallback: on a tablet each tile came out wider
        than a phone screen, so a caption and one glyph floated in an empty
-       rectangle. A third column brings the tiles back to a mosaic's scale. */
+       rectangle. Four columns bring the tiles back to a mosaic's scale. */
     .vn-bento {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
     }
 
     .vn-plans th:not(:first-child),
