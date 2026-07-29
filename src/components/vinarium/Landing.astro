@@ -565,12 +565,6 @@ const HEAD_TILES = new Set(['detail', 'search'])
         </tbody>
       </table>
     </Reveal>
-    <Reveal delay={0.1}>
-      {/* Same sentence as the premium column header, shown only where that
-          column is too narrow to hold it. aria-hidden either way: the header
-          already says it to a screen reader. */}
-      <p class="vn-pricing__options-mobile" aria-hidden="true">{c.pricing.premium.trial}</p>
-    </Reveal>
     <Reveal class="vn-pricing__cta-wrap">
       <AppStoreBadge href={appStoreUrl} lang={lang} />
     </Reveal>
@@ -1634,13 +1628,6 @@ const HEAD_TILES = new Set(['detail', 'search'])
     white-space: nowrap;
   }
 
-  .vn-pricing__options-mobile {
-    display: none;
-    margin-top: 1.25rem;
-    font-size: 0.875rem;
-    color: var(--muted);
-  }
-
   :global(.vn-pricing__cta-wrap) {
     display: flex;
     justify-content: center;
@@ -1699,10 +1686,12 @@ const HEAD_TILES = new Set(['detail', 'search'])
       grid-template-columns: 1fr;
     }
 
-    /* Stacked under the finder, the cellar screenshot only pushed the rest of
-       the page down: the section is about the catalogue, and the hero video
-       already shows the app. */
-    :global(.vn-cellars__phone) {
+    /* Stacked rather than side by side, these two screenshots only pushed the
+       rest of the page down: the cellar section is about the catalogue under
+       it, the search section about the fields it lists, and the bento already
+       carries a search screen of its own. The hero video shows the app. */
+    :global(.vn-cellars__phone),
+    :global(.vn-search__phone) {
       display: none;
     }
 
@@ -1724,6 +1713,19 @@ const HEAD_TILES = new Set(['detail', 'search'])
 
     .vn-search__sub {
       margin-top: 1.5rem;
+    }
+
+    /* Seven chips over three lines leave the last one alone against the left
+       edge; centred, the block reads as one shape. */
+    .vn-search__chips {
+      justify-content: center;
+    }
+
+    /* The bar is barely wider than the queries typing themselves into it, and
+       the label on the right sat right against them. The heading above already
+       says what the field is. */
+    .vn-searchbar__hint {
+      display: none;
     }
 
     .vn-plans {
@@ -1751,28 +1753,27 @@ const HEAD_TILES = new Set(['detail', 'search'])
       grid-area: auto !important;
     }
 
-    /* Half a phone width leaves the wine names about seven characters, which is
-       no list at all: this tile takes the full width instead. One row is enough
-       now that a row is taller, and the list is meant to run off the bottom
-       edge rather than float in an oversized tile. */
-    .vn-bento__tile--rows {
-      grid-column: span 2 !important;
-    }
-
     /* The icon and the wordmark sit side by side, and half a phone width is not
        enough for them: the mark ran past the tile edge. */
     .vn-bento__tile--hero {
       grid-column: span 2 !important;
     }
 
-    /* One column wide, there is no second column to align against: the devices
-       centre under their text rather than hanging off a gutter. */
-    :global(.vn-hero__phone),
-    :global(.vn-search__phone) {
-      justify-self: center;
+    /* Back in flow, right under its label: the fixed offsets the desktop tiles
+       use left a hole between the two at this size. The tile still clips
+       whatever runs past its bottom edge. */
+    :global(.iphone.vn-bento__phone),
+    :global(.iphone.vn-bento__phone--corner) {
+      position: relative;
+      inset: auto;
+      translate: none;
+      margin: 5px auto 0;
     }
 
+    /* One column wide, there is no second column to align against: the device
+       centres under the text rather than hanging off the right gutter. */
     :global(.vn-hero__phone) {
+      justify-self: center;
       margin-top: 1rem;
     }
 
@@ -1807,14 +1808,9 @@ const HEAD_TILES = new Set(['detail', 'search'])
       font-size: 0.8125rem;
     }
 
-    /* Too narrow a column to carry a sentence: the two subscription options
-       move under the table, next to the note. */
+    /* Too narrow a column to carry a sentence. */
     .vn-plans__options {
       display: none;
-    }
-
-    .vn-pricing__options-mobile {
-      display: block;
     }
   }
 </style>
