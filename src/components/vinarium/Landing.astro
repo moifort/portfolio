@@ -510,6 +510,9 @@ const HEAD_TILES = new Set(['detail', 'search'])
 <!-- Pricing -->
 <section class="section vn-pricing" id="pricing">
   <div class="container">
+    {/* The section deliberately shows no heading: the table's own column heads
+        carry it. Kept for the document outline and heading navigation. */}
+    <h2 class="vn-sr">{c.nav.pricing}</h2>
     <Reveal delay={0.05}>
       <table class="vn-plans">
         <thead>
@@ -537,7 +540,7 @@ const HEAD_TILES = new Set(['detail', 'search'])
                   {row.free === true ? (
                     <>
                       <span class="vn-plans__check" aria-hidden="true">✓</span>
-                      <span class="vn-plans__sr">{c.pricing.included}</span>
+                      <span class="vn-sr">{c.pricing.included}</span>
                     </>
                   ) : (
                     row.free
@@ -547,7 +550,7 @@ const HEAD_TILES = new Set(['detail', 'search'])
                   {row.premium === true ? (
                     <>
                       <span class="vn-plans__check" aria-hidden="true">✓</span>
-                      <span class="vn-plans__sr">{c.pricing.included}</span>
+                      <span class="vn-sr">{c.pricing.included}</span>
                     </>
                   ) : (
                     row.premium
@@ -778,10 +781,6 @@ const HEAD_TILES = new Set(['detail', 'search'])
   /* ---------- Compatible cellar finder ---------- */
   :global(.vn-finder__lede) {
     margin-top: 1rem;
-  }
-
-  #cellars {
-    padding-bottom: calc(var(--section-gap) * 0.35);
   }
 
   .vn-cellars__inner {
@@ -1468,6 +1467,12 @@ const HEAD_TILES = new Set(['detail', 'search'])
   }
 
   /* ---------- Pricing ---------- */
+  /* Like the two sections before it, this one leans on the previous section's
+     bottom padding: its own on top would double the gap. */
+  .vn-pricing {
+    padding-top: 0;
+  }
+
   /* A comparison table rather than two cards: with a single line differing
      between the plans, the rows say more side by side than in two lists.
      Separate borders, not collapsed, so the premium column can be rounded. */
@@ -1573,8 +1578,9 @@ const HEAD_TILES = new Set(['detail', 'search'])
     font-weight: 700;
   }
 
-  /* The tick is the whole cell, so screen readers get the word instead. */
-  .vn-plans__sr {
+  /* Screen-reader-only text: the ticks and the section heading both show
+     nothing visually but must read as words. */
+  .vn-sr {
     position: absolute;
     width: 1px;
     height: 1px;
