@@ -54,12 +54,12 @@ export function initCellarFinder(): void {
   input.addEventListener('input', apply)
   apply()
 
-  /* On a phone the catalogue covers most of the screen, so a drag over it
-     scrolled the list instead of the page. The stylesheet locks it while the
-     gate reads "closed", which lets the drag through to the page; a tap on the
-     list, or the search field taking focus, hands the scroll back to it.
-     Set from here rather than in the markup: without JavaScript there is no
-     tap to open the gate, and the list has to stay scrollable. */
+  /* The catalogue scrolls inside a page that also scrolls, so a swipe or a
+     wheel over it moved the list instead of the page. The stylesheet locks it
+     while the gate reads "closed", which lets the gesture through to the page;
+     picking the list, or the search field taking focus, hands the scroll back
+     to it. Set from here rather than in the markup: without JavaScript there is
+     no click to open the gate, and the list has to stay scrollable. */
   if (results) {
     const setGate = (open: boolean) => {
       results.dataset['gate'] = open ? 'open' : 'closed'
@@ -67,8 +67,8 @@ export function initCellarFinder(): void {
 
     setGate(false)
 
-    // Dragging a locked list scrolls the page and fires no click, so a click
-    // here is a deliberate tap rather than the end of a swipe.
+    // A gesture over a locked list scrolls the page and fires no click, so a
+    // click here is a deliberate pick rather than the end of a swipe.
     results.addEventListener('click', () => setGate(true))
     input.addEventListener('focus', () => setGate(true))
 
