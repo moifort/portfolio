@@ -1849,6 +1849,13 @@ const HEAD_TILES = new Set(['detail', 'search'])
      go back to their share of it: shrunk to their content they left the ticks
      stranded in a corner, far from the feature names they answer. */
   @media (min-width: 701px) and (max-width: 900px) {
+    /* Two columns is the phone fallback: on a tablet each tile came out wider
+       than a phone screen, so a caption and one glyph floated in an empty
+       rectangle. A third column brings the tiles back to a mosaic's scale. */
+    .vn-bento {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
     .vn-plans th:not(:first-child),
     .vn-plans td {
       width: 26%;
