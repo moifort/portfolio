@@ -11,6 +11,8 @@ export function initCellarFinder(): void {
   const list = document.querySelector<HTMLElement>('[data-cellar-list]')
   const counter = document.querySelector<HTMLElement>('[data-cellar-count]')
   const empty = document.querySelector<HTMLElement>('[data-cellar-empty]')
+  const results = document.querySelector<HTMLElement>('[data-cellar-results]')
+  const gate = document.querySelector<HTMLElement>('[data-cellar-gate]')
   if (!input || !list) return
 
   const items = Array.from(list.querySelectorAll<HTMLElement>('[data-cellar-item]'))
@@ -45,8 +47,35 @@ export function initCellarFinder(): void {
 
     if (counter) counter.textContent = String(matches)
     if (empty) empty.hidden = matches > 0
+    // A list that fits has nothing to hand over, so it gets no prompt either.
+    if (gate) gate.hidden = list.scrollHeight <= list.clientHeight
   }
 
   input.addEventListener('input', apply)
   apply()
+
+  /* On a phone the catalogue covers most of the screen, so a drag over it
+     scrolled the list instead of the page. The stylesheet locks it while the
+     gate reads "closed", which lets the drag through to the page; a tap on the
+     list, or the search field taking focus, hands the scroll back to it.
+     Set from here rather than in the markup: without JavaScript there is no
+     tap to open the gate, and the list has to stay scrollable. */
+  if (results) {
+    const setGate = (open: boolean) => {
+      results.dataset['gate'] = open ? 'open' : 'closed'
+    }
+
+    setGate(false)
+
+    // Dragging a locked list scrolls the page and fires no click, so a click
+    // here is a deliberate tap rather than the end of a swipe.
+    results.addEventListener('click', () => setGate(true))
+    input.addEventListener('focus', () => setGate(true))
+
+    const panel = results.closest('.vn-finder__panel') ?? results
+    document.addEventListener('pointerdown', (event) => {
+      const target = event.target
+      if (target instanceof Node && !panel.contains(target)) setGate(false)
+    })
+  }
 }

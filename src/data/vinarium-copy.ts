@@ -39,6 +39,8 @@ export type VinariumCopy = {
     zone: string
     zones: string
     empty: string
+    /* Touch only: the list scrolls inside the page, so it takes a tap first. */
+    scrollHint: string
   }
   pricing: {
     free: { name: string; price: string }
@@ -122,6 +124,7 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       zone: 'zone',
       zones: 'zones',
       empty: 'Nothing matches. Build it yourself below, it takes two numbers.',
+      scrollHint: 'Tap to browse the list',
     },
     pricing: {
       free: { name: 'Free', price: '$0' },
@@ -215,6 +218,7 @@ export const copy: Record<'en' | 'fr', VinariumCopy> = {
       zone: 'zone',
       zones: 'zones',
       empty: 'Aucun résultat. Construisez la vôtre ci-dessous, il suffit de deux nombres.',
+      scrollHint: 'Touchez pour parcourir la liste',
     },
     pricing: {
       free: { name: 'Gratuit', price: '0 €' },
