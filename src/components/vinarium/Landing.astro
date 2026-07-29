@@ -1738,12 +1738,6 @@ const HEAD_TILES = new Set(['detail', 'search'])
       margin-top: 1.5rem;
     }
 
-    /* Seven chips over three lines leave the last one alone against the left
-       edge; centred, the block reads as one shape. */
-    .vn-search__chips {
-      justify-content: center;
-    }
-
     /* The bar is barely wider than the queries typing themselves into it, and
        the label on the right sat right against them. The heading above already
        says what the field is. */
@@ -1839,6 +1833,13 @@ const HEAD_TILES = new Set(['detail', 'search'])
     :global(.vn-cellars__phone),
     :global(.vn-search__phone) {
       display: none;
+    }
+
+    /* Seven chips over three lines leave the last one alone against the left
+       edge; centred, the block reads as one shape. Only on a phone: beside the
+       device the list has its own left edge to line up with. */
+    .vn-search__chips {
+      justify-content: center;
     }
   }
 
