@@ -1792,11 +1792,13 @@ const HEAD_TILES = new Set(['detail', 'search'])
       padding: 0.7rem 0.5rem;
     }
 
-    /* A tick needs no quarter of the width: the plan columns shrink to their
-       content so the feature names stop wrapping onto three lines. */
+    /* Wide enough for the two plans to match: left to its content the free
+       column came out a third narrower than the premium one beside it, which
+       reads as a hierarchy the table does not mean. Past this the feature names
+       start wrapping onto three lines. */
     .vn-plans th:not(:first-child),
     .vn-plans td {
-      width: 4rem;
+      width: 6.5rem;
     }
 
     .vn-plans tbody th,
@@ -1849,7 +1851,7 @@ const HEAD_TILES = new Set(['detail', 'search'])
   @media (min-width: 701px) and (max-width: 900px) {
     .vn-plans th:not(:first-child),
     .vn-plans td {
-      width: 20%;
+      width: 26%;
     }
 
     .vn-plans th,
