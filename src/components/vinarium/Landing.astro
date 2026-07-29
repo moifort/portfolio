@@ -681,6 +681,22 @@ const HEAD_TILES = new Set(['detail', 'search'])
     opacity: 1;
   }
 
+  /* Anchor targets for the links above. The pill floats over the page, so a
+     bare jump parks the top of the section under it and the heading lands
+     behind the glass. Clear of the pill, with room left to breathe. */
+  #cellars,
+  #features,
+  #search,
+  #pricing {
+    scroll-margin-top: 6rem;
+  }
+
+  /* The only one of the four that keeps a top padding of its own: left in, the
+     jump would stop a whole section gap short of the title. */
+  #cellars {
+    scroll-margin-top: calc(6rem - var(--section-gap));
+  }
+
   .vn-nav__cta {
     display: inline-flex;
     align-items: center;
@@ -1682,8 +1698,10 @@ const HEAD_TILES = new Set(['detail', 'search'])
       width: min(var(--container), 100% - 2rem);
     }
 
+    /* The token rather than the padding it feeds, so the anchor offsets keyed
+       to the section rhythm shrink with it. */
     .section {
-      padding-block: clamp(3rem, 7vh, 4.5rem);
+      --section-gap: clamp(3rem, 7vh, 4.5rem);
     }
 
     /* Balancing buys even line lengths at the cost of width, which on a phone
