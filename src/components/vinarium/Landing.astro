@@ -270,8 +270,8 @@ const HEAD_TILES = new Set(['detail', 'search'])
     <Reveal delay={0.15} class="vn-cellars__phone">
       <IPhoneFrame>
         <div class="vn-swap" data-swap>
-          <Image class="vn-swap__shot" src={cellarShot} alt={c.alts.cellar} widths={[320, 480, 720]} sizes="(max-width: 1100px) 32vw, 340px" data-swap-shot />
-          <Image class="vn-swap__shot" src={journalDarkShot} alt={c.alts.journal} widths={[320, 480, 720]} sizes="(max-width: 1100px) 32vw, 340px" data-swap-shot />
+          <Image class="vn-swap__shot" src={cellarShot} alt={c.alts.cellar} widths={[320, 480, 720]} sizes="(max-width: 1100px) 36vw, 340px" data-swap-shot />
+          <Image class="vn-swap__shot" src={journalDarkShot} alt={c.alts.journal} widths={[320, 480, 720]} sizes="(max-width: 1100px) 36vw, 340px" data-swap-shot />
         </div>
       </IPhoneFrame>
     </Reveal>
@@ -786,15 +786,25 @@ const HEAD_TILES = new Set(['detail', 'search'])
     margin-top: 1rem;
   }
 
+  /* Bottom edges rather than centres: the device and the finder panel are the
+     two blocks the eye reads as a pair, and a shared baseline holds them
+     together where centring left both of them floating. */
   .vn-cellars__inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
+    align-items: end;
     gap: clamp(2rem, 5vw, 4rem);
   }
 
   :global(.vn-cellars__phone) {
     justify-self: end;
+  }
+
+  /* Below the 340px cap the device was noticeably shorter than the panel next
+     to it; a wider viewport share closes most of that gap without taking the
+     width the list needs for its two columns of text. */
+  :global(.vn-cellars__phone .iphone) {
+    --iphone-w: clamp(240px, 36vw, 340px);
   }
 
   :global(.vn-finder) {
@@ -1010,6 +1020,12 @@ const HEAD_TILES = new Set(['detail', 'search'])
 
   :global(.vn-search__phone) {
     display: block;
+  }
+
+  /* Same treatment as the cellar device: under the 340px cap it was leaving the
+     column beside it looking oversized. */
+  :global(.vn-search__phone .iphone) {
+    --iphone-w: clamp(240px, 36vw, 340px);
   }
 
   /* A field rather than a paragraph: the examples type themselves into it. */
@@ -1698,16 +1714,8 @@ const HEAD_TILES = new Set(['detail', 'search'])
       --iphone-w: clamp(120px, 36vw, 240px);
     }
 
-    .vn-hero__inner,
-    .vn-search__inner {
+    .vn-hero__inner {
       grid-template-columns: 1fr;
-    }
-
-    /* Stacked rather than side by side, this screenshot only pushed the rest of
-       the page down: the search section is about the fields it lists, and the
-       bento already carries a search screen of its own. */
-    :global(.vn-search__phone) {
-      display: none;
     }
 
     :global(.vn-finder) {
@@ -1818,16 +1826,34 @@ const HEAD_TILES = new Set(['detail', 'search'])
     }
   }
 
-  /* A tablet still has room for the cellar section's two columns: the finder
-     panel keeps a usable measure next to the device, so the screenshot only
-     drops out once the page is down to a phone's single column. */
+  /* A tablet still has room for these two-column sections: the finder panel and
+     the field list keep a usable measure next to the device, so the screenshots
+     only drop out once the page is down to a phone's single column. Stacked
+     rather than side by side they would only push the rest of the page down. */
   @media (max-width: 700px) {
-    .vn-cellars__inner {
+    .vn-cellars__inner,
+    .vn-search__inner {
       grid-template-columns: 1fr;
     }
 
-    :global(.vn-cellars__phone) {
+    :global(.vn-cellars__phone),
+    :global(.vn-search__phone) {
       display: none;
+    }
+  }
+
+  /* A tablet's table is nearly as wide as a desktop's, so the plan columns can
+     go back to their share of it: shrunk to their content they left the ticks
+     stranded in a corner, far from the feature names they answer. */
+  @media (min-width: 701px) and (max-width: 900px) {
+    .vn-plans th:not(:first-child),
+    .vn-plans td {
+      width: 20%;
+    }
+
+    .vn-plans th,
+    .vn-plans td {
+      padding: 0.7rem 1rem;
     }
   }
 </style>
