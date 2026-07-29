@@ -1610,6 +1610,17 @@ const HEAD_TILES = new Set(['detail', 'search'])
       display: none;
     }
 
+    /* Tighter gutters and shorter section breaks: on a phone the page is one
+       long column, so the space the desktop layout spends on air is better
+       spent on the content itself. */
+    .container {
+      width: min(var(--container), 100% - 2rem);
+    }
+
+    .section {
+      padding-block: clamp(3rem, 7vh, 4.5rem);
+    }
+
     /* Balancing buys even line lengths at the cost of width, which on a phone
        leaves a third of the column empty and pushes a two-line title onto
        three. Narrow enough here that filling the measure reads better. */
@@ -1620,16 +1631,15 @@ const HEAD_TILES = new Set(['detail', 'search'])
 
     /* Flex sizes the title's text to its longest word, so "Plus qu'un
        gestionnaire de cave" sat in a 182px column inside a 327px one. Block
-       layout lets the text fill the measure, the glyph riding inline on the
-       first line and the rest starting at the left edge. */
+       layout lets the text fill the measure. */
     .vn-headline--icon {
       display: block;
     }
 
+    /* The glyph costs a word's worth of the first line for decoration only:
+       the titles read better using the whole measure. */
     .vn-headline--icon svg {
-      display: inline-block;
-      vertical-align: -0.06em;
-      margin-right: 0.45rem;
+      display: none;
     }
 
     .vn-duo {
@@ -1644,6 +1654,41 @@ const HEAD_TILES = new Set(['detail', 'search'])
     .vn-cellars__inner,
     .vn-search__inner {
       grid-template-columns: 1fr;
+    }
+
+    /* Stacked under the finder, the cellar screenshot only pushed the rest of
+       the page down: the section is about the catalogue, and the hero video
+       already shows the app. */
+    :global(.vn-cellars__phone) {
+      display: none;
+    }
+
+    :global(.vn-finder) {
+      margin-top: 1.25rem;
+    }
+
+    .vn-finder__panel {
+      padding: 1rem;
+    }
+
+    .vn-bento__title {
+      margin-bottom: 1.5rem;
+    }
+
+    .vn-search__fields {
+      margin-top: 1.25rem;
+    }
+
+    .vn-search__sub {
+      margin-top: 1.5rem;
+    }
+
+    .vn-plans {
+      margin-top: 1.5rem;
+    }
+
+    :global(.vn-pricing__cta-wrap) {
+      margin-top: 2rem;
     }
 
     /* The 15-column mosaic is unreadable on a phone: fall back to a plain
