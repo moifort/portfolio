@@ -155,12 +155,18 @@ const HEAD_TILES = new Set(['detail', 'search'])
   </a>
   {/* Same order as the page, so the pill reads as a map of the scroll. */}
   <div class="vn-nav__links">
-    <a href="#cellars">{c.nav.cellars}</a>
-    <a href="#features">{c.nav.features}</a>
-    <a href="#search">{c.nav.search}</a>
-    <a href="#pricing">{c.nav.pricing}</a>
+    <a href="#cellars" data-track="nav_click" data-track-section="cellars">{c.nav.cellars}</a>
+    <a href="#features" data-track="nav_click" data-track-section="features">{c.nav.features}</a>
+    <a href="#search" data-track="nav_click" data-track-section="search">{c.nav.search}</a>
+    <a href="#pricing" data-track="nav_click" data-track-section="pricing">{c.nav.pricing}</a>
   </div>
-  <a class="vn-nav__cta" href={appStoreUrl} rel="noopener">
+  <a
+    class="vn-nav__cta"
+    href={appStoreUrl}
+    rel="noopener"
+    data-track="app_store_click"
+    data-track-place="nav"
+  >
     <span class="vn-appstore" aria-hidden="true"><Icon name="simple-icons:appstore" /></span>
     {c.nav.appStore}
   </a>
@@ -188,7 +194,7 @@ const HEAD_TILES = new Set(['detail', 'search'])
       <Reveal delay={0.1}><p class="lede vn-hero__lede">{c.hero.lede}</p></Reveal>
       <Reveal delay={0.15}>
         <p class="vn-hero__actions">
-          <AppStoreBadge href={appStoreUrl} lang={lang} />
+          <AppStoreBadge href={appStoreUrl} lang={lang} place="hero" />
         </p>
       </Reveal>
     </div>
@@ -570,7 +576,7 @@ const HEAD_TILES = new Set(['detail', 'search'])
       </table>
     </Reveal>
     <Reveal class="vn-pricing__cta-wrap">
-      <AppStoreBadge href={appStoreUrl} lang={lang} />
+      <AppStoreBadge href={appStoreUrl} lang={lang} place="pricing" />
     </Reveal>
   </div>
 </section>

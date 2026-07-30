@@ -236,10 +236,23 @@ const timeline: {
               </span>
             </div>
             <div class="profile-card__links">
-              <a href={site.github} rel="noopener" aria-label="GitHub">
+              <a
+                href={site.github}
+                rel="noopener"
+                aria-label="GitHub"
+                data-track="outbound_click"
+                data-track-destination="github.com"
+                data-track-place="profile-card"
+              >
                 <Icon name="lucide:github" />
               </a>
-              <a href={`mailto:${site.email}`} aria-label="Email">
+              <a
+                href={`mailto:${site.email}`}
+                aria-label="Email"
+                data-track="contact_click"
+                data-track-channel="email"
+                data-track-place="profile-card"
+              >
                 <Icon name="lucide:mail" />
               </a>
             </div>
@@ -269,7 +282,12 @@ const timeline: {
             <p class="profile-card__price">
               <strong>{site.dailyRate}&nbsp;€</strong><span>/ day</span>
             </p>
-            <a class="profile-card__cta" href={`mailto:${site.email}`}>
+            <a
+              class="profile-card__cta"
+              href={`mailto:${site.email}`}
+              data-track="hire_me_click"
+              data-track-place="profile-card"
+            >
               Hire me <Icon name="lucide:arrow-right" />
             </a>
           </div>
@@ -364,7 +382,13 @@ const timeline: {
         </Reveal>
         <div class="proof__grid" id="proof">
           <Reveal>
-          <a class="proof-card proof-card--crypto" href="/crypto-bot" data-category="ios">
+          <a
+            class="proof-card proof-card--crypto"
+            href="/crypto-bot"
+            data-category="ios"
+            data-track="project_click"
+            data-track-project="crypto-bot"
+          >
             <span class="proof-card__date">Feb 2026</span>
             <div class="proof-card__body">
               <Image
@@ -392,7 +416,13 @@ const timeline: {
           </a>
         </Reveal>
         <Reveal delay={0.1}>
-          <a class="proof-card proof-card--vinarium" href="/vinarium" data-category="ios">
+          <a
+            class="proof-card proof-card--vinarium"
+            href="/vinarium"
+            data-category="ios"
+            data-track="project_click"
+            data-track-project="vinarium"
+          >
             <span class="proof-card__date">Jan 2026</span>
             <div class="proof-card__body">
               <Image
@@ -453,6 +483,8 @@ const timeline: {
         <Reveal delay={0.15}>
           <a
             class="proof-card proof-card--stats"
+            data-track="project_click"
+            data-track-project="stats"
             href="https://github.com/moifort/minimal-stats"
             rel="noopener"
             data-category="macos"
@@ -502,6 +534,8 @@ const timeline: {
         <Reveal delay={0.25}>
           <a
             class="proof-card proof-card--gridfinity"
+            data-track="project_click"
+            data-track-project="gridfinity"
             href="https://makerworld.com/en/@moifort"
             rel="noopener"
             data-category="3d-printing"
@@ -540,6 +574,8 @@ const timeline: {
         <Reveal delay={0.3}>
           <a
             class="proof-card proof-card--bloomin8"
+            data-track="project_click"
+            data-track-project="bloomin8"
             href="https://github.com/moifort/bloomin8"
             rel="noopener"
             data-category="ios"
@@ -566,6 +602,8 @@ const timeline: {
         <Reveal delay={0.3}>
           <a
             class="proof-card proof-card--homefan"
+            data-track="project_click"
+            data-track-project="homefan"
             href="https://github.com/moifort/homebridge-create-fan"
             rel="noopener"
             data-category="home-automation"
@@ -592,6 +630,8 @@ const timeline: {
         <Reveal delay={0.35}>
           <a
             class="proof-card proof-card--dashboard"
+            data-track="project_click"
+            data-track-project="dashboard"
             href="https://github.com/moifort/home-dashboard"
             rel="noopener"
             data-category="home-automation hardware"
@@ -626,6 +666,8 @@ const timeline: {
         <Reveal delay={0.4}>
           <a
             class="proof-card proof-card--stockalert"
+            data-track="project_click"
+            data-track-project="stockalert"
             href="https://github.com/moifort/stock-alert"
             rel="noopener"
             data-category="home-automation hardware"
@@ -666,6 +708,8 @@ const timeline: {
         <Reveal delay={0.45}>
           <a
             class="proof-card proof-card--watermeter"
+            data-track="project_click"
+            data-track-project="watermeter"
             href="https://github.com/moifort/water-consuption"
             rel="noopener"
             data-category="home-automation hardware"
@@ -700,6 +744,8 @@ const timeline: {
         <Reveal delay={0.5}>
           <a
             class="proof-card proof-card--lerobot"
+            data-track="project_click"
+            data-track-project="lerobot"
             href="https://github.com/huggingface/lerobot"
             rel="noopener"
             data-category="robotics hardware"
@@ -733,6 +779,8 @@ const timeline: {
         <Reveal delay={0.6}>
           <a
             class="proof-card proof-card--bazar"
+            data-track="project_click"
+            data-track-project="bazar"
             href="https://github.com/moifort/bazar"
             rel="noopener"
             data-category="ios"
@@ -757,6 +805,8 @@ const timeline: {
         <Reveal delay={0.55}>
           <a
             class="proof-card proof-card--airprint"
+            data-track="project_click"
+            data-track-project="airprint"
             href="https://github.com/moifort/airprint"
             rel="noopener"
             data-category="utility"
@@ -774,6 +824,8 @@ const timeline: {
         <Reveal delay={0.6}>
           <a
             class="proof-card proof-card--audible"
+            data-track="project_click"
+            data-track-project="audible"
             href="https://moifort.github.io/audible-api-ts/"
             rel="noopener"
             data-category="library"
@@ -791,6 +843,8 @@ const timeline: {
         <Reveal delay={0.65}>
           <a
             class="proof-card proof-card--orb"
+            data-track="project_click"
+            data-track-project="orb"
             href="https://github.com/moifort/orb"
             rel="noopener"
             data-category="hardware"

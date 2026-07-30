@@ -39,7 +39,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     <slot />
     <script>
       import { initMotion } from '../scripts/motion'
+      import { initAnalytics } from '../scripts/analytics'
       initMotion()
+      initAnalytics()
     </script>
   </body>
 </html>
